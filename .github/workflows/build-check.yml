@@ -7,7 +7,7 @@ on:
     branches: [ main, WIP ]
 
 jobs:
-  build_exe:
+  build-check:
     runs-on: ubuntu-latest
     
     steps:
@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: py-shield-executable
-        path: py-shield.exe
+        path: ./py-shield.exe
     
     - name: Pause
       run: sleep 3

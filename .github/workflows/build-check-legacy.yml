@@ -1,0 +1,35 @@
+name: build-check-legacy
+
+on:
+  push:
+    branches: [ main, WIP ]
+  pull_request:
+    branches: [ main, WIP ]
+
+jobs:
+  build-check:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Build Executable
+      run: |
+        cd "py-sheild-legacy/"
+        echo "yes" | python.exe -m nuitka --quiet --follow-imports --remove-output --onefile --output-filename=py-sheild-legacy --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Sheild legacy" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Sheild/blob/main/LICENSE" main_legacy.py
+      
+    - name: Archive Executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: py-shield-legacy-executable
+        path: py-sheild-legacy.exe

@@ -78,7 +78,7 @@ class Obfuscator:
 
     def HashVars(self, context: str):
         tree = ast.parse(context)
-        hashedContext == None
+        hashedContext = None
 
         for node in ast.walk(tree):
             if isinstance(node, ast.Constant):

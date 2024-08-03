@@ -44,10 +44,8 @@ class Obfuscator:
         context = self.RemoveComments(context)
 
         if self.hash:
-            print("HashVars")
             context = self.HashVars(context)
         
-        print("Misc")
         context = context[::-1]
         context = context.encode('utf-8')
         context = context[::-1]
@@ -57,13 +55,10 @@ class Obfuscator:
         context = zlib.compress(context)
 
         if self.crypt:
-            print("FernetEncrypt")
             context = self.FernetEncrypt(context)
         if self.aes:
-            print("AesEncrypt")
-            context, self.iv = self.AesEncrypt(context, self.aesKey)
+            context, self.iv = self.AesEncrypt(context, self.aesKey)#bug
         if self.loop:
-            print("LoopEncrypt")
             context = self.LoopEncrypt(context)
         
         return context
@@ -90,8 +85,6 @@ class Obfuscator:
                 if not [hashstr,string] in self.hashed_strings:
                     self.hashed_strings.append([hashstr,string])
                     hashedContext = context.replace(node.s , hashstr)
-                    print(node.s, end="  ===>  ")
-                    print(hashstr)
             
         if hashedContext != None:
             context = hashedContext

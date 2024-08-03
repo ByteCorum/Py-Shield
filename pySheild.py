@@ -47,20 +47,17 @@ class PySheild:
                 print(f"output dir: /done")
                 self.output = f"{self.workDir}\\done"
             print("\n")
+            print("Obfuscation...")
 
             obfuscation = Obfuscator(self.mode,self.output,self.loops)
             
             for file in self.files:
-                print("GetImports")
                 self.GetImports(file)
-                print("Misc")
                 with open(file, "r", encoding="utf-8") as f:
                     context = f.read()
                 index = file.rfind(os.sep)
                 fileName = file[index+1:]
-                print("Obfuscate")
                 context = obfuscation.Obfuscate(context)
-                print("SaveContext")
                 obfuscation.SaveContext(context,[fileName,""])
             
             for dir in self.dirs:
@@ -75,18 +72,13 @@ class PySheild:
                             context = obfuscation.Obfuscate(context)
                             obfuscation.SaveContext(context,[fileName,dirpath[index:]])
             
-            print("GetImports")
             self.GetImports(self.mainfile)
-            print("Misc")
             with open(self.mainfile, "r", encoding="utf-8") as f:
                 context = f.read()
             index = self.mainfile.rfind(os.sep)
             fileName = self.mainfile[index+1:]
-
-            print("Obfuscate")    
+   
             context = obfuscation.Obfuscate(context)
-            print("SaveContext")
             obfuscation.SaveContext(context,[fileName,""], self.imports)
-            print("CreateExecutor")
-            obfuscation.CreateExecutor("")
+            obfuscation.CreateExecutor()
             

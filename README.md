@@ -82,7 +82,7 @@ Global version is still in dev, but you can use legacy version. Note that it's l
 > We highly recommend compiling obfuscated script using Nuitka. Use `--follow imports` while obfuscating to tell Nuitka what to import
 
 > [!WARNING]  
-> Script won't run if u use `if __name__ == "__main__"` in main file(we are working on it)
+> Script won't run if you use `if __name__ == "__main__"` in main file(we are working on it)
 
 > [!NOTE]  
 > If you want to try global version, just uncomment `self.AssembleExecutor(dirPath)` in `obfuscate.py`. Currently it only works with single file projects.

@@ -77,7 +77,7 @@ class Args:
                         case "--help":
                             print('''
 Py-Sheild
-v1.0.0.0
+v2.0.0.0
                       
 options:
 code.py         -> main .py file with the entry point to your app
@@ -114,7 +114,7 @@ py-sheild --mode hashstr;crypt code.py''')
         else:
             print('''
 Py-Sheild
-v1.0.0.0
+v2.0.0.0
                       
 options:
 code.py         -> main .py file with the entry point to your app

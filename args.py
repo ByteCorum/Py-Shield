@@ -19,7 +19,7 @@ class Args:
         self.output = ""
         self.file = ""
         self.loops = 0
-        self.mode = []
+        self.mode = ""
         self.imports = False
 
     def Get(self):
@@ -81,7 +81,7 @@ v1.0.0.0
                       
 options:
 code.py         -> main .py file with the entry point to your app
---mode (list)*  -> obfuscation mode(1-4) as bigger number as better obfuscation but the output file is larger
+--mode (list)*  -> obfuscation mode
 keys:
     hashstr     -> convert all strings and var names into hash
     crypt       -> obfuscation and ecryption using cryptography
@@ -118,7 +118,7 @@ v1.0.0.0
                       
 options:
 code.py         -> main .py file with the entry point to your app
---mode (list)*  -> obfuscation mode(1-4) as bigger number as better obfuscation but the output file is larger
+--mode (list)*  -> obfuscation mode
 keys:
     hashstr     -> convert all strings and var names into hash
     crypt       -> obfuscation and ecryption using cryptography
@@ -126,7 +126,7 @@ keys:
     aes         -> obfuscation and ecryption using aes256
 --loops (int)   -> number of obfuscation loops for looping
 --dirs (str)    -> obfuscate all in dir
---files (str)   -> files for obfuscation
+--files (str)  -> files for obfuscation
 --output (str)  -> output dir  
 --follow imports-> add all imports to the protected script
 --install-deps  -> install all dependencis
@@ -151,6 +151,10 @@ py-sheild --mode hashstr;crypt code.py''')
         
         if self.mode:
             self.modes = self.mode.split(";")
+            if "hashstr" not in self.modes and "crypt" not in self.modes and "looping" not in self.modes and "aes" not in self.modes:
+                self.modes = []
+                print("[!] invalid mode key")
+                os._exit(0)
         else:
             self.modes = []
             print("[!] --mode not declared")
@@ -161,6 +165,6 @@ py-sheild --mode hashstr;crypt code.py''')
             print("[!] main file not selected")
             os._exit(0)
             
-        if self.loops <= 0:
+        if self.loops <= 0 and "looping" in self.modes:
             print("[!] --loops not declared")
             os._exit(0)

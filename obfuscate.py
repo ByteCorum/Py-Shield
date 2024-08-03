@@ -80,7 +80,7 @@ class Obfuscator:
         tree = ast.parse(context)
 
         for node in ast.walk(tree):
-            if isinstance(node, ast.Str):
+            if isinstance(node, ast.Constant):
                 string = base64.b64encode(node.s.encode('utf-8'))
                 string = string[::-1]
                 string = zlib.compress(string)
@@ -139,7 +139,7 @@ class Obfuscator:
             
         context = f'''#Obfuscated by Py-Sheild v1.0.0.0
 {imp}
-from Py-Sheild.script_{self.number} import PySheild
+from PySheild.script_{self.number} import PySheild
 PySheild({context})'''
 
         dirPath = self.output+"\\"+fileProp[1]
@@ -247,7 +247,7 @@ from Crypto.Util.Padding import unpad'''
 
         #context = self.OldObfuscation(context)
 
-        dirPath = self.output+"\\"+path +"\\"+"Py-Sheild"
+        dirPath = self.output+"\\"+path +"\\"+"PySheild"
         os.makedirs(dirPath, exist_ok=True)
 
         with open(f"{dirPath}\\script_{self.number}.py", "w", encoding="utf-8") as file:

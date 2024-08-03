@@ -11,6 +11,7 @@ import os
 import secrets
 from Crypto.Util.Padding import pad
 import shutil
+from config import CFG
 
 class Obfuscator:
     def __init__(self, mode: list, output: str,  loops: int = 0) -> None:
@@ -132,7 +133,7 @@ class Obfuscator:
         for module in imports:
             imp+="import "+str(module)+"\n"
             
-        context = f'''#Obfuscated by Py-Sheild v2.0.0.0
+        context = f'''#Obfuscated by {CFG.name} {CFG.version}
 {imp}
 from PySheild.script_{self.number} import PySheild
 PySheild({context})'''

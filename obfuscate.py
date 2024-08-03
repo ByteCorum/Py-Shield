@@ -78,6 +78,7 @@ class Obfuscator:
 
     def HashVars(self, context: str):
         tree = ast.parse(context)
+        hashedContext == None
 
         for node in ast.walk(tree):
             if isinstance(node, ast.Constant):
@@ -92,7 +93,8 @@ class Obfuscator:
                     print(node.s, end="  ===>  ")
                     print(hashstr)
             
-        context = hashedContext
+        if hashedContext != None:
+            context = hashedContext
         return context
 
     def FernetEncrypt(self, context):
@@ -149,7 +151,7 @@ PySheild({context})'''
             file.write(context)
             print(f"[i] code was saved as {dirPath}\\{fileProp[0]}")
     
-    def CreateExecutor(self, path):
+    def CreateExecutor(self):
         context = '''import base64
 #[fernetimport]
 #[aesimport]
@@ -247,7 +249,7 @@ from Crypto.Util.Padding import unpad'''
 
         #context = self.OldObfuscation(context)
 
-        dirPath = self.output+"\\"+path +"\\"+"PySheild"
+        dirPath = self.output+"\\"+"PySheild"
         os.makedirs(dirPath, exist_ok=True)
 
         with open(f"{dirPath}\\script_{self.number}.py", "w", encoding="utf-8") as file:

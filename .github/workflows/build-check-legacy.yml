@@ -26,7 +26,7 @@ jobs:
     - name: Build Executable
       run: |
         cd "py-sheild-legacy/"
-        echo "yes" | python.exe -m nuitka --quiet --follow-imports --remove-output --onefile --output-filename=py-sheild-legacy --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Sheild legacy" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Sheild/blob/main/LICENSE" main_legacy.py
+        python.exe -m nuitka --quiet --follow-imports --assume-yes-for-downloads --remove-output --onefile --output-filename=py-sheild-legacy --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Sheild legacy" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Sheild/blob/main/LICENSE" main_legacy.py
       
     - name: Archive Executable
       uses: actions/upload-artifact@v4

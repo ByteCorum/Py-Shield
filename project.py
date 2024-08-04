@@ -34,7 +34,7 @@ class PySheild:
             
             if self.files:
                 print(f"included files: {self.files}")
-            if self.files:
+            if self.dirs:
                 print(f"included dirs: {self.dirs}")
             
             print(f"obfuscation modes: {self.mode}")
@@ -70,7 +70,7 @@ class PySheild:
                             index = dir.rfind(os.sep)+1
                             
                             context = obfuscation.Obfuscate(context)
-                            obfuscation.SaveContext(context,[fileName,dirpath[index:]])
+                            obfuscation.SaveContext(context,[filename,dirpath[index:]])
             
             self.GetImports(self.mainfile)
             with open(self.mainfile, "r", encoding="utf-8") as f:

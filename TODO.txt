@@ -1,1 +1,2 @@
 change version 2.0.1.0 to and publish release
+add obfuscation tests for global and legacy versions using workflows

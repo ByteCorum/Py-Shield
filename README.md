@@ -61,7 +61,7 @@ Tool/Library for Python used to obfuscate and protect your code from decompilati
 5. Output
    ```
    from PySheild.script_67158430 import PySheild
-   PySheild(__file__, b'x\x9c\x05\xc1I\xa2C0\x00\x00\xd0\x03Y\x18\xd3a\xa9\x9a\xf0Q\xc4\\;TEM\r...')
+   PySheild(__file__, b'x\x9c\x05\xc1I\xa2C0\x00\x00\xd0\x03Y\x18\xf0Q\xc4\\;TEM\r...')
    ```
 6. Example legacy
     ```

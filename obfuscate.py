@@ -137,28 +137,53 @@ class Obfuscator:
         context = f'''#Obfuscated by {CFG.name} {CFG.version}
 {imp}
 from PySheild.script_{self.number} import PySheild
-PySheild({context})'''
+PySheild(__file__,{context})'''
 
         dirPath = self.output+"\\"+fileProp[1]
         os.makedirs(dirPath, exist_ok=True)
                 
         with open(f"{dirPath}\\{fileProp[0]}", "w", encoding="utf-8") as file:
             file.write(context)
-            print(f"[i] code was saved as {dirPath}\\{fileProp[0]}")
+        
+        with open(f"{dirPath}\\{fileProp[0]}", "rb") as file:
+            fileHash = hashlib.sha256(file.read()).hexdigest()
+            self.files.append([fileProp[0], fileHash])
+
+        print(f"[i] code was saved as {dirPath}\\{fileProp[0]}")
     
     def CreateExecutor(self):
-        context = '''import base64
+        context = f'''import base64
 #[fernetimport]
 #[aesimport]
 import zlib
+import hashlib
+import os
 class PySheild:
-    def __init__(self, code):
+    def __init__(self, filePath ,code):
         self.code = code
+        self.filePath = filePath
+        self.files = {self.files}
         #[hashvar]
         #[fernetvar]
         #[aesvar]
         #[loopsvar]
+        self.ChechHash()
         self.DeObfuscate()
+    def ChechHash(self):
+        valid = False
+        try:
+            with open(self.filePath, 'rb') as file:
+                fileHash = hashlib.sha256(file.read()).hexdigest()
+            fileName = os.path.basename(self.filePath)
+            for file in self.files:
+                if fileName == file[0] and fileHash == file[1]:
+                    valid = True
+            if not valid:
+                raise Exception("Invalid file hash")
+        except Exception as runTimeError:
+            print("Runtime error occurred, error: ",end='')
+            print(runTimeError)
+            os._exit(0)
     def DeObfuscate(self):
         try:
             #[callloops]
@@ -170,6 +195,7 @@ class PySheild:
         except Exception as runTimeError:
             print("Runtime error occurred, error: ",end='')
             print(runTimeError)
+            os._exit(0)
 #[loopsfunc]
 #[aesfunc]
 #[fernetfunc]

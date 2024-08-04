@@ -7,9 +7,9 @@ import io
 from cryptography.fernet import Fernet
 import random
 from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
 import os
-import secrets
-from Crypto.Util.Padding import pad
 import shutil
 import subprocess
 from config import CFG
@@ -23,7 +23,6 @@ class Obfuscator:
         self.hashed_strings = None
         self.farnetKey = None
         self.aesKey = None
-        self.iv = None
         self.files = []
 
         if "hashstr" in mode:
@@ -33,7 +32,7 @@ class Obfuscator:
             self.farnetKey = Fernet.generate_key()
             self.crypt = True
         if "aes" in mode:
-            self.aesKey = secrets.token_bytes(32)
+            self.aesKey = get_random_bytes(32)
             self.aesKey = hashlib.sha256(self.aesKey).digest()
             self.aes = True
         if "looping" in mode:
@@ -60,7 +59,7 @@ class Obfuscator:
         if self.crypt:
             context = self.FernetEncrypt(context)
         if self.aes:
-            context, self.iv = self.AesEncrypt(context, self.aesKey)#bug
+            context = self.AESEncrypt(context, self.aesKey)
         if self.loop:
             context = self.LoopEncrypt(context)
         
@@ -79,7 +78,7 @@ class Obfuscator:
         hashedContext = None
 
         for node in ast.walk(tree):
-            if isinstance(node, ast.Str):
+            if isinstance(node, ast.Constant):
                 string = base64.b64encode(node.s.encode('utf-8'))
                 string = string[::-1]
                 string = zlib.compress(string)
@@ -99,13 +98,13 @@ class Obfuscator:
         context = zlib.compress(context)
         return context
 
-    def AesEncrypt(self, context: bytes, key: bytes):
-        cipher = AES.new(key, AES.MODE_CBC)
-        iv = cipher.iv 
+    def AESEncrypt(self, context, key):
+        iv = get_random_bytes(AES.block_size)
+        cipher = AES.new(key, AES.MODE_CBC, iv)
         context = pad(context, AES.block_size)
         context = cipher.encrypt(context)
-        context = zlib.compress(context)
-        return context, iv
+        context = zlib.compress(iv + context)
+        return context
     
     def LoopEncrypt(self, context):
         for i in range (self.loops):
@@ -219,8 +218,7 @@ from Crypto.Util.Padding import unpad'''
 
         hashVar = f"self.hashed_strings = {self.hashed_strings}"
         fernetVar = f"self.farnetKey = {self.farnetKey}"
-        aesVar = f'''self.aesKey = {self.aesKey}
-        self.iv = {self.iv}'''
+        aesVar = f"self.aesKey = {self.aesKey}"
         loopsVar = f"self.loops = {self.loops}"
 
         callLoops = "self.DecryptLoop()"   
@@ -235,9 +233,10 @@ from Crypto.Util.Padding import unpad'''
             self.code = base64.b64decode(self.code)'''
         aesFunc = '''    def DecryptAes(self):
         self.code = zlib.decompress(self.code)
-        cipher = AES.new(self.aesKey, AES.MODE_CBC, self.iv)
-        self.code = cipher.decrypt(self.code)
-        self.code = unpad(self.code, AES.block_size)'''
+        iv = self.code[:AES.block_size]
+        cipher = AES.new(self.aesKey, AES.MODE_CBC, iv)
+        self.code = cipher.decrypt(self.code[AES.block_size:])
+        self.code =  unpad(self.code, AES.block_size)'''
         fernetFunc = '''    def DecryptFernet(self):
         self.code = zlib.decompress(self.code)
         fernet = Fernet(self.farnetKey)

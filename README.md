@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/badge/PySheild-v2.0.0.0-blue?style=for-the-badge&logo=&logoColor=whit">
 <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue">
 <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
-<img src="https://img.shields.io/badge/tests-84/100-76B900?style=for-the-badge&logo=&logoColor=whit">
+<img src="https://img.shields.io/badge/tests-99/100-76B900?style=for-the-badge&logo=&logoColor=whit">
 <img src="https://img.shields.io/badge/build-passing-76B900?style=for-the-badge&logo=&logoColor=whit">
 <img src="https://img.shields.io/badge/code quality-A-76B900?style=for-the-badge&logo=&logoColor=whit">
 <img src="https://img.shields.io/badge/license-GPL3.0-blue?style=for-the-badge&logo=&logoColor=whit">
@@ -32,7 +32,7 @@ Tool/Library for Python used to obfuscate and protect your code from decompilati
 > - Encrypting piece of code using base64 and zlib for N times.
 > - Best way to decrease/prevent antiviruses detection.
 
-> **AES encryption(broken)**
+> **AES encryption**
 > - Encrypting piece of code using AES 256 encryption algorithm.
 > - One of two nice ways to protect code from deobfuscation.
 

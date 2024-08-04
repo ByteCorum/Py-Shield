@@ -33,7 +33,7 @@ Tool/Library for Python used to obfuscate and protect your code from decompilati
 > - Encrypting piece of code using base64 and zlib for N times.
 > - Best way to decrease/prevent antiviruses detection.
 
-> **AES encryption**
+> **AES encryption(broken)**
 > - Encrypting piece of code using AES 256 encryption algorithm.
 > - One of two nice ways to protect code from deobfuscation.
 
@@ -76,16 +76,11 @@ Tool/Library for Python used to obfuscate and protect your code from decompilati
 ---
 
 ### 📜Additional Info📜
-Global version is still in dev, but you can use legacy version. Note that it's less safe than global version.
+> [!NOTE]  
+> Obfuscation tool has 2 major versions legacy and global. This repo includes both of them, but we highly recommend you to use the global version, cut it much securer. Anyway, we won't end support of legacy version, so if u have issues, let us know.
 
 > [!TIP]
 > We highly recommend compiling obfuscated script using Nuitka. Use `--follow imports` while obfuscating to tell Nuitka what to import
-
-> [!WARNING]  
-> Script won't run if you use `if __name__ == "__main__"` in main file(we are working on it)
-
-> [!NOTE]  
-> If you want to try global version, just uncomment `self.AssembleExecutor(dirPath)` in `obfuscate.py`. Currently it only works with single file projects.
 ---
 
 ### 📲Contacts

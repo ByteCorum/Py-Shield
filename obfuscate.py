@@ -11,6 +11,7 @@ import os
 import secrets
 from Crypto.Util.Padding import pad
 import shutil
+import subprocess
 from config import CFG
 
 class Obfuscator:
@@ -278,7 +279,7 @@ from Crypto.Util.Padding import unpad'''
         with open(f"{dirPath}\\script_{self.number}.py", "w", encoding="utf-8") as file:
             file.write(context)
         
-        #self.AssembleExecutor(dirPath)
+        self.AssembleExecutor(dirPath)
         print(f"[i] execurot created as {dirPath}\\script_{self.number}")
     
     def AssembleExecutor(self, dirPath):
@@ -290,6 +291,8 @@ ext_modules = [
 ]
 setup(
     name = 'PySheild',
+    version='{CFG.version[1:]}',
+    author='{CFG.author}',
     cmdclass = #[stub]#,
     ext_modules = ext_modules
 )   
@@ -301,12 +304,15 @@ setup(
 
         curPath = os.getcwd()
         os.chdir(dirPath)
-        os.system('python assembler.py build_ext --inplace >/dev/null 2>&1')#,stdout=subprocess.PIPE,stderr=subprocess.STDOUT
+        subprocess.run(["python", "assembler.py", "build_ext", "--inplace"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         os.chdir(curPath)
         shutil.rmtree(f"{dirPath}\\build",ignore_errors=True)
-        os.remove(f"{dirPath}\\assembler.py")
-        os.remove(f"{dirPath}\\script_{self.number}.py")
-        os.remove(f"{dirPath}\\script_{self.number}.c")
+        try:
+            os.remove(f"{dirPath}\\assembler.py")
+            os.remove(f"{dirPath}\\script_{self.number}.py")
+            os.remove(f"{dirPath}\\script_{self.number}.c")
+        except:
+            pass
 
         for dirpath, dirnames, filenames in os.walk(dirPath):
             for filename in filenames:

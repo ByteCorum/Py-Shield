@@ -15,11 +15,8 @@ class ImportManager:
                 line = line.strip()
                 if line.startswith("import") or line.startswith("from"):
                     module = line.split()[1]
-                    index = module.find('.')
-                    if index == -1 and not module in self.modules:
+                    if not module in self.modules:
                         self.modules.append(module)
-                    elif not index == -1 and not module[:index] in self.modules:
-                        self.modules.append(module[:index])
     
     def CheckImports(self):
         imp = ""

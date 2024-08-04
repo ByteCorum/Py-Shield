@@ -184,7 +184,7 @@ class PySheild:
         except Exception as runTimeError:
             print("Runtime error occurred, error: ",end='')
             print(runTimeError)
-            os._exit(0)
+            os._exit(-1)
     def DeObfuscate(self):
         try:
             #[callloops]
@@ -195,7 +195,7 @@ class PySheild:
         except Exception as runTimeError:
             print("Runtime error occurred, error: ",end='')
             print(runTimeError)
-            os._exit(0)
+            os._exit(-1)
     @property
     def _(self):
         return compile(self.code, '<string>', 'exec')

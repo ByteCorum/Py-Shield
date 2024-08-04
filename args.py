@@ -32,48 +32,48 @@ class Args:
                                 self.loops = int(sys.argv[i+1])
                             else:
                                 print("[!] --loops not initialized")
-                                os._exit(0)
+                                os._exit(-1)
 
                         case "--mode":
                             if i+1 < len(sys.argv) and sys.argv[i+1].find("--") == -1:
                                 self.mode = sys.argv[i+1]
                             else:
                                 print("[!] --mode not initialized")
-                                os._exit(0)
+                                os._exit(-1)
             
                         case "--dirs":
                             if i+1 < len(sys.argv) and sys.argv[i+1].find("--") == -1:
                                 self.dirPath = sys.argv[i+1]
                             else:
                                 print("[!] --dirs not initialized")
-                                os._exit(0)
+                                os._exit(-1)
             
                         case "--files":
                             if i+1 < len(sys.argv) and sys.argv[i+1].find("--") == -1:
                                 self.file = sys.argv[i+1]
                             else:
                                 print("[!] --files not initialized")
-                                os._exit(0)
+                                os._exit(-1)
             
                         case "--output":
                             if i+1 < len(sys.argv) and sys.argv[i+1].find("--") == -1:
                                 self.output = sys.argv[i+1]
                             else:
                                 print("[!] --output not initialized")
-                                os._exit(0)
+                                os._exit(-1)
                     
                         case "--install-deps":
                             os.system("pip install cryptography")
                             os.system("pip install pycryptodome")
                             os.system("pip install cython")
-                            os._exit(0)
+                            os._exit(-1)
                     
                         case "--follow":
                             if sys.argv[i+1] == "imports":
                                 self.imports = True
                             else:
                                 print("[!] --follow not initialized")
-                                os._exit(0)
+                                os._exit(-1)
             
                         case "--help":
                             print(CFG.helpText)
@@ -85,10 +85,10 @@ class Args:
                                     self.mainfile = sys.argv[i]
                                 else:
                                     print("[!] invalid main file")
-                                    os._exit(0)
+                                    os._exit(-1)
                             else:
                                 print("[!] invalid option type \"--help\"")
-                                os._exit(0)
+                                os._exit(-1)
         else:
             print(CFG.helpText)
             os._exit(0)
@@ -109,17 +109,17 @@ class Args:
             if "hashstr" not in self.modes and "crypt" not in self.modes and "looping" not in self.modes and "aes" not in self.modes:
                 self.modes = []
                 print("[!] invalid mode key")
-                os._exit(0)
+                os._exit(-1)
         else:
             self.modes = []
             print("[!] --mode not declared")
-            os._exit(0)
+            os._exit(-1)
     
     def Check(self):
         if not self.mainfile:
             print("[!] main file not selected")
-            os._exit(0)
+            os._exit(-1)
             
         if self.loops <= 0 and "looping" in self.modes:
             print("[!] --loops not declared")
-            os._exit(0)
+            os._exit(-1)

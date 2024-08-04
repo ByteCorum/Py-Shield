@@ -28,8 +28,8 @@ class ImportManager:
         try:
             exec(imp)
         except Exception as importError:
-            print(importError)
-            os._exit(0)
+            print(f"[!] ImportManager error: {importError}")
+            os._exit(-1)
 
     @property
     def imports(self):

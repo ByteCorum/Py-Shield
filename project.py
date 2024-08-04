@@ -7,9 +7,19 @@ from imports import ImportManager
 
 class PySheild:
     def __init__(self) -> None:
-        self.GetArgs(Args().args)
         self.imports = []
-        self.Stream()
+
+        try:
+            self.GetArgs(Args().args)
+        except Exception as error:
+            print(f"[!] Arguments parsing error: {error}")
+            os._exit(-1)
+        
+        try:
+            self.Stream()
+        except Exception as error:
+            print(f"[!] Stream error: {error}")
+            os._exit(-1)
 
     def GetArgs(self,argslist):
         self.mainfile = argslist[0]

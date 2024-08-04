@@ -114,21 +114,22 @@ class Obfuscator:
             context = zlib.compress(context)
         return context
     
-    #def OldObfuscation(self, context):
-        #for i in range(6):
-            #context = context.encode('utf-8')
-            #context = zlib.compress(context)
-            #context = context[::-1]
+    def LegacyObfuscation(self, context):
+        for i in range(6):
+            context = context.encode('utf-8')
+            context = zlib.compress(context)
+            context = context[::-1]
 
-            #key = Fernet.generate_key()
-            #fernet = Fernet(key)
-            #context = fernet.encrypt(context)+b"%[0(#^@%&*)$##)9]%"+base64.b64encode(key)
+            key = Fernet.generate_key()
+            fernet = Fernet(key)
+            context = fernet.encrypt(context)+b"/%p@K^(Y#C/_/jUEIakSX%/"+base64.b64encode(key)
 
-            #context = context[::-1]
-            #context = zlib.compress(context)
-            #context = f"exec((_)({context}))"
+            context = context[::-1]
+            context = zlib.compress(context)
+
+            context = f"exec((_)({context}))"
     
-        #return "_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'/%p@K^(Y#C/_/jUEIakSX%/'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'/%p@K^(Y#C/_/jUEIakSX%/'))[0])[::-1]);"+context
+        return "_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'/%p@K^(Y#C/_/jUEIakSX%/'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'/%p@K^(Y#C/_/jUEIakSX%/'))[0])[::-1]);"+context
     
     def SaveContext(self, context ,fileProp = ["name", "path"], imports =[]):
         imp = ""
@@ -271,7 +272,7 @@ from Crypto.Util.Padding import unpad'''
             context = context.replace("#[loopsfunc]",loopsFunc)
 
 
-        #context = self.OldObfuscation(context)
+        context = self.LegacyObfuscation(context)
 
         dirPath = self.output+"\\"+"PySheild"
         os.makedirs(dirPath, exist_ok=True)

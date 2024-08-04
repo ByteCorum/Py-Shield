@@ -137,7 +137,7 @@ class Obfuscator:
         context = f'''#Obfuscated by {CFG.name} {CFG.version}
 {imp}
 from PySheild.script_{self.number} import PySheild
-PySheild(__file__,{context})'''
+exec(PySheild(__file__,{context})._)'''
 
         dirPath = self.output+"\\"+fileProp[1]
         os.makedirs(dirPath, exist_ok=True)
@@ -191,11 +191,13 @@ class PySheild:
             #[callfernet]
             self.BaseDecrypt()
             #[callhash]
-            exec(self.code)
         except Exception as runTimeError:
             print("Runtime error occurred, error: ",end='')
             print(runTimeError)
             os._exit(0)
+    @property
+    def _(self):
+        return compile(self.code, '<string>', 'exec')
 #[loopsfunc]
 #[aesfunc]
 #[fernetfunc]

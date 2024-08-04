@@ -78,7 +78,7 @@ class Obfuscator:
         hashedContext = None
 
         for node in ast.walk(tree):
-            if isinstance(node, ast.Constant):
+            if isinstance(node, ast.Str):
                 string = base64.b64encode(node.s.encode('utf-8'))
                 string = string[::-1]
                 string = zlib.compress(string)

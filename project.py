@@ -49,6 +49,8 @@ class PySheild:
             print("\n")
             print("Obfuscation...")
 
+            os.makedirs(self.output)
+
             obfuscation = Obfuscator(self.mode,self.output,self.loops)
             
             for file in self.files:

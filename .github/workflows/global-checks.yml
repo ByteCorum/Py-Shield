@@ -58,12 +58,15 @@ jobs:
     
     - name: Prepare For Tests
       run: |
+        tree /f
         move "py-shield.exe" "examples/multifile-global"
         Remove-Item -Path "examples\multifile-global\obfuscated" -Recurse -Force
+        tree /f
 
     - name: Obfuscate
       working-directory: examples\multifile-global
       run: |
+        dir
         .\py-sheild.exe --mode "hashstr;crypt;looping;aes" --loops 3 --output obfuscated --follow imports --files lib.py main.py
 
     - name: Run Tests

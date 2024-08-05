@@ -72,14 +72,13 @@ jobs:
         $OUTPUT = $(python main.py)
         Write-Host "Output: "
         Write-Host $OUTPUT
-        $OUTPUT = "hello world"
-        Write-Host $OUTPUT
         
     - name: Check Output"
       run: |
-        if ($OUTPUT -eq "hello world") {
-          Write-Host "Success: main.py output contains 'hello world'"
-        } else {
+        Write-Host $OUTPUT
+        if [[ "$OUTPUT" != "hello world" ]]
+        then
           Write-Host "Failure: main.py output does not contain 'hello world'"
           exit 1
-        }
+        fi
+        Write-Host "Success: main.py output contains 'hello world'"

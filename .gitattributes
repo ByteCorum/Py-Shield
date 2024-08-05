@@ -28,4 +28,7 @@
 
 #Ignore dirs/files
 
-examples/*		    linguist-vendored
+examples/multifile-global/*		    linguist-vendored
+examples/multifile-legacy/*		    linguist-vendored
+examples/onefile-global/*		    linguist-vendored
+examples/onefile-legacy/*		    linguist-vendored

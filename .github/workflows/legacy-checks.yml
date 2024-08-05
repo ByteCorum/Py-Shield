@@ -63,7 +63,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        py-sheild-legacy --loops 3 --mode 4 --output check --file main.py;lib.py
+        py-sheild-legacy.exe --loops 3 --mode 4 --output check --file main.py;lib.py
         cd "check"
 
         python main.py

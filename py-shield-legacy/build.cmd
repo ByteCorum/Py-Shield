@@ -1,0 +1,2 @@
+python.exe -m nuitka --quiet --follow-imports --remove-output --onefile --output-filename=py-shield-legacy --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Shield legacy" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Shield/blob/main/LICENSE" py-shield-legacy.py
+pause null

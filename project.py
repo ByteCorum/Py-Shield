@@ -5,7 +5,7 @@ from imports import ImportManager
 
 
 
-class PySheild:
+class PyShield:
     def __init__(self) -> None:
         self.imports = []
 
@@ -38,7 +38,7 @@ class PySheild:
                     self.imports.append(module)
     
     def Stream(self):
-            print("[i] Py-Sheild")
+            print("[i] Py-Shield")
             self.workDir= os.getcwd()
             print(f"main file: {self.mainfile}")
             

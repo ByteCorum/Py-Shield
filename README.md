@@ -1,7 +1,7 @@
 <a id ="up"></a>
 <p align="center">
 <img src="assets/banner.png">
-<img src="https://img.shields.io/badge/PySheild-v2.0.0.0-blue?style=for-the-badge&logo=&logoColor=whit">
+<img src="https://img.shields.io/badge/PyShield-v2.0.0.0-blue?style=for-the-badge&logo=&logoColor=whit">
 <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue">
 <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
 <img src="https://img.shields.io/badge/tests-99/100-76B900?style=for-the-badge&logo=&logoColor=whit">
@@ -11,7 +11,7 @@
 </p>
 
 ---
-### 🛡Py-Sheild🛡
+### 🛡Py-Shield🛡
 Tool/Library for Python used to obfuscate and protect your code from decompilation, reverse debug, etc. Also, can prevent detection by antiviruses.
 
 ---
@@ -44,7 +44,7 @@ Tool/Library for Python used to obfuscate and protect your code from decompilati
 ### 🏁Quick start🏁
 1. Clone repo
     ```
-    git clone https://github.com/ByteCorum/Py-Sheild.git
+    git clone https://github.com/ByteCorum/Py-Shield.git
     ```
 2. Install requirements
    ```
@@ -52,20 +52,20 @@ Tool/Library for Python used to obfuscate and protect your code from decompilati
    ```
 3. More info
    ```
-   py-sheild --help
+   py-shield --help
    ```
 4. Example
     ```
-    py-sheild --mode hashstr;crypt;looping;aes --loops 3 main.py
+    py-shield --mode hashstr;crypt;looping;aes --loops 3 main.py
     ```
 5. Output
    ```
-   from PySheild.script_67158430 import PySheild
-   PySheild(__file__, b'x\x9c\x05\xc1I\xa2C0\x00\x00\xd0\x03Y\x18\xf0Q\xc4\\;TEM\r...')
+   from PyShield.script_67158430 import PyShield
+   PyShield(__file__, b'x\x9c\x05\xc1I\xa2C0\x00\x00\xd0\x03Y\x18\xf0Q\xc4\\;TEM\r...')
    ```
 6. Example legacy
     ```
-    py-sheild-legacy --loops 3 --mode 2 --file main.py
+    py-shield-legacy --loops 3 --mode 2 --file main.py
     ```
 7. Output legacy
    ```

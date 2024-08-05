@@ -137,8 +137,8 @@ class Obfuscator:
             
         context = f'''#Obfuscated by {CFG.name} {CFG.version}
 {imp}
-from PySheild.script_{self.number} import PySheild
-exec(PySheild(__file__,{context})._)'''
+from PyShield.script_{self.number} import PyShield
+exec(PyShield(__file__,{context})._)'''
 
         dirPath = self.output+"\\"+fileProp[1]
         os.makedirs(dirPath, exist_ok=True)
@@ -159,7 +159,7 @@ exec(PySheild(__file__,{context})._)'''
 import zlib
 import hashlib
 import os
-class PySheild:
+class PyShield:
     def __init__(self, filePath ,code):
         self.code = code
         self.filePath = filePath
@@ -273,7 +273,7 @@ from Crypto.Util.Padding import unpad'''
 
         context = self.LegacyObfuscation(context)
 
-        dirPath = self.output+"\\"+"PySheild"
+        dirPath = self.output+"\\"+"PyShield"
         os.makedirs(dirPath, exist_ok=True)
 
         with open(f"{dirPath}\\script_{self.number}.py", "w", encoding="utf-8") as file:
@@ -290,7 +290,7 @@ ext_modules = [
     Extension("script_{self.number}",  ["script_{self.number}.py"]),
 ]
 setup(
-    name = 'PySheild',
+    name = 'PyShield',
     version='{CFG.version[1:]}',
     author='{CFG.author}',
     cmdclass = #[stub]#,

@@ -1,7 +1,7 @@
 class CFG:
-    name = "Py-Sheild"
+    name = "Py-Shield"
     author = "ByteCorum"
-    github = "https://github.com/ByteCorum/Py-Sheild"
+    github = "https://github.com/ByteCorum/Py-Shield"
     version = "v2.0.0.0"
 
     helpText = f'''
@@ -27,4 +27,4 @@ keys:
 text;text       -> to add more than one arg to option
                       
 example of usage:
-py-sheild --mode hashstr;crypt code.py'''
+py-shield --mode hashstr;crypt code.py'''

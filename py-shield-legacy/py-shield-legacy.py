@@ -36,7 +36,7 @@ class Obfuscator:
 
     
     def Stream(self):
-            print("[i] Py-Sheild")
+            print("[i] Py-Shield")
             self.workDir= os.getcwd()
             if self.file:
                 print(f"included files: {self.files}")
@@ -125,7 +125,7 @@ class Obfuscator:
             
                     case "--help":
                         print('''
-Py-Sheild legacy
+Py-Shield legacy
 v1.0.0.0
                       
 options:
@@ -139,7 +139,7 @@ options:
 text;text       -> to add more than one arg to option
                       
 example of usage:
-py-sheild-legacy --loops 3 --mode 2 --file code.py''')
+py-shield-legacy --loops 3 --mode 2 --file code.py''')
                         os._exit(0)
                 
                     case _:
@@ -147,7 +147,7 @@ py-sheild-legacy --loops 3 --mode 2 --file code.py''')
                         os._exit(0)
         else:
             print('''
-Py-Sheild legacy
+Py-Shield legacy
 v1.0.0.0
                       
 options:
@@ -161,7 +161,7 @@ options:
 text;text       -> to add more than one arg to option
                       
 example of usage:
-py-sheild-legacy --loops 3 --mode 2 --file code.py''')
+py-shield-legacy --loops 3 --mode 2 --file code.py''')
             os._exit(0)
     
     def Obfuscate(self, context, fileProp = ["name", "path"]):
@@ -191,7 +191,7 @@ py-sheild-legacy --loops 3 --mode 2 --file code.py''')
                 print("[i] invalid mode\n")
                 os._exit(0)
                 
-            context = "#Obfuscated by Py-Sheild v1.0.0.0\n\n"+context
+            context = "#Obfuscated by Py-Shield v1.0.0.0\n\n"+context
 
             dirPath = self.output+"\\"+fileProp[1]
             os.makedirs(dirPath, exist_ok=True)

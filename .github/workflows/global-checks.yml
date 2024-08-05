@@ -1,4 +1,4 @@
-name: legacy-checks
+name: global-checks
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main, WIP ]
 
 jobs:
-  build-check-legacy:
+  build-check-global:
     runs-on: windows-latest
     
     steps:
@@ -25,16 +25,16 @@ jobs:
     
     - name: Build Executable
       run: |
-        python.exe -m nuitka --quiet --follow-imports --assume-yes-for-downloads --remove-output --onefile --output-filename=py-sheild-legacy --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Sheild legacy" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Sheild/blob/main/LICENSE" py-sheild-legacy/main_legacy.py
+        python -m nuitka --follow-imports --assume-yes-for-downloads --remove-output --onefile --output-filename=py-shield --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Shield" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Shield/blob/main/LICENSE" py-sheild.py
       
     - name: Archive Executable
       uses: actions/upload-artifact@v4
       with:
-        name: py-shield-legacy-executable
-        path: "py-sheild-legacy.exe"
-  
-  obfuscation-test-legacy:
-    needs: build-check-legacy
+        name: py-shield-executable
+        path: py-shield.exe
+
+  obfuscation-test-global:
+    needs: build-check-global
     runs-on: windows-latest
     
     steps:
@@ -53,21 +53,21 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: py-shield-legacy-executable
+        name: py-shield-executable
         path: ""
     
     - name: Prepare For Tests
       run: |
-        move "py-sheild-legacy.exe" "examples/multifile-legacy"
-        Remove-Item -Path "examples\multifile-legacy\obfuscated" -Recurse -Force
+        move "py-shield.exe" "examples/multifile-global"
+        Remove-Item -Path "examples\multifile-global\obfuscated" -Recurse -Force
 
     - name: Obfuscate
-      working-directory: examples\multifile-legacy
+      working-directory: examples\multifile-global
       run: |
-        .\py-sheild-legacy.exe --loops 3 --mode 4 --output obfuscated --file "main.py;lib.py"
+        .\py-sheild --mode "hashstr;crypt;looping;aes" --loops 3 --output obfuscated --follow imports --files lib.py main.py
 
     - name: Run Tests
-      working-directory: examples\multifile-legacy\obfuscated
+      working-directory: examples\multifile-global\obfuscated
       run: |
         $OUTPUT = $(python main.py)
         Write-Host "Output: "

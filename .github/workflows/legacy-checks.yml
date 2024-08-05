@@ -70,6 +70,7 @@ jobs:
       working-directory: examples\multifile-legacy\obfuscated
       run: |
         $OUTPUT = python main.py
+        Write-Host $OUTPUT
         
     - name: Check Output"
       run: |

@@ -2,7 +2,7 @@ class CFG:
     name = "Py-Shield"
     author = "ByteCorum"
     github = "https://github.com/ByteCorum/Py-Shield"
-    version = "v2.0.0.0"
+    version = "v2.0.1.5"
 
     helpText = f'''
 {name}

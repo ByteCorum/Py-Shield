@@ -25,7 +25,7 @@ jobs:
     
     - name: Build Executable
       run: |
-        python -m nuitka --follow-imports --assume-yes-for-downloads --remove-output --onefile --output-filename=py-shield --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Shield" --file-version=2.0.0.0 --product-version=2.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Shield/blob/main/LICENSE" py-shield.py
+        python -m nuitka --follow-imports --assume-yes-for-downloads --remove-output --onefile --output-filename=py-shield --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Shield" --file-version=2.0.1.5 --product-version=2.0.1.5 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Shield/blob/main/LICENSE" py-shield.py
       
     - name: Archive Executable
       uses: actions/upload-artifact@v4

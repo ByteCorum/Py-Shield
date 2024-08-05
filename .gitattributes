@@ -1,2 +1,31 @@
-# Auto detect text files and perform LF normalization
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
 * text=auto
+# The above will handle all files NOT found below
+
+
+
+# These files are text and should be normalized (Convert crlf => lf)
+.gitattributes text
+.gitignore      text
+*.py            text diff=Python
+
+
+
+# Exclude files from exporting
+
+.gitattributes  export-ignore
+.gitignore      export-ignore
+
+
+
+# Enable syntax highlighting for files with extensions.
+
+*.py linguist-language=Python
+*.py linguist-detectable=true
+*.py linguist-documentation=false
+
+
+#Ignore dirs/files
+
+examples/*		    linguist-vendored

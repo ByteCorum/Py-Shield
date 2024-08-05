@@ -60,8 +60,7 @@ jobs:
       run: |
         move "py-sheild-legacy.exe" "examples\multifile-legacy"
         cd "examples\multifile-legacy"
-        tree /f
-        rmdir /s /q "obfuscated"
+        rd /s /q "obfuscated"
 
     - name: Run Tests
       run: |

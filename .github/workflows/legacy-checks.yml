@@ -74,7 +74,8 @@ jobs:
         
     - name: Check Output"
       run: |
-        if ($OUTPUT -eq "hello world") {
+        $success = "hello world"
+        if ($OUTPUT -eq $success) {
           Write-Host "Success: main.py output contains 'hello world'"
         } else {
           Write-Host "Failure: main.py output does not contain 'hello world'"

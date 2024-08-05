@@ -60,12 +60,11 @@ jobs:
       run: |
         move "py-sheild-legacy.exe" "examples\multifile-legacy"
         cd "examples\multifile-legacy"
-        rmdir /s "obfuscated"
 
     - name: Run Tests
       run: |
-        py-sheild-legacy --loops 3 --mode 4 --output obfuscated --file main.py;lib.py
-        cd "obfuscated"
+        py-sheild-legacy --loops 3 --mode 4 --output check --file main.py;lib.py
+        cd "check"
 
         python main.py
         OUTPUT=$(python main.py)

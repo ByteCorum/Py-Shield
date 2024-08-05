@@ -69,13 +69,13 @@ jobs:
     - name: Run Tests
       working-directory: examples\multifile-legacy\obfuscated
       run: |
-        python main.py
-        OUTPUT=$(python main.py)
+        $output = python.exe -ExecutionPolicy Bypass -Command "& { main.py }"
         
     - name: Check Output"
       run: |
-          if [[ $OUTPUT == *"hello world"* ]]; then
-            echo "Success: main.py output contains 'hello world'"
-          else
-            echo "Failure: main.py output does not contain 'hello world'"
-            exit 1
+        if ($output -match "hello world") {
+          Write-Host "Success: main.py output contains 'hello world'"
+        } else {
+          Write-Host "Failure: main.py output does not contain 'hello world'"
+          Exit-Code 1
+        }

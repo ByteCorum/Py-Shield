@@ -8,6 +8,7 @@ on:
 
 jobs:
     obfuscation-test-legacy:
+        needs: build-check-legacy
         runs-on: windows-latest
     
         steps:

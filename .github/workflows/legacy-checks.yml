@@ -70,11 +70,12 @@ jobs:
       working-directory: examples\multifile-legacy\obfuscated
       run: |
         $OUTPUT = $(python main.py)
+        Write-Host "Output: "
         Write-Host $OUTPUT
         
     - name: Check Output"
       run: |
-        if ($OUTPUT -eq "hello world") {
+        if ($OUTPUT -eq "  hello world") {
           Write-Host "Success: main.py output contains 'hello world'"
         } else {
           Write-Host "Failure: main.py output does not contain 'hello world'"

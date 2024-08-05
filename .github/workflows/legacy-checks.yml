@@ -1,0 +1,79 @@
+name: legacy-checks
+
+on:
+  push:
+    branches: [ main, WIP ]
+  pull_request:
+    branches: [ main, WIP ]
+
+jobs:
+  build-check-legacy:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Build Executable
+      run: |
+        python.exe -m nuitka --quiet --follow-imports --assume-yes-for-downloads --remove-output --onefile --output-filename=py-sheild-legacy --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Sheild legacy" --file-version=1.0.0.0 --product-version=1.0.0.0 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Sheild/blob/main/LICENSE" py-sheild-legacy/main_legacy.py
+      
+    - name: Archive Executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: py-shield-legacy-executable
+        path: "py-sheild-legacy.exe"
+  
+  obfuscation-test-legacy:
+    needs: build-check-legacy
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Download Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: py-shield-legacy-executable
+        path: py-sheild-legacy.exe
+    
+    - name: Prepare For Tests
+      run: |
+        move "py-sheild-legacy.exe" "examples\multifile-legacy"
+        cd "examples\multifile-legacy"
+        rmdir /s /q obfuscated
+
+    - name: Run Tests
+      run: |
+        py-sheild-legacy --loops 3 --mode 4 --output obfuscated --file main.py;lib.py
+        cd "obfuscated"
+
+        python main.py
+        OUTPUT=$(python main.py)
+        
+    - name: Check Output"
+      run: |
+          if [[ $OUTPUT == *"hello world"* ]]; then
+            echo "Success: main.py output contains 'hello world'"
+          else
+            echo "Failure: main.py output does not contain 'hello world'"
+            exit 1

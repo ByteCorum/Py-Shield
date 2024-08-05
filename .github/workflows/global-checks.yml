@@ -58,26 +58,22 @@ jobs:
     
     - name: Prepare For Tests
       run: |
-        tree /f
         move "py-shield.exe" "examples/multifile-global"
         Remove-Item -Path "examples\multifile-global\obfuscated" -Recurse -Force
-        tree /f
 
     - name: Obfuscate
       working-directory: examples\multifile-global
       run: |
-        dir
-        .\py-sheild.exe --mode "hashstr;crypt;looping;aes" --loops 3 --output obfuscated --follow imports --files lib.py main.py
+        .\py-shield.exe --mode "hashstr;crypt;looping;aes" --loops 3 --output obfuscated --follow imports --files lib.py main.py
 
-    - name: Run Tests
+    - name: Testing
       working-directory: examples\multifile-global\obfuscated
       run: |
         $OUTPUT = $(python main.py)
         Write-Host "Output: "
         Write-Host $OUTPUT
         
-    - name: Check Output"
-      run: |
+        Write-Host "Result: "
         if ($OUTPUT -eq "hello world") {
           Write-Host "Success: main.py output contains 'hello world'"
         } else {

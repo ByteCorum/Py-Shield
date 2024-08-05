@@ -66,19 +66,17 @@ jobs:
       run: |
         .\py-sheild-legacy.exe --loops 3 --mode 4 --output obfuscated --file "main.py;lib.py"
 
-    - name: Run Tests
+    - name: Testing
       working-directory: examples\multifile-legacy\obfuscated
       run: |
         $OUTPUT = $(python main.py)
         Write-Host "Output: "
         Write-Host $OUTPUT
         
-    - name: Check Output"
-      run: |
-        Write-Host $OUTPUT
-        if [[ "$OUTPUT" != "hello world" ]]
-        then
+        Write-Host "Result: "
+        if ($OUTPUT -eq "hello world") {
+          Write-Host "Success: main.py output contains 'hello world'"
+        } else {
           Write-Host "Failure: main.py output does not contain 'hello world'"
           exit 1
-        fi
-        Write-Host "Success: main.py output contains 'hello world'"
+        }

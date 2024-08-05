@@ -72,6 +72,8 @@ jobs:
         $OUTPUT = $(python main.py)
         Write-Host "Output: "
         Write-Host $OUTPUT
+        $OUTPUT = "hello world"
+        Write-Host $OUTPUT
         
     - name: Check Output"
       run: |

@@ -64,7 +64,7 @@ jobs:
     - name: Obfuscate
       working-directory: examples\multifile-global
       run: |
-        .\py-sheild --mode "hashstr;crypt;looping;aes" --loops 3 --output obfuscated --follow imports --files lib.py main.py
+        .\py-sheild.exe --mode "hashstr;crypt;looping;aes" --loops 3 --output obfuscated --follow imports --files lib.py main.py
 
     - name: Run Tests
       working-directory: examples\multifile-global\obfuscated

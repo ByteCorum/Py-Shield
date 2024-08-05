@@ -60,17 +60,18 @@ jobs:
       run: |
         tree /f
         move "py-sheild-legacy.exe/py-sheild-legacy.exe" "examples/multifile-legacy"
-        Set-Location -Path "$env:GITHUB_WORKSPACE\examples\multifile-legacy"
-        Remove-Item -Path "obfuscated" -Recurse -Force
+        Remove-Item -Path "examples\multifile-legacy\obfuscated" -Recurse -Force
+        tree /f
 
     - name: Obfuscate
+      working-directory: examples\multifile-legacy
       run: |
-        dir
+        tree /f
         .\py-sheild-legacy.exe --loops 3 --mode 4 --output obfuscated --file main.py;lib.py
 
     - name: Run Tests
+      working-directory: examples\multifile-legacy\obfuscated
       run: |
-        Set-Location -Path "$env:GITHUB_WORKSPACE\examples\multifile-legacy\obfuscated"
         python main.py
         OUTPUT=$(python main.py)
         

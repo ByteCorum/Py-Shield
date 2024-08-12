@@ -2,9 +2,9 @@ name: legacy-checks
 
 on:
   push:
-    branches: [ main, WIP ]
+    branches: [ stable, WIP ]
   pull_request:
-    branches: [ main, WIP ]
+    branches: [ stable, WIP ]
 
 jobs:
   build-check-legacy:

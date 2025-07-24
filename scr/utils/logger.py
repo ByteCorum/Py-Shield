@@ -5,7 +5,7 @@ class Color:
     WARNING = '\033[93m'
     FAIL = '\033[91m'
     SUCCESS = '\033[92m'
-    INFO = '\33[90m'
+    INFO = '\033[90m'
     NORMAL = '\033[0m'
     QUESTION = '\033[96m'
     INPUT = '\033[94m'
@@ -21,72 +21,11 @@ class Log:
     colored = True
 
     @staticmethod
-    def Info(message, bypassQuiet=False):
-        Log.WriteLog("[i] "+message)
-        if Log.quiet and not bypassQuiet:
-            return
-        
+    def Show(prefix, message, color_code):
         if Log.colored:
-            print(f"{Color.INFO}[i] {Format.NORMAL}{message}")
+            print(f"{color_code}{prefix} {Format.NORMAL}{message}")
         else:
-            print("[i] "+ message)
-
-    @staticmethod
-    def Warning(message, pause=False):
-        Log.WriteLog("[!] "+message)
-        if Log.quiet and not pause:
-            return
-        
-        if Log.colored:
-            print(f"{Color.WARNING}[!] {Format.NORMAL}{message}")
-        else:
-            print("[!] "+ message)
-    
-    @staticmethod
-    def Fail(message, fatal=False):
-        Log.WriteLog("[x] "+message)
-        
-        if Log.colored:
-            print(f"{Color.FAIL}[x] {Format.NORMAL}{message}")
-        else:
-            print("[x] "+ message)
-        
-        if fatal:
-            os.exit(-1)
-
-    @staticmethod
-    def Success(message):
-        Log.WriteLog("[+] "+message)
-        
-        if Log.colored:
-            print(f"{Color.SUCCESS}[+] {Format.NORMAL}{message}")
-        else:
-            print("[+] "+ message)
-    
-    @staticmethod
-    def Question(message) -> str:
-        Log.WriteLog("[?] "+message)
-        
-        if Log.colored:
-            print(f"{Color.QUESTION}[?] {Format.NORMAL}{message}")
-            responce = input(f"{Color.INPUT}>>> {Format.NORMAL}")
-        else:
-            print("[?] "+ message)
-            responce = input(f">>> ")
-        
-        Log.WriteLog(">>> "+responce)
-        return responce
-    
-    @staticmethod
-    def Custom(message, color):
-        Log.WriteLog(message)
-        if Log.quiet:
-            return
-        
-        if Log.colored:
-            print(f"{color}{message}{Format.NORMAL}")
-        else:
-            print(message)
+            print(f"{prefix} {message}")
 
     @staticmethod
     def WriteLog(message):
@@ -94,6 +33,55 @@ class Log:
             try:
                 with open(Log.logFile, "a") as file:
                     file.write(f"{message}\n")
-
             except Exception as error:
                 Log.Warning(error.__context__, True)
+
+    @staticmethod
+    def Info(message, bypassQuiet=False):
+        Log.WriteLog(f"[i] {message}")
+        if Log.quiet and not bypassQuiet:
+            return
+        Log.Show("[i]", message, Color.INFO)
+
+    @staticmethod
+    def Warning(message, pause=False):
+        Log.WriteLog(f"[!] {message}")
+        if Log.quiet and not pause:
+            return
+        Log.Show("[!]", message, Color.WARNING)
+        
+        if pause:
+            input("Press Enter to continue...")
+
+    @staticmethod
+    def Fail(message, fatal=False):
+        Log.WriteLog(f"[x] {message}")
+        Log.Show("[x]", message, Color.FAIL)
+        if fatal:
+            os._exit(-1)
+
+    @staticmethod
+    def Success(message):
+        Log.WriteLog(f"[+] {message}")
+        Log.Show("[+]", message, Color.SUCCESS)
+
+    @staticmethod
+    def Question(message) -> str:
+        Log.WriteLog(f"[?] {message}")
+        
+        if Log.colored:
+            print(f"{Color.QUESTION}[?] {Format.NORMAL}{message}")
+            response = input(f"{Color.INPUT}>>> {Format.NORMAL}")
+        else:
+            print(f"[?] {message}")
+            response = input(f">>> ")
+        
+        Log.WriteLog(f">>> {response}")
+        return response
+
+    @staticmethod
+    def Custom(message, color):
+        Log.WriteLog(message)
+        if Log.quiet:
+            return
+        Log.Show("", message, color)

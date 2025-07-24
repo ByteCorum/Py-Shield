@@ -1,0 +1,3 @@
+class PyShield:
+    def __init__(self):
+        ...

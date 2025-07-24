@@ -23,7 +23,7 @@ class Log:
     @staticmethod
     def Show(prefix, message, color_code):
         if Log.colored:
-            print(f"{color_code}{prefix} {Format.NORMAL}{message}")
+            print(f"{color_code}{prefix} {Color.NORMAL}{message}")
         else:
             print(f"{prefix} {message}")
 
@@ -49,7 +49,7 @@ class Log:
         if Log.quiet and not pause:
             return
         Log.Show("[!]", message, Color.WARNING)
-        
+
         if pause:
             input("Press Enter to continue...")
 
@@ -70,8 +70,8 @@ class Log:
         Log.WriteLog(f"[?] {message}")
         
         if Log.colored:
-            print(f"{Color.QUESTION}[?] {Format.NORMAL}{message}")
-            response = input(f"{Color.INPUT}>>> {Format.NORMAL}")
+            print(f"{Color.QUESTION}[?] {Color.NORMAL}{message}")
+            response = input(f"{Color.INPUT}>>> {Color.NORMAL}")
         else:
             print(f"[?] {message}")
             response = input(f">>> ")
@@ -80,7 +80,7 @@ class Log:
         return response
 
     @staticmethod
-    def Custom(message, color):
+    def Custom(message, color = Color.NORMAL):
         Log.WriteLog(message)
         if Log.quiet:
             return

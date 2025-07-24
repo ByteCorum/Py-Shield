@@ -1,2 +1,0 @@
-python.exe -m nuitka --quiet --follow-imports --remove-output --onefile --output-dir="../build/global" --output-filename=py-shield --windows-icon-from-ico=icon.ico --company-name="ByteCorum" --product-name="Py-Shield" --file-version=2.0.1.5 --product-version=2.0.1.5 --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" --copyright="https://github.com/ByteCorum/Py-Shield/blob/main/LICENSE" py-shield.py
-pause null

@@ -149,5 +149,3 @@ cython_debug/
 .idea/
 
 # Other
-test/
-old/

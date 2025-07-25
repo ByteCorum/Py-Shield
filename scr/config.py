@@ -134,7 +134,7 @@ class Dependencies:
         "--update": False,
     }
 
-    handler = None
+    handler = cmds.Dependencies
 
     help = f'''
 Usage:
@@ -170,7 +170,7 @@ class Info:
         "--description": False,
     }
 
-    handler = None
+    handler = cmds.Info
 
     help = f'''
 Usage:

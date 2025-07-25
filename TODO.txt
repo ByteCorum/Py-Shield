@@ -1,2 +1,3 @@
 merge global and legacy ver
 rewrite proj
+add linux and macos support

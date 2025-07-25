@@ -1,5 +1,5 @@
 import config as cfg
-from utils.logger import Log, Color
+from utils.logger import Log
 
 class OptionsParser:
     def __init__(self, argv, command):

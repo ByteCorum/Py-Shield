@@ -1,3 +1,3 @@
 from commands.basic.help import Help
-from basic.info import Info
-from basic.dependencies import Dependencies
+from commands.basic.info import Info
+from commands.basic.dependencies import Dependencies

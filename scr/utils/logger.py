@@ -1,4 +1,4 @@
-import os
+from sys import exit
 
 class Color:
     HEADER = '\033[95m'
@@ -59,7 +59,7 @@ class Log:
         Log.WriteLog(f"[x] {message}")
         Log.Show("[x]", message, Color.FAIL)
         if fatal:
-            os._exit(-1)
+            exit(-1)
 
     @staticmethod
     def Success(message):

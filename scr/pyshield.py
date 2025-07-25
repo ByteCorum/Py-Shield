@@ -1,33 +1,48 @@
-from utils.logger import Log, Color
+from utils.logger import Log
 from utils.optionsParser import OptionsParser
 import config as cfg
-from sys import argv
+from sys import argv, exit
 
 class PyShield:
     def __init__(self):
-        self.commands = [cmd.lower() for cmd in dir(cfg) if isinstance(getattr(cfg, cmd), type.__class__)]
+        self.command = None
+        self.commandName = ""
         self.ParseArgs()
+        self.RunCommand()
 
     def ParseArgs(self):
+        commands = [cmd.lower() for cmd in dir(cfg) if isinstance(getattr(cfg, cmd), type.__class__)]
+
         try:
             if len(argv) < 2:
                 raise Exception("missing command name")
 
-            if argv[1] not in self.commands:
+            if argv[1] not in commands:
                 raise Exception(f"invalid command name: \"{argv[1]}\"")
         
         except Exception as error:
             cfg.Help.handler()
             Log.Fail("Command parsing failed: "+str(error), True)
         
+        self.commandName = argv[1]
         try:
-            command = getattr(cfg, argv[1].title())
-            if not hasattr(command, "options"):
+            self.command = getattr(cfg, self.commandName.title())
+            if not hasattr(self.command, "options"):
                 return
 
-            OptionsParser(argv[2:], command).Parse()
+            parser = OptionsParser(argv[2:], self.command)
+            parser.Parse()
+            if parser.ended:
+                exit(0)
+
+            parser.Validate()
+            self.command = parser.command
 
         except Exception as error:
-            if isinstance(error, ValueError):
-                cfg.Help.handler()
             Log.Fail(f"Options parsing failed: {error}", True)
+
+    def RunCommand(self):
+        try:
+            self.command.handler()
+        except Exception as error:
+            Log.Fail(f"{self.commandName} failed: {error}", True)

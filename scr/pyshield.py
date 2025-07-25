@@ -8,6 +8,7 @@ class PyShield:
         self.command = None
         self.commandName = ""
         self.ParseArgs()
+        self.SetGlobalVars()
         self.RunCommand()
 
     def ParseArgs(self):
@@ -40,6 +41,19 @@ class PyShield:
 
         except Exception as error:
             Log.Fail(f"Options parsing failed: {error}", True)
+    
+    def SetGlobalVars(self):
+        if "--log" in self.command.options:
+            Log.logFile = self.command.options["--log"]
+        
+        if "--quiet" in self.command.options:
+            Log.quiet = self.command.options["--quiet"]
+        
+        if "--no-color" in self.command.options:
+            Log.colored = not self.command.options["--no-color"]
+        
+        if "--no-input" in self.command.options:
+            Log.noInput = self.command.options["--no-input"]
 
     def RunCommand(self):
         try:

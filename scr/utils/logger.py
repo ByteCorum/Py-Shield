@@ -18,12 +18,13 @@ class Format:
 class Log:
     logFile = ""
     quiet = False
+    noInput = False
     colored = True
 
     @staticmethod
-    def Show(prefix, message, color_code):
+    def Show(prefix, message, color):
         if Log.colored:
-            print(f"{color_code}{prefix} {Color.NORMAL}{message}")
+            print(f"{color}{prefix} {Color.NORMAL}{message}")
         else:
             print(f"{prefix} {message}")
 
@@ -50,7 +51,7 @@ class Log:
             return
         Log.Show("[!]", message, Color.WARNING)
 
-        if pause:
+        if pause and not Log.noInput:
             input("Press Enter to continue...")
 
     @staticmethod
@@ -68,6 +69,9 @@ class Log:
     @staticmethod
     def Question(message) -> str:
         Log.WriteLog(f"[?] {message}")
+        if Log.noInput:
+            Log.WriteLog(">>> {ignored}")
+            return "ignored"
         
         if Log.colored:
             print(f"{Color.QUESTION}[?] {Color.NORMAL}{message}")

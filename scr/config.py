@@ -1,9 +1,39 @@
+import commands.commands as cmds
+
+#example
+# class Name_of_the_command: #note: only first letter should be capital
+#     #if your command has options#
+
+#     exclusiveOptions = [["--install","--uninstall"], ["--up","--down"]] #groups of options that can't be used together
+#     requiredOptions = ["entrypoint", [""]] #options and groups(any option from a group is required) that are required
+
+#     options = { #all the options that your command has. note: don't write help here, it's hendeled elsewhere
+#         #General Options
+#         "--quiet": False,
+#         "--log": "",
+#         "--no-color ": False,
+#         "--no-input": False,
+    
+#         #Your Options
+#         "--option1": False
+#         "entrypoint": "" #only 1 fixed option name used to store program entrypoint file path
+#     }    
+#     ############################
+
+#     #Should be allways initialized#
+
+#     handler = None #command handler that will be called when the command is executed
+#     help = f'''I\'ll help u''' #help message for the command
+#     ###############################
+
 class Obfuscate:
-    parameters = {
+    exclusiveOptions = []
+    requiredOptions = ["entrypoint", ["--hashdata", "--fernet", "--aes", "--rsa", "--base64", "--recursive"]]
+    options = {
         "--quiet": False,
         "--log": "",
         "--no-color ": False,
-        "--no-input": "",
+        "--no-input": False,
         "--hashdata": False,
         "--fernet": False,
         "--aes": False,
@@ -13,7 +43,8 @@ class Obfuscate:
         "--dirs": [],
         "--files": [],
         "--output": "",
-        "--follow-imports" : False
+        "--follow-imports" : False,
+        "entrypoint": ""
     }
 
     handler = None
@@ -33,7 +64,7 @@ Options:
   --quiet           -> give less output.
   --log <path>      -> write all logs to a file.
   --no-color        -> suppress colored output.
-  --no-input <y/n>  -> disable prompting for input.
+  --no-input        -> disable prompting for input.
 
   --hashdata        -> convert all strings and var names into hash.
   --fernet          -> obfuscation and encryption using fernet.
@@ -47,12 +78,14 @@ Options:
   --follow-imports  -> add all imports to the protected script.
 '''
 
-class ObfuscateLegacy:
-    parameters = {
+class Obfuscatelegacy:
+    exclusiveOptions = []
+    requiredOptions = ["--loops", "--mode", ["--files" "--dirs"]]
+    options = {
         "--quiet": False,
         "--log": "",
         "--no-color ": False,
-        "--no-input": "",
+        "--no-input": False,
         "--loops": 0,
         "--mode": 0,
         "--dirs": [],
@@ -64,9 +97,9 @@ class ObfuscateLegacy:
 
     help = f'''
 Usage:
-  py-shield obfuscate-legacy [options]
+  py-shield obfuscatelegacy [options]
 Example:
-  py-shield obfuscate-legacy --loops 3 --mode 2 --file code.py
+  py-shield obfuscatelegacy --loops 3 --mode 2 --file code.py
 
 Notes:
   *                 -> required option.
@@ -77,21 +110,24 @@ Options:
   --quiet           -> give less output.
   --log <path>      -> write all logs to a file.
   --no-color        -> suppress colored output.
-  --no-input <y/n>  -> disable prompting for input.
+  --no-input        -> disable prompting for input.
 
   --loops <num>*    -> number of obfuscation loops.
   --mode <num>*     -> obfuscation mode(1-4) as bigger number as better obfuscation but the output file is larger.
-  --dirs <path>     -> obfuscate all files in dir.
-  --files <path>*   -> files for obfuscation.
+  --dirs <path>*    -> obfuscate all files in dir(required files or/and dir).
+  --files <path>*   -> files for obfuscation(required files or/and dir).
   --output <path>   -> output dir.
 '''
 
 class Dependencies:
-    parameters = {
+    exclusiveOptions = [["--show", "--install", "--uninstall", "--update"]]
+    requiredOptions = [["--show", "--install", "--uninstall", "--update"]]
+
+    options = {
         "--quiet": False,
         "--log": "",
         "--no-color ": False,
-        "--no-input": "",
+        "--no-input": False,
         "--show": False,
         "--install": False,
         "--uninstall": False,
@@ -106,23 +142,28 @@ Usage:
 Example:
   py-shield dependencies --quiet --no-input y --install
 
+Note:
+  `                 -> option can't be used with same options
+
 Options:
   --help            -> show help for commands.
   --quiet           -> give less output.
   --log <path>      -> write all logs to a file.
   --no-color        -> suppress colored output.
-  --no-input <y/n>  -> disable prompting for input.
+  --no-input        -> disable prompting for input.
 
-  --show            -> show all dependencies of the program.
-  --install         -> install all dependencies of the program.
-  --uninstall       -> uninstall all dependencies of the program.
-  --update          -> update all dependencies of the program
+  --show`           -> show all dependencies of the program.
+  --install`        -> install all dependencies of the program.
+  --uninstall`      -> uninstall all dependencies of the program.
+  --update`         -> update all dependencies of the program
 '''
 
 class Info:
-    parameters = {
+    exclusiveOptions = [["--all", "--version", "--url", "--description"]]
+    requiredOptions = [["--all", "--version", "--url", "--description"]]
+
+    options = {
         "--log": "",
-        "--no-color ": False,
         "--all": False,
         "--version": False,
         "--url": False,
@@ -137,19 +178,23 @@ Usage:
 Example:
   py-shield info --all
 
+Note:
+  `                 -> option can't be used with same options
+
 Options:
   --help            -> show help for commands.
   --log <path>      -> write all logs to a file.
-  --no-color        -> suppress colored output.
 
-  --all             -> show all information about the program.
-  --version         -> show version of the program.
-  --url             -> show URL of program's github repo.
-  --description     -> show description of the program.
+  --all`            -> show all information about the program.
+  --version`        -> show version of the program.
+  --url`            -> show URL of program's github repo.
+  --description`    -> show description of the program.
 
 '''
 
 class Help:
+    handler = cmds.Help
+
     help = f'''
 Usage:
   py-shield <command> [options]
@@ -158,7 +203,7 @@ Example:
 
 Commands:
   obfuscate         -> obfuscate code using advanced techniques.
-  obfuscate-legacy  -> obfuscate code using legacy techniques.
+  obfuscatelegacy  -> obfuscate code using legacy techniques.
   dependencies      -> command to work with dependencies.
   info              -> show general information about the program.
   help              -> show general help.
@@ -168,5 +213,5 @@ General Options:
   --quiet           -> give less output.
   --log <path>      -> write all logs to a file.
   --no-color        -> suppress colored output.
-  --no-input <y/n>  -> disable prompting for input.
+  --no-input        -> disable prompting for input.
 '''

@@ -1,19 +1,5 @@
 from sys import exit
-
-class Color:
-    HEADER = '\033[95m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    SUCCESS = '\033[92m'
-    INFO = '\033[90m'
-    NORMAL = '\033[0m'
-    QUESTION = '\033[96m'
-    INPUT = '\033[94m'
-
-class Format:
-    NORMAL = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+from colorama import Fore
 
 class Log:
     logFile = ""
@@ -24,7 +10,7 @@ class Log:
     @staticmethod
     def Show(prefix, message, color):
         if Log.colored:
-            print(f"{color}{prefix} {Color.NORMAL}{message}")
+            print(f"{color}{prefix} {Fore.RESET}{message}")
         else:
             print(f"{prefix} {message}")
 
@@ -42,14 +28,14 @@ class Log:
         Log.WriteLog(f"[i] {message}")
         if Log.quiet and not bypassQuiet:
             return
-        Log.Show("[i]", message, Color.INFO)
+        Log.Show("[i]", message, Fore.CYAN)
 
     @staticmethod
     def Warning(message, pause=False):
         Log.WriteLog(f"[!] {message}")
         if Log.quiet and not pause:
             return
-        Log.Show("[!]", message, Color.WARNING)
+        Log.Show("[!]", message, Fore.YELLOW)
 
         if pause and not Log.noInput:
             input("Press Enter to continue...")
@@ -57,14 +43,14 @@ class Log:
     @staticmethod
     def Fail(message, fatal=False):
         Log.WriteLog(f"[x] {message}")
-        Log.Show("[x]", message, Color.FAIL)
+        Log.Show("[x]", message, Fore.RED)
         if fatal:
             exit(-1)
 
     @staticmethod
     def Success(message):
         Log.WriteLog(f"[+] {message}")
-        Log.Show("[+]", message, Color.SUCCESS)
+        Log.Show("[+]", message, Fore.GREEN)
 
     @staticmethod
     def Question(message) -> str:
@@ -74,8 +60,8 @@ class Log:
             return "ignored"
         
         if Log.colored:
-            print(f"{Color.QUESTION}[?] {Color.NORMAL}{message}")
-            response = input(f"{Color.INPUT}>>> {Color.NORMAL}")
+            print(f"{Fore.BLUE}[?] {Fore.RESET}{message}")
+            response = input(f"{Fore.BLUE}>>> {Fore.RESET}")
         else:
             print(f"[?] {message}")
             response = input(f">>> ")
@@ -84,7 +70,7 @@ class Log:
         return response
 
     @staticmethod
-    def Custom(message, color = Color.NORMAL):
+    def Custom(message, color = Fore.RESET):
         Log.WriteLog(message)
         if Log.quiet:
             return

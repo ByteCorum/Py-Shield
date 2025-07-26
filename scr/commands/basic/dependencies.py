@@ -11,7 +11,7 @@ def DependenciesHandler(this: Command):
         for dep in dependencies:
             string+=f"\n  {dep}"
         Log.Custom(f"Project's dependencies:{string}")
-    
+
     if this.options["--install"]:
         for dep in dependencies:
             system(f"pip install {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")

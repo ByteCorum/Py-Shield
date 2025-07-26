@@ -152,3 +152,4 @@ cython_debug/
 old/
 /scr/.vscode
 /scr/obfuscated
+scr/test.py

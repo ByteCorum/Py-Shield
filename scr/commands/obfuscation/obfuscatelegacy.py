@@ -11,7 +11,7 @@ class ObfuscationLegacy:
         self.workingDir = getcwd()
         self.CheckOptions()
         self.ObfuscateFiles()
-    
+
     def CheckOptions(self):
         Log.Info("Legacy obfuscation.")
 
@@ -19,45 +19,44 @@ class ObfuscationLegacy:
             raise Exception("Invalid --loops value.")
         if self.this.options["--mode"] < 1 or self.this.options["--mode"] > 4:
             raise Exception("Invalid --mode value.")
-        
+
         if not self.this.options["--output"]:
             self.this.options["--output"] = "obfuscated"
-        else:
-            if path.exists(self.this.options["--output"]):
-                Log.Warning(f"Output directory already exists: \"{self.this.options['--output']}\".")
-                responce = ""
-                while responce != "y" or responce != "n" or responce != "ignore":
-                    responce = Log.Question("Override directory? (y/n)").lower()
-                    
-                    match responce:
-                        case "ignore":
-                            rmtree(self.this.options["--output"])
-                            Log.Info("Directory overridden.")
-                            break
-                        case "y":
-                            rmtree(self.this.options["--output"])
-                            Log.Success("Directory overridden.")
-                            break
-                        case "n":
-                            Log.Success("Directory skipped.")
-                            break
-                        case _:
-                            Log.Fail("Invalid response. Please enter 'y' or 'n'.")
-                print()
-        
-        
+
+        if path.exists(self.this.options["--output"]):
+            Log.Warning(f"Output directory already exists: \"{self.this.options['--output']}\".")
+            responce = ""
+            while responce != "y" or responce != "n" or responce != "ignore":
+                responce = Log.Question("Override directory? (y/n)").lower()
+
+                match responce:
+                    case "ignore":
+                        rmtree(self.this.options["--output"])
+                        Log.Info("Directory overridden.")
+                        break
+                    case "y":
+                        rmtree(self.this.options["--output"])
+                        Log.Success("Directory overridden.")
+                        break
+                    case "n":
+                        Log.Success("Directory skipped.")
+                        break
+                    case _:
+                        Log.Fail("Invalid response. Please enter 'y' or 'n'.")
+            print()
+
         for file in self.this.options["--files"]:
             if not path.exists(file) or not path.isfile(file) or not file.endswith(".py"):
                 raise Exception(f"Invalid file path: \"{file}\".")
             if path.isabs(file):
                 raise Exception(f"Abs path is unsupported: \"{file}\"")
-        
+
         for dir in self.this.options["--dirs"]:
             if not path.exists(dir) or not path.isdir(dir):
                 raise Exception(f"Invalid directory path: \"{dir}\".")
             if path.isabs(dir):
                 raise Exception(f"Abs path is unsupported: \"{dir}\"")
-        
+
         Log.Info(f"Included files: {self.this.options["--files"]}")
         Log.Info(f"Included dirs: {self.this.options["--dirs"]}")
         Log.Info(f"loops amount: {self.this.options["--loops"]}")
@@ -80,7 +79,7 @@ class ObfuscationLegacy:
             context = Obfuscator.Wrap(context)
 
             self.SaveFile(filename, filepath, context)
-            
+
         for dir in self.this.options["--dirs"]:
             for dirpath, dirnames, filenames in walk(dir):
                 for filename in filenames:
@@ -89,20 +88,20 @@ class ObfuscationLegacy:
                         with open(dirpath+sep+filename, "r", encoding="utf-8") as file:
                             context = file.read()
                         dirpath = path.relpath(dirpath, self.workingDir)
-                            
+
                         context = RemoveComments(context)
 
                         Obfuscator = LegacyObfuscation(self.this.options["--mode"], self.this.options["--loops"], LegacyObfuscation.GenSeperator(12))
                         context = Obfuscator.Encrypt(context)
                         context = Obfuscator.Wrap(context)
-                        
+
                         self.SaveFile(filename , dirpath, context)
-    
+
     def SaveFile(self, filename, filepath, content):
         filepath = self.this.options["--output"]+sep+filepath
         makedirs(filepath, exist_ok=True)
 
         with open(filepath+sep+filename, "w", encoding="utf-8") as file:
             file.write(content)
-        
-        Log.Info(f"{filename} saved in {filepath}")
+
+        Log.Info(f"{filename} saved in \"{filepath}\"")

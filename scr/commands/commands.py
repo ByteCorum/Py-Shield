@@ -19,12 +19,12 @@ from commands.obfuscation.obfuscatelegacy import ObfuscationLegacy
 #         "--log": "",
 #         "--no-color ": False,
 #         "--no-input": False,
-#    
+#
 #         #Your Options
 #         "--option1": False,
 #         "entrypoint": "" #only 1 fixed option name used to store program entrypoint file path
-#     }    
-#     
+#     }
+#
 #     #Should be always initialized#
 #     handler = None #command handler that will be called when the command is executed
 #     help = f'''I\'ll help u''' #help message for the command

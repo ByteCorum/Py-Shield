@@ -66,7 +66,7 @@ class PyShield:
             Log.noInput = self.command.options["--no-input"]
 
     def RunCommand(self):
-        Log.Info(f"{cfg.NAME} {cfg.VERSION}", True)
+        Log.Info(f"{cfg.NAME}", True)
         try:
             self.command.handler()
         except Exception as error:

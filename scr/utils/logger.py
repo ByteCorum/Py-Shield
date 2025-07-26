@@ -12,7 +12,7 @@ class Log:
         if Log.colored:
             print(f"{color}{prefix}{Fore.RESET}{message}")
         else:
-            print(f"{prefix} {message}")
+            print(f"{prefix}{message}")
 
     @staticmethod
     def WriteLog(message):

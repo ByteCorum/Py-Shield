@@ -4,7 +4,7 @@ from abc import ABC
 NAME = "Py-Shield"
 AUTHOR = "ByteCorum"
 URL = "https://github.com/ByteCorum/Py-Shield"
-VERSION = "v3.0.0.0"
+VERSION = "3.0.0.0"
 DESCRIPTION = "Tool/Library for Python used to obfuscate and protect your code from decompilation, reverse engineering, etc. Also, can prevent detections by antiviruses."
 
 class Command(ABC):
@@ -154,7 +154,8 @@ Example:
   py-shield dependencies --quiet --no-input y --install
 
 Note:
-  `                 -> option can't be used with same options
+  `                 -> only one option from a group can be used.
+  *                 -> required option.
 
 Options:
   --help            -> show help for commands.
@@ -163,10 +164,10 @@ Options:
   --no-color        -> suppress colored output.
   --no-input        -> disable prompting for input.
 
-  --show`           -> show all dependencies of the program.
-  --install`        -> install all dependencies of the program.
-  --uninstall`      -> uninstall all dependencies of the program.
-  --update`         -> update all dependencies of the program
+  --show*`          -> show all dependencies of the program.
+  --install*`       -> install all dependencies of the program.
+  --uninstall*`     -> uninstall all dependencies of the program.
+  --update*`        -> update all dependencies of the program
 '''
 
 class Info(Command):
@@ -175,7 +176,7 @@ class Info(Command):
 
     options = {
         "--log": "",
-        "--no-color ": False,
+        "--no-color": False,
         "--all": False,
         "--version": False,
         "--url": False,
@@ -191,17 +192,18 @@ Example:
   py-shield info --all
 
 Note:
-  `                 -> option can't be used with same options
+  `                 -> only one option from a group can be used.
+  *                 -> required option.
 
 Options:
   --help            -> show help for commands.
   --log <path>      -> write all logs to a file.
   --no-color        -> suppress colored output.
 
-  --all`            -> show all information about the program.
-  --version`        -> show version of the program.
-  --url`            -> show URL of program's github repo.
-  --description`    -> show description of the program.
+  --all*`           -> show all information about the program.
+  --version*`       -> show version of the program.
+  --url*`           -> show URL of program's github repo.
+  --description*`   -> show description of the program.
 
 '''
 

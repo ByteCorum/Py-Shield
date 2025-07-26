@@ -57,8 +57,11 @@ class ObfuscationLegacy:
             if path.isabs(dir):
                 raise Exception(f"Abs path is unsupported: \"{dir}\"")
 
-        Log.Info(f"Included files: {self.this.options["--files"]}")
-        Log.Info(f"Included dirs: {self.this.options["--dirs"]}")
+        if self.this.options["--files"]:
+            Log.Info(f"Included files: {self.this.options["--files"]}")
+        if self.this.options["--dirs"]:
+            Log.Info(f"Included dirs: {self.this.options["--dirs"]}")
+
         Log.Info(f"loops amount: {self.this.options["--loops"]}")
         Log.Info(f"obfuscation mode: {self.this.options["--mode"]}")
         Log.Info(f"output dir: {self.this.options["--output"]}\n")
@@ -104,4 +107,4 @@ class ObfuscationLegacy:
         with open(filepath+sep+filename, "w", encoding="utf-8") as file:
             file.write(content)
 
-        Log.Info(f"{filename} saved in \"{filepath}\"")
+        Log.Info(f"{filename} saved in {filepath[:-1]}")

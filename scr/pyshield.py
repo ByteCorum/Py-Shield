@@ -11,9 +11,12 @@ class PyShield:
         self.command = None
         self.commandName = ""
         self.noOptions = False
-        self.ParseArgs()
-        self.SetGlobalVars()
-        self.RunCommand()
+        try:
+            self.ParseArgs()
+            self.SetGlobalVars()
+            self.RunCommand()
+        except Exception as error:
+            Log.Fail(f"Fatal error occurred: {error}", True)
 
     def ParseArgs(self):
         commands = []

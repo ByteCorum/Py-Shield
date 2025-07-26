@@ -21,7 +21,8 @@ class Log:
                 with open(Log.logFile, "a") as file:
                     file.write(f"{message}\n")
             except Exception as error:
-                Log.Warning(error, True)
+                Log.logFile = ""
+                Log.Warning(f"Logging skipped: {error}", True)
 
     @staticmethod
     def Info(message, bypassQuiet=False):
@@ -58,14 +59,14 @@ class Log:
         if Log.noInput:
             Log.WriteLog(">>> {ignored}")
             return "ignore"
-        
+
         if Log.colored:
             print(f"{Fore.BLUE}[?]{Fore.RESET}{message}")
             response = input(f"{Fore.BLUE}>>> {Fore.RESET}")
         else:
             print(f"[?]{message}")
             response = input(f">>> ")
-        
+
         Log.WriteLog(f">>> {response}")
         return response
 

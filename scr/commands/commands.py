@@ -4,7 +4,7 @@ from commands.basic.dependencies import DependenciesHandler
 from commands.basic.help import HelpHandler
 from commands.basic.info import InfoHandler
 
-from commands.obfuscation.obfuscate import ObfuscateHandler
+from commands.obfuscation.obfuscate import Obfuscation
 from commands.obfuscation.obfuscatelegacy import ObfuscationLegacy
 
 # class Name_of_the_command(Command): #note: only first letter should be capital
@@ -37,6 +37,7 @@ class Obfuscate(Command):
         "--log": "",
         "--no-color ": False,
         "--no-input": False,
+
         "--hashdata": False,
         "--fernet": False,
         "--aes": False,
@@ -50,7 +51,7 @@ class Obfuscate(Command):
         "entrypoint": ""
     }
 
-    handler = ObfuscateHandler
+    handler = Obfuscation
 
     help = f'''
 Usage:
@@ -88,6 +89,7 @@ class Obfuscatelegacy(Command):
         "--log": "",
         "--no-color ": False,
         "--no-input": False,
+
         "--loops": 0,
         "--mode": 0,
         "--dirs": [],
@@ -129,6 +131,7 @@ class Dependencies(Command):
         "--log": "",
         "--no-color ": False,
         "--no-input": False,
+
         "--show": False,
         "--install": False,
         "--uninstall": False,
@@ -166,6 +169,7 @@ class Info(Command):
     options = {
         "--log": "",
         "--no-color": False,
+
         "--all": False,
         "--version": False,
         "--url": False,

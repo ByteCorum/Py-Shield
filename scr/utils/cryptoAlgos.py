@@ -14,7 +14,7 @@ class LegacyObfuscation:
         self.mode = mode
         self.loops = loops
         self.separator = separator
-    
+
     def Encrypt(self, content) -> str:
         for i in range(self.loops):
             match self.mode:
@@ -99,8 +99,8 @@ class LegacyObfuscation:
         enccontent = compress(enccontent)
 
         return f"exec((_)({enccontent}))"
-    
+
     @staticmethod
     def GenSeperator(length):
         return ''.join(choice(ascii_letters+digits+punctuation) for _ in range(length))
-    
+

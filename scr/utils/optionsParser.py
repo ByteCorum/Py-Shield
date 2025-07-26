@@ -30,14 +30,14 @@ class OptionsParser:
 
             if option not in self.command.options:
                 raise Exception(f"invalid option: \"{option}\".")
-            
+
             if type(self.command.options[option]) == bool:
                 self.command.options[option] = True
 
             else:
                 if i+1 >= self.argc or self.argv[i+1].find("--") != -1:
                     raise Exception(f"invalid \"{option}\" value.")
-                
+
                 value = self.argv[i+1]
 
                 match type(self.command.options[option]).__name__:
@@ -53,7 +53,7 @@ class OptionsParser:
                     case _:
                         raise Exception(f"unsupported \"{option}\" type.")
                 skipNext = True
-    
+
     def Validate(self):
         for option in self.command.requiredOptions:
             if type(option) == list:
@@ -70,21 +70,21 @@ class OptionsParser:
             else:
                 if not OptionsParser.CheckOptionValue(self.command.options[option]):
                     raise Exception(f"missing required option: \"{option}\".")
-                
+
         for group in self.command.exclusiveOptions:
             state = []# state of option 0(off), 1(on)
             for option in group:
                 state.append(OptionsParser.CheckOptionValue(self.command.options[option]))
-            
+
             if sum(state) > 1:
                 raise Exception(f"some options can't be used together: \"{", ".join(group)}\".")
-                 
+
     @staticmethod
     def CheckOptionValue(option) -> bool:
         match type(option).__name__:
             case "bool":
                 if option == False: return False
-        
+
             case "str":
                 if option == "": return False
 
@@ -93,10 +93,10 @@ class OptionsParser:
 
             case "list":
                 if option == []: return False
-    
+
             case _:
                 raise Exception(f"unsupported \"{option}\" type.")
-            
+
         return True
 
 

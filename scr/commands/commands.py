@@ -1,13 +1,11 @@
 from config import Command
 
-import commands.basic as basic
-from basic.dependencies import DependenciesHandler
-from basic.help import HelpHandler
-from basic.info import InfoHandler
+from commands.basic.dependencies import DependenciesHandler
+from commands.basic.help import HelpHandler
+from commands.basic.info import InfoHandler
 
-import commands.obfuscation as obfuscation
-from obfuscation.obfuscate import ObfuscateHandler
-from obfuscation.obfuscatelegacy import ObfuscateLegacyHandler
+from commands.obfuscation.obfuscate import ObfuscateHandler
+from commands.obfuscation.obfuscatelegacy import ObfuscationLegacy
 
 # class Name_of_the_command(Command): #note: only first letter should be capital
 #
@@ -61,7 +59,7 @@ Example:
   py-shield obfuscate --hashdata --aes --follow-imports main.py
 
 Notes:
-  text;text         -> to add more than one arg to option.
+  text|text         -> to add more than one arg to option.
   main.py           -> the entry point of your program.
 
 Options:
@@ -84,7 +82,7 @@ Options:
 
 class Obfuscatelegacy(Command):
     exclusiveOptions = []
-    requiredOptions = ["--loops", "--mode", ["--files" "--dirs"]]
+    requiredOptions = ["--loops", "--mode", ["--files", "--dirs"]]
     options = {
         "--quiet": False,
         "--log": "",
@@ -97,7 +95,7 @@ class Obfuscatelegacy(Command):
         "--output": ""
     }
 
-    handler = ObfuscateLegacyHandler
+    handler = ObfuscationLegacy
 
     help = f'''
 Usage:
@@ -107,7 +105,7 @@ Example:
 
 Notes:
   *                 -> required option.
-  text;text         -> to add more than one arg to option.
+  text|text         -> to add more than one arg to option.
 
 Options:
   --help            -> show help for commands.

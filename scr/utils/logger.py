@@ -21,7 +21,7 @@ class Log:
                 with open(Log.logFile, "a") as file:
                     file.write(f"{message}\n")
             except Exception as error:
-                Log.Warning(error.__context__, True)
+                Log.Warning(error, True)
 
     @staticmethod
     def Info(message, bypassQuiet=False):
@@ -57,7 +57,7 @@ class Log:
         Log.WriteLog(f"[?]{message}")
         if Log.noInput:
             Log.WriteLog(">>> {ignored}")
-            return "ignored"
+            return "ignore"
         
         if Log.colored:
             print(f"{Fore.BLUE}[?]{Fore.RESET}{message}")

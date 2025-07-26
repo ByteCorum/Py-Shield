@@ -48,7 +48,7 @@ class OptionsParser:
                         self.command.options[option] = int(value)
 
                     case "list":
-                        self.command.options[option] = value.split(";")
+                        self.command.options[option] = value.split("|")
 
                     case _:
                         raise Exception(f"unsupported \"{option}\" type.")

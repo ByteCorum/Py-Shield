@@ -150,3 +150,5 @@ cython_debug/
 
 # Other
 old/
+/scr/.vscode
+/scr/obfuscated

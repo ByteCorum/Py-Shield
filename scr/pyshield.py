@@ -71,5 +71,6 @@ class PyShield:
         Log.Info(f"{NAME}\n", True)
         try:
             self.command.handler(self.command)
+            Log.Success(f"\n{self.commandName.title()} successfully completed.")
         except Exception as error:
-            Log.Fail(f"{self.commandName} failed: {error}", True)
+            Log.Fail(f"{self.commandName.title()} failed: {error}", True)

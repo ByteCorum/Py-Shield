@@ -10,7 +10,7 @@ class Log:
     @staticmethod
     def Show(prefix, message, color):
         if Log.colored:
-            print(f"{color}{prefix} {Fore.RESET}{message}")
+            print(f"{color}{prefix}{Fore.RESET}{message}")
         else:
             print(f"{prefix} {message}")
 
@@ -25,14 +25,14 @@ class Log:
 
     @staticmethod
     def Info(message, bypassQuiet=False):
-        Log.WriteLog(f"[i] {message}")
+        Log.WriteLog(f"[i]{message}")
         if Log.quiet and not bypassQuiet:
             return
         Log.Show("[i]", message, Fore.CYAN)
 
     @staticmethod
     def Warning(message, pause=False):
-        Log.WriteLog(f"[!] {message}")
+        Log.WriteLog(f"[!]{message}")
         if Log.quiet and not pause:
             return
         Log.Show("[!]", message, Fore.YELLOW)
@@ -42,36 +42,36 @@ class Log:
 
     @staticmethod
     def Fail(message, fatal=False):
-        Log.WriteLog(f"[x] {message}")
+        Log.WriteLog(f"[x]{message}")
         Log.Show("[x]", message, Fore.RED)
         if fatal:
             exit(-1)
 
     @staticmethod
     def Success(message):
-        Log.WriteLog(f"[+] {message}")
+        Log.WriteLog(f"[+]{message}")
         Log.Show("[+]", message, Fore.GREEN)
 
     @staticmethod
     def Question(message) -> str:
-        Log.WriteLog(f"[?] {message}")
+        Log.WriteLog(f"[?]{message}")
         if Log.noInput:
             Log.WriteLog(">>> {ignored}")
             return "ignored"
         
         if Log.colored:
-            print(f"{Fore.BLUE}[?] {Fore.RESET}{message}")
+            print(f"{Fore.BLUE}[?]{Fore.RESET}{message}")
             response = input(f"{Fore.BLUE}>>> {Fore.RESET}")
         else:
-            print(f"[?] {message}")
+            print(f"[?]{message}")
             response = input(f">>> ")
         
         Log.WriteLog(f">>> {response}")
         return response
 
     @staticmethod
-    def Custom(message, color = Fore.RESET):
+    def Custom(message, color = Fore.RESET, bypassQuiet=False):
         Log.WriteLog(message)
-        if Log.quiet:
+        if Log.quiet and not bypassQuiet:
             return
         Log.Show("", message, color)

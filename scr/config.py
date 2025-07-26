@@ -1,32 +1,43 @@
 import commands.commands as cmds
+from abc import ABC
 
-#example
-# class Name_of_the_command: #note: only first letter should be capital
-#     #if your command has options#
+NAME = "Py-Shield"
+AUTHOR = "ByteCorum"
+URL = "https://github.com/ByteCorum/Py-Shield"
+VERSION = "v3.0.0.0"
+DESCRIPTION = "Tool/Library for Python used to obfuscate and protect your code from decompilation, reverse engineering, etc. Also, can prevent detections by antiviruses."
 
+class Command(ABC):
+    exclusiveOptions: list
+    requiredOptions: list
+    options: dict
+
+    handler: callable
+    help: str
+
+# class Name_of_the_command(Command): #note: only first letter should be capital
+#
+#     #May be left not initialized if your command has no options#
 #     exclusiveOptions = [["--install","--uninstall"], ["--up","--down"]] #groups of options that can't be used together
 #     requiredOptions = ["entrypoint", [""]] #options and groups(any option from a group is required) that are required
-
+#
 #     options = { #all the options that your command has. note: don't write help here, it's hendeled elsewhere
 #         #General Options
 #         "--quiet": False,
 #         "--log": "",
 #         "--no-color ": False,
 #         "--no-input": False,
-    
+#    
 #         #Your Options
-#         "--option1": False
+#         "--option1": False,
 #         "entrypoint": "" #only 1 fixed option name used to store program entrypoint file path
 #     }    
-#     ############################
-
-#     #Should be allways initialized#
-
+#     
+#     #Should be always initialized#
 #     handler = None #command handler that will be called when the command is executed
 #     help = f'''I\'ll help u''' #help message for the command
-#     ###############################
 
-class Obfuscate:
+class Obfuscate(Command):
     exclusiveOptions = []
     requiredOptions = ["entrypoint", ["--hashdata", "--fernet", "--aes", "--rsa", "--base64", "--recursive"]]
     options = {
@@ -78,7 +89,7 @@ Options:
   --follow-imports  -> add all imports to the protected script.
 '''
 
-class Obfuscatelegacy:
+class Obfuscatelegacy(Command):
     exclusiveOptions = []
     requiredOptions = ["--loops", "--mode", ["--files" "--dirs"]]
     options = {
@@ -119,7 +130,7 @@ Options:
   --output <path>   -> output dir.
 '''
 
-class Dependencies:
+class Dependencies(Command):
     exclusiveOptions = [["--show", "--install", "--uninstall", "--update"]]
     requiredOptions = [["--show", "--install", "--uninstall", "--update"]]
 
@@ -158,12 +169,13 @@ Options:
   --update`         -> update all dependencies of the program
 '''
 
-class Info:
+class Info(Command):
     exclusiveOptions = [["--all", "--version", "--url", "--description"]]
     requiredOptions = [["--all", "--version", "--url", "--description"]]
 
     options = {
         "--log": "",
+        "--no-color ": False,
         "--all": False,
         "--version": False,
         "--url": False,
@@ -184,6 +196,7 @@ Note:
 Options:
   --help            -> show help for commands.
   --log <path>      -> write all logs to a file.
+  --no-color        -> suppress colored output.
 
   --all`            -> show all information about the program.
   --version`        -> show version of the program.
@@ -192,7 +205,11 @@ Options:
 
 '''
 
-class Help:
+class Help(Command):
+    exclusiveOptions = None
+    requiredOptions = None
+    options = None
+
     handler = cmds.Help
 
     help = f'''

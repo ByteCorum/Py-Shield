@@ -2,7 +2,7 @@ import config as cfg
 from utils.logger import Log
 
 class OptionsParser:
-    def __init__(self, argv, command):
+    def __init__(self, argv, command: cfg.Command):
         self.argv = argv
         self.argc = len(self.argv)
         self.command = command
@@ -12,7 +12,7 @@ class OptionsParser:
         if "--help" in self.argv:
             cfg.Help.handler(self.command)
             if self.argc > 1:
-                Log.Warning("--help found, other options ignored")
+                Log.Warning("--help found, other options ignored.")
             self.ended = True
             return
 
@@ -28,14 +28,14 @@ class OptionsParser:
                 continue
 
             if option not in self.command.options:
-                raise Exception(f"invalid option: \"{option}\"")
+                raise Exception(f"invalid option: \"{option}\".")
             
             if type(self.command.options[option]) == bool:
                 self.command.options[option] = True
 
             else:
                 if i+1 >= self.argc or self.argv[i+1].find("--") != -1:
-                    raise Exception(f"invalid \"{option}\" value")
+                    raise Exception(f"invalid \"{option}\" value.")
                 
                 value = self.argv[i+1]
 
@@ -50,7 +50,7 @@ class OptionsParser:
                         self.command.options[option] = value.split(";")
 
                     case _:
-                        raise Exception(f"unsupported \"{option}\" type")
+                        raise Exception(f"unsupported \"{option}\" type.")
                 skipNext = True
     
     def Validate(self):
@@ -64,11 +64,11 @@ class OptionsParser:
                         break
 
                 if not inited:
-                    raise Exception(f"at least one of this options required: \"{", ".join(option)}\"")
+                    raise Exception(f"at least one of this options required: \"{", ".join(option)}\".")
 
             else:
                 if not OptionsParser.CheckOptionValue(self.command.options[option]):
-                    raise Exception(f"missing required option: \"{option}\"")
+                    raise Exception(f"missing required option: \"{option}\".")
                 
         for group in self.command.exclusiveOptions:
             state = []# state of option 0(off), 1(on)
@@ -76,7 +76,7 @@ class OptionsParser:
                 state.append(OptionsParser.CheckOptionValue(self.command.options[option]))
             
             if sum(state) > 1:
-                raise Exception(f"some options can't be used together: \"{", ".join(group)}\"")
+                raise Exception(f"some options can't be used together: \"{", ".join(group)}\".")
                  
     @staticmethod
     def CheckOptionValue(option) -> bool:
@@ -94,7 +94,7 @@ class OptionsParser:
                 if option == []: return False
     
             case _:
-                raise Exception(f"unsupported \"{option}\" type")
+                raise Exception(f"unsupported \"{option}\" type.")
             
         return True
 

@@ -2,24 +2,30 @@ from utils.logger import Log
 from utils.optionsParser import OptionsParser
 import config as cfg
 from sys import argv, exit
+from inspect import isclass, isabstract
 
 class PyShield:
     def __init__(self):
         self.command = None
         self.commandName = ""
+        self.noOptions = False
         self.ParseArgs()
         self.SetGlobalVars()
         self.RunCommand()
 
     def ParseArgs(self):
-        commands = [cmd.lower() for cmd in dir(cfg) if isinstance(getattr(cfg, cmd), type.__class__)]
+        commands = []
+        for cmdName in dir(cfg):
+            cmd = getattr(cfg, cmdName)
+            if isclass(cmd) and not isabstract(cmd) and issubclass(cmd, cfg.Command) and cmd.__name__ != 'Command':
+                commands.append(cmdName.lower())
 
         try:
             if len(argv) < 2:
-                raise Exception("missing command name")
+                raise Exception("missing command name.")
 
             if argv[1] not in commands:
-                raise Exception(f"invalid command name: \"{argv[1]}\"")
+                raise Exception(f"invalid command name: \"{argv[1]}\".")
         
         except Exception as error:
             cfg.Help.handler()
@@ -27,8 +33,9 @@ class PyShield:
         
         self.commandName = argv[1]
         try:
-            self.command = getattr(cfg, self.commandName.title())
-            if not hasattr(self.command, "options"):
+            self.command: cfg.Command = getattr(cfg, self.commandName.title())
+            if not self.command.options:
+                self.noOptions = True
                 return
 
             parser = OptionsParser(argv[2:], self.command)
@@ -43,6 +50,9 @@ class PyShield:
             Log.Fail(f"Options parsing failed: {error}", True)
     
     def SetGlobalVars(self):
+        if self.noOptions:
+            return
+
         if "--log" in self.command.options:
             Log.logFile = self.command.options["--log"]
         
@@ -56,6 +66,7 @@ class PyShield:
             Log.noInput = self.command.options["--no-input"]
 
     def RunCommand(self):
+        Log.Info(f"{cfg.NAME} {cfg.VERSION}", True)
         try:
             self.command.handler()
         except Exception as error:

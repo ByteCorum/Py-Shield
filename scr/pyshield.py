@@ -1,8 +1,9 @@
-from utils.logger import Log
-from utils.optionsParser import OptionsParser
-import config as cfg
 from sys import argv, exit
 from inspect import isclass, isabstract
+from utils.optionsParser import OptionsParser
+from utils.logger import Log
+import config as cfg
+
 
 class PyShield:
     def __init__(self):

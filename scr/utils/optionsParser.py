@@ -1,8 +1,8 @@
-import config as cfg
 from utils.logger import Log
+from config import Help, Command
 
 class OptionsParser:
-    def __init__(self, argv, command: cfg.Command):
+    def __init__(self, argv, command: Command):
         self.argv = argv
         self.argc = len(self.argv)
         self.command = command
@@ -10,7 +10,7 @@ class OptionsParser:
 
     def Parse(self):
         if "--help" in self.argv:
-            cfg.Help.handler(self.command)
+            Help.handler(self.command)
             if self.argc > 1:
                 Log.Warning("--help found, other options ignored.")
             self.ended = True

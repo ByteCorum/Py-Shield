@@ -1,5 +1,5 @@
-from sys import exit
 from colorama import Fore
+from sys import exit
 
 class Log:
     logFile = ""

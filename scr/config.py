@@ -1,5 +1,5 @@
-import commands.commands as cmds
 from abc import ABC
+from commands.commands import HelpHandler, InfoHandler, DependenciesHandler
 
 NAME = "Py-Shield"
 AUTHOR = "ByteCorum"
@@ -145,7 +145,7 @@ class Dependencies(Command):
         "--update": False,
     }
 
-    handler = cmds.Dependencies
+    handler = DependenciesHandler
 
     help = f'''
 Usage:
@@ -183,7 +183,7 @@ class Info(Command):
         "--description": False,
     }
 
-    handler = cmds.Info
+    handler = InfoHandler
 
     help = f'''
 Usage:
@@ -212,7 +212,7 @@ class Help(Command):
     requiredOptions = None
     options = None
 
-    handler = cmds.Help
+    handler = HelpHandler
 
     help = f'''
 Usage:

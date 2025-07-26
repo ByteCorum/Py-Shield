@@ -1,7 +1,13 @@
-from commands.basic.info import InfoHandler
-from commands.basic.help import HelpHandler
-from commands.basic.dependencies import DependenciesHandler
 from config import Command
+
+import commands.basic as basic
+from basic.dependencies import DependenciesHandler
+from basic.help import HelpHandler
+from basic.info import InfoHandler
+
+import commands.obfuscation as obfuscation
+from obfuscation.obfuscate import ObfuscateHandler
+from obfuscation.obfuscatelegacy import ObfuscateLegacyHandler
 
 # class Name_of_the_command(Command): #note: only first letter should be capital
 #
@@ -46,7 +52,7 @@ class Obfuscate(Command):
         "entrypoint": ""
     }
 
-    handler = None
+    handler = ObfuscateHandler
 
     help = f'''
 Usage:
@@ -91,7 +97,7 @@ class Obfuscatelegacy(Command):
         "--output": ""
     }
 
-    handler = None
+    handler = ObfuscateLegacyHandler
 
     help = f'''
 Usage:

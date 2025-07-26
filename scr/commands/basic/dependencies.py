@@ -1,5 +1,5 @@
 from os import system
-from utils.logger import Log, Fore
+from utils.logger import Log
 from config import Command
 
 

@@ -1,8 +1,5 @@
 from utils.logger import Log
-from config import Help, Command
+from config import Command
 
-def HelpHandler(command: Command = None):
-    if not command:
-        Log.Custom(Help.help)
-    else:
-        Log.Custom(command.help)
+def HelpHandler(command: Command):
+    Log.Custom(command.help)

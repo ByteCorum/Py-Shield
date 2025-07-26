@@ -1,7 +1,7 @@
 from utils.logger import Log, Fore
-from config import Dependencies
+from config import Command
 
 
-def DependenciesHandler():
-    if Dependencies.options["--all"]:
+def DependenciesHandler(this: Command):
+    if this.options["--all"]:
         Log.Custom(f"")

@@ -1,5 +1,6 @@
 from utils.logger import Log
-from config import Help, Command
+from config import Command
+from commands.commands import Help
 
 class OptionsParser:
     def __init__(self, argv, command: Command):

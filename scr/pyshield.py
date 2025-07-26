@@ -2,7 +2,8 @@ from sys import argv, exit
 from inspect import isclass, isabstract
 from utils.optionsParser import OptionsParser
 from utils.logger import Log
-import config as cfg
+from config import Command, NAME
+import commands.commands as cmds
 
 
 class PyShield:
@@ -16,9 +17,9 @@ class PyShield:
 
     def ParseArgs(self):
         commands = []
-        for cmdName in dir(cfg):
-            cmd = getattr(cfg, cmdName)
-            if isclass(cmd) and not isabstract(cmd) and issubclass(cmd, cfg.Command) and cmd.__name__ != 'Command':
+        for cmdName in dir(cmds):
+            cmd = getattr(cmds, cmdName)
+            if isclass(cmd) and not isabstract(cmd) and issubclass(cmd, Command) and cmd.__name__ != 'Command':
                 commands.append(cmdName.lower())
 
         try:
@@ -29,12 +30,12 @@ class PyShield:
                 raise Exception(f"invalid command name: \"{argv[1]}\".")
         
         except Exception as error:
-            cfg.Help.handler()
+            cmds.Help.handler(cmds.Help)
             Log.Fail("Command parsing failed: "+str(error), True)
         
         self.commandName = argv[1]
         try:
-            self.command: cfg.Command = getattr(cfg, self.commandName.title())
+            self.command: Command = getattr(cmds, self.commandName.title())
             if not self.command.options:
                 self.noOptions = True
                 return
@@ -67,8 +68,8 @@ class PyShield:
             Log.noInput = self.command.options["--no-input"]
 
     def RunCommand(self):
-        Log.Info(f"{cfg.NAME}", True)
+        Log.Info(f"{NAME}", True)
         try:
-            self.command.handler()
+            self.command.handler(self.command)
         except Exception as error:
             Log.Fail(f"{self.commandName} failed: {error}", True)

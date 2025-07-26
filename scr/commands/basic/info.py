@@ -1,15 +1,15 @@
 from utils.logger import Log, Fore
-from config import Info, NAME, VERSION, AUTHOR, URL, DESCRIPTION
+from config import Command, NAME, VERSION, AUTHOR, URL, DESCRIPTION
 
-def InfoHandler():
-    if Info.options["--all"]:
+def InfoHandler(this: Command):
+    if this.options["--all"]:
         Log.Custom(f"\n{NAME} version {VERSION}\nby {AUTHOR}\n{DESCRIPTION}\nRepo: {Fore.BLUE if Log.colored else ""}{URL}{Fore.RESET}")
 
-    elif Info.options["--version"]:
+    elif this.options["--version"]:
         Log.Custom(f"\n{NAME} version {VERSION}")
 
-    elif Info.options["--url"]:
+    elif this.options["--url"]:
         Log.Custom(f"\nRepo: {Fore.BLUE if Log.colored else ""}{URL}{Fore.RESET}")
 
-    elif Info.options["--description"]:
+    elif this.options["--description"]:
         Log.Custom(f"\n{DESCRIPTION}")

@@ -31,7 +31,7 @@ from commands.obfuscation.obfuscatelegacy import ObfuscationLegacy
 
 class Obfuscate(Command):
     exclusiveOptions = []
-    requiredOptions = ["entrypoint", ["--hashdata", "--fernet", "--aes", "--rsa", "--base64", "--recursive"]]
+    requiredOptions = ["entrypoint", ["--hashdata", "--fernet", "--aes", "--chacha", "--salsa" "--base64", "--recursive"]]
     options = {
         "--quiet": False,
         "--log": "",
@@ -41,7 +41,8 @@ class Obfuscate(Command):
         "--hashdata": False,
         "--fernet": False,
         "--aes": False,
-        "--rsa": False,
+        "--chacha": False,
+        "--salsa": False,
         "--base64": False,
         "--recursive": 0,
         "--dirs": [],
@@ -73,9 +74,10 @@ Options:
   --hashdata        -> convert all strings and var names into hash.
   --fernet          -> obfuscation and encryption using fernet.
   --aes             -> obfuscation and encryption using aes256.
-  --rsa             -> obfuscation and encryption using rsa.
-  --base64          -> obfuscation and encryption using base64
-  --recursive <num> -> recursive obfuscation, best to hide the program from AVs.
+  --chacha          -> obfuscation and encryption using chacha20.
+  --salsa           -> obfuscation and encryption using salsa20.
+  --base64          -> obfuscation and encryption using base64.
+  --recursive <num> -> not strong but good if u need to hide ur prog from AVs.
   --dirs <path>     -> obfuscate all files in dir.
   --files <path>    -> files for obfuscation.
   --output <path>   -> output dir.

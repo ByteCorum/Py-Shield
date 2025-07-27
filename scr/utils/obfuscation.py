@@ -1,13 +1,16 @@
 from random import choice, randint
 from string import ascii_letters, digits, punctuation
-from utils.cryptoAlgos import FernetAlgos, AesAlgos, RsaAlgos, compress, b64encode
+from utils.crypto import FernetCipher, AesCipher, ChaCha20Cipher, Salsa20Cipher, compress, b64encode
+from ast import parse, walk, Constant
+from hashlib import sha256
 
 class MainObfuscation:
-    def __init__(self, hashdata: bool, fernet: bool, aes: bool, rsa: bool, base64: bool, recursive: int) -> None:
+    def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int) -> None:
         self.hashdata = hashdata
         self.fernet = fernet
         self.aes = aes
-        self.rsa = rsa
+        self.chacha20 = chacha20
+        self.salsa20 = salsa20
         self.base64 = base64
         self.recursive = recursive
         if self.recursive < 0:
@@ -19,16 +22,71 @@ class MainObfuscation:
         self.number = randint(10000000,99999999)
 
         if self.hashdata:
-            self.hashedStrings = []
+            self.hashedVariables = []
         if self.fernet:
-            self.fernetKey = FernetAlgos.GenKey()
+            self.fernetKey = FernetCipher.GenKey()
         if self.aes:
-            self.aesKey = AesAlgos.GenKey(256)
-        if self.rsa:
-            self.privateKey, self.publicKey = RsaAlgos.GenKeyPair()
+            self.aesKey = AesCipher.GenKey(256)
+        if self.chacha20:
+            self.chacha20Key = ChaCha20Cipher.GenKey()
+        if self.salsa20:
+            self.salsa20Key = Salsa20Cipher.GenKey()
 
     def Obfuscate(self, content: str) -> str:
-        ...
+        if self.hashdata:
+            content = self.HashVariables(content)
+
+        content = content.encode('utf-8')
+        content = compress(content)
+        content = content[::-1]
+        if self.base64:
+            content = b64encode(content)
+            content = compress(content)
+
+        if self.fernet:
+            content = FernetCipher.Encrypt(self.fernetKey, content)
+            content = compress(content)
+
+        if self.aes:
+            content = AesCipher.Encrypt(self.aesKey, content)
+            content = compress(content)
+
+        if self.chacha20:
+            content = ChaCha20Cipher.Encrypt(self.chacha20Key, content)
+            content = compress(content)
+
+        if self.salsa20:
+            content = Salsa20Cipher.Encrypt(self.salsa20Key, content)
+            content = compress(content)
+
+        for i in range(self.recursive):
+            content = b64encode(content)
+            content = content[::-1]
+            content = compress(content)
+
+        content = content[::-1]
+        if self.base64:
+            content = b64encode(content)
+            content = compress(content)
+
+        return content
+
+    def HashVariables(self, content: str) -> str:
+        tree = parse(content)
+        for node in walk(tree):
+            if isinstance(node, Constant) and isinstance(node.value, str):
+                string = node.value
+
+                if len(string) > 1 and (any(char in ascii_letters for char in string) or any(char in digits for char in string)):
+                    hashstr = compress(string.encode('utf-8'))
+                    hashstr = hashstr[::-1]
+                    hashstr = sha256(hashstr).hexdigest()
+
+                    if [hashstr,string] not in self.hashedVariables:
+                        self.hashedVariables.append([hashstr,string])
+                    content = content.replace(string, hashstr,1)
+
+        return content
 
 
 class LegacyObfuscation:
@@ -78,8 +136,8 @@ class LegacyObfuscation:
         enccontent = enccontent[::-1]
         enccontent = compress(enccontent)
 
-        key = FernetAlgos.GenKey()
-        enccontent = FernetAlgos.Encrypt(key,enccontent)+self.separator.encode("utf-8")+b64encode(key)
+        key = FernetCipher.GenKey()
+        enccontent = FernetCipher.Encrypt(key,enccontent)+self.separator.encode("utf-8")+b64encode(key)
 
         enccontent = enccontent[::-1]
         enccontent = compress(enccontent)
@@ -91,8 +149,8 @@ class LegacyObfuscation:
         content = compress(content)
         content = content[::-1]
 
-        key = FernetAlgos.GenKey()
-        enccontent = FernetAlgos.Encrypt(key, content)+self.separator.encode("utf-8")+b64encode(key)
+        key = FernetCipher.GenKey()
+        enccontent = FernetCipher.Encrypt(key, content)+self.separator.encode("utf-8")+b64encode(key)
 
         enccontent = enccontent[::-1]
         enccontent = compress(enccontent)
@@ -104,8 +162,8 @@ class LegacyObfuscation:
         content = compress(content)
         content = content[::-1]
 
-        key = FernetAlgos.GenKey()
-        enccontent = FernetAlgos.Encrypt(key, content)+self.separator.encode("utf-8")+key
+        key = FernetCipher.GenKey()
+        enccontent = FernetCipher.Encrypt(key, content)+self.separator.encode("utf-8")+key
 
         enccontent = enccontent[::-1]
         enccontent = compress(enccontent)

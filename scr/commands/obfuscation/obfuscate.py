@@ -67,7 +67,7 @@ class Obfuscation:
         if self.this.options["--dirs"]:
             Log.Info(f"Included dirs: {self.this.options["--dirs"]}")
 
-        methods = f"{"hashdata, " if self.this.options["--hashdata"] else ""}{"fernet, " if self.this.options["--fernet"] else ""}{"aes, " if self.this.options["--aes"] else ""}{"rsa, " if self.this.options["--rsa"] else ""}{"base64, " if self.this.options["--base64"] else ""}{f"recursive<{self.this.options["--recursive"]}>, " if self.this.options["--recursive"]>0 else ""}"[:-2]
+        methods = f"{"hashdata, " if self.this.options["--hashdata"] else ""}{"fernet, " if self.this.options["--fernet"] else ""}{"aes, " if self.this.options["--aes"] else ""}{"chacha20, " if self.this.options["--chacha"] else ""}{"salsa20, " if self.this.options["--salsa"] else ""}{"base64, " if self.this.options["--base64"] else ""}{f"recursive<{self.this.options["--recursive"]}>, " if self.this.options["--recursive"]>0 else ""}"[:-2]
         if methods:
             Log.Info(f"Obfuscation methods: {methods}")
 
@@ -80,7 +80,8 @@ class Obfuscation:
         self.obfuscation = MainObfuscation(self.this.options["--hashdata"],
                                            self.this.options["--fernet"],
                                            self.this.options["--aes"],
-                                           self.this.options["--rsa"],
+                                           self.this.options["--chacha"],
+                                           self.this.options["--salsa"],
                                            self.this.options["--base64"],
                                            self.this.options["--recursive"])
 

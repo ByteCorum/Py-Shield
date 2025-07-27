@@ -31,6 +31,9 @@ class OptionsParser:
             if option not in self.command.options:
                 raise Exception(f"invalid option: \"{option}\".")
 
+            if OptionsParser.CheckOptionValue(self.command.options[option]):
+                Log.Warning(f"Value overridden, \"{option}\" have been already defined.")
+
             if type(self.command.options[option]) == bool:
                 self.command.options[option] = True
 

@@ -2,7 +2,8 @@ from os import path, sep, walk, getcwd, makedirs
 from shutil import rmtree
 from utils.logger import Log
 from config import Command
-from utils.langMgr import RemoveComments
+from utils.langMgr import RemoveComments, GetImports
+from utils.obfuscation import MainObfuscation
 
 class Obfuscation:
     def __init__(self, this: Command):
@@ -76,4 +77,74 @@ class Obfuscation:
         Log.Info(f"output dir: {self.this.options["--output"]}\n")
 
     def ObfuscateFiles(self):
-        ...
+        self.obfuscation = MainObfuscation(self.this.options["--hashdata"],
+                                           self.this.options["--fernet"],
+                                           self.this.options["--aes"],
+                                           self.this.options["--rsa"],
+                                           self.this.options["--base64"],
+                                           self.this.options["--recursive"])
+
+        for file in self.this.options["--files"]:
+            with open(file, "r", encoding="utf-8") as pyFile:
+                context = pyFile.read()
+
+            filepath, filename = path.split(file)
+            if filepath:
+                filepath = path.relpath(filepath, self.workingDir)
+
+            context = RemoveComments(context)
+            self.FollowImports(context)
+
+            context = self.obfuscation.Obfuscate(context)
+            # context = Obfuscator.Wrap(context)
+
+            #self.SaveFile(filename, filepath, context)
+
+        for dir in self.this.options["--dirs"]:
+            for dirpath, dirnames, filenames in walk(dir):
+                for filename in filenames:
+
+                    if filename.endswith(".py"):
+                        with open(dirpath+sep+filename, "r", encoding="utf-8") as file:
+                            context = file.read()
+                        dirpath = path.relpath(dirpath, self.workingDir)
+
+                        context = RemoveComments(context)
+                        self.FollowImports(context)
+
+                        context = self.obfuscation.Obfuscate(context)
+                        # context = Obfuscator.Wrap(context)
+
+                        #self.SaveFile(filename , dirpath, context)
+
+        with open(self.entryPoint, "r", encoding="utf-8") as pyFile:
+            context = pyFile.read()
+
+        filepath, filename = path.split(self.entryPoint)
+        if filepath:
+            filepath = path.relpath(filepath, self.workingDir)
+
+        context = RemoveComments(context)
+        self.FollowImports(context)
+
+        context = self.obfuscation.Obfuscate(context)
+        # context = Obfuscator.Wrap(context)
+
+        #self.SaveFile(filename, filepath, context, entrypoint = True)
+
+    def SaveFile(self, filename, filepath, content, entrypoint = False):
+        filepath = self.this.options["--output"]+sep+filepath
+        makedirs(filepath, exist_ok=True)
+
+        with open(filepath+sep+filename, "w", encoding="utf-8") as file:
+            file.write(content)
+
+        Log.Info(f"{filename} saved in {filepath[:-1]}")
+
+    def FollowImports(self, content):
+        if self.this.options["--follow-imports"]:
+            modules = GetImports(content)
+
+            for module in modules:
+                if not module in self.imports:
+                    self.imports.append(module)

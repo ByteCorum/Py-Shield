@@ -2,7 +2,7 @@ from os import path, sep, walk, getcwd, makedirs
 from shutil import rmtree
 from utils.logger import Log
 from config import Command
-from utils.cryptoAlgos import LegacyObfuscation
+from utils.obfuscation import LegacyObfuscation
 from utils.langMgr import RemoveComments
 
 class ObfuscationLegacy:
@@ -77,9 +77,9 @@ class ObfuscationLegacy:
 
             context = RemoveComments(context)
 
-            Obfuscator = LegacyObfuscation(self.this.options["--mode"], self.this.options["--loops"], LegacyObfuscation.GenSeperator(12))
-            context = Obfuscator.Encrypt(context)
-            context = Obfuscator.Wrap(context)
+            obfuscator = LegacyObfuscation(self.this.options["--mode"], self.this.options["--loops"], LegacyObfuscation.GenSeperator(12))
+            context = obfuscator.Encrypt(context)
+            context = obfuscator.Wrap(context)
 
             self.SaveFile(filename, filepath, context)
 
@@ -94,9 +94,9 @@ class ObfuscationLegacy:
 
                         context = RemoveComments(context)
 
-                        Obfuscator = LegacyObfuscation(self.this.options["--mode"], self.this.options["--loops"], LegacyObfuscation.GenSeperator(12))
-                        context = Obfuscator.Encrypt(context)
-                        context = Obfuscator.Wrap(context)
+                        obfuscator = LegacyObfuscation(self.this.options["--mode"], self.this.options["--loops"], LegacyObfuscation.GenSeperator(12))
+                        context = obfuscator.Encrypt(context)
+                        context = obfuscator.Wrap(context)
 
                         self.SaveFile(filename , dirpath, context)
 

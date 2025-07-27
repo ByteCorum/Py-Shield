@@ -3,6 +3,7 @@ from string import ascii_letters, digits, punctuation
 from utils.crypto import FernetCipher, AesCipher, ChaCha20Cipher, Salsa20Cipher, compress, b64encode
 from ast import parse, walk, Constant
 from hashlib import sha256
+from config import NAME, VERSION
 
 class MainObfuscation:
     def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int) -> None:
@@ -32,7 +33,7 @@ class MainObfuscation:
         if self.salsa20:
             self.salsa20Key = Salsa20Cipher.GenKey()
 
-    def Obfuscate(self, content: str) -> str:
+    def Obfuscate(self, content: str) -> bytes:
         if self.hashdata:
             content = self.HashVariables(content)
 
@@ -85,6 +86,13 @@ class MainObfuscation:
                     if [hashstr,string] not in self.hashedVariables:
                         self.hashedVariables.append([hashstr,string])
                     content = content.replace(string, hashstr,1)
+
+        return content
+
+    def Wrap(self, content: bytes) -> str:
+        content = f'''#Obfuscated by {NAME} {VERSION}
+from PyShield.script_{self.number} import PyShield
+exec(PyShield(__file__,{content})._)'''
 
         return content
 

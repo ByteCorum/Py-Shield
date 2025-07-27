@@ -97,9 +97,9 @@ class Obfuscation:
             self.FollowImports(context)
 
             context = self.obfuscation.Obfuscate(context)
-            # context = Obfuscator.Wrap(context)
+            context = self.obfuscation.Wrap(context)
 
-            #self.SaveFile(filename, filepath, context)
+            self.SaveFile(filename, filepath, context)
 
         for dir in self.this.options["--dirs"]:
             for dirpath, dirnames, filenames in walk(dir):
@@ -114,9 +114,9 @@ class Obfuscation:
                         self.FollowImports(context)
 
                         context = self.obfuscation.Obfuscate(context)
-                        # context = Obfuscator.Wrap(context)
+                        context = self.obfuscation.Wrap(context)
 
-                        #self.SaveFile(filename , dirpath, context)
+                        self.SaveFile(filename , dirpath, context)
 
         with open(self.entryPoint, "r", encoding="utf-8") as pyFile:
             context = pyFile.read()
@@ -129,15 +129,22 @@ class Obfuscation:
         self.FollowImports(context)
 
         context = self.obfuscation.Obfuscate(context)
-        # context = Obfuscator.Wrap(context)
+        context = self.obfuscation.Wrap(context)
 
-        #self.SaveFile(filename, filepath, context, entrypoint = True)
+        self.SaveFile(filename, filepath, context, entrypoint = True)
 
     def SaveFile(self, filename, filepath, content, entrypoint = False):
+        if entrypoint:
+            imports = ""
+            for module in self.imports:
+                imp+=f"import {module}\n"
+
         filepath = self.this.options["--output"]+sep+filepath
         makedirs(filepath, exist_ok=True)
 
         with open(filepath+sep+filename, "w", encoding="utf-8") as file:
+            if entrypoint:
+                file.write(imports)
             file.write(content)
 
         Log.Info(f"{filename} saved in {filepath[:-1]}")

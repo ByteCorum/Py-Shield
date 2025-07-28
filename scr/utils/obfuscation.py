@@ -1,10 +1,12 @@
 from random import choice, randint
 from string import ascii_letters, digits, punctuation
 from utils.crypto import FernetCipher, AesCipher, ChaCha20Cipher, Salsa20Cipher, compress, b64encode
-from ast import parse, walk, Constant
+import ast
 from hashlib import sha256
-from os import makedirs
-from config import NAME, VERSION
+from os import makedirs, getcwd, chdir, remove, rename, walk
+from shutil import rmtree
+from subprocess import run, PIPE, DEVNULL
+from config import NAME, VERSION, AUTHOR
 from utils.logger import Log
 
 class MainObfuscation:
@@ -78,9 +80,9 @@ class MainObfuscation:
         return content
 
     def HashVariables(self, content: str) -> str:
-        tree = parse(content)
-        for node in walk(tree):
-            if isinstance(node, Constant) and isinstance(node.value, str):
+        tree = ast.parse(content)
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str):
                 string = node.value
 
                 if len(string) > 1 and (any(char in ascii_letters for char in string) or any(char in digits for char in string)):
@@ -234,6 +236,48 @@ class PyShield:
             file.write(context)
 
         Log.Info(f"Executor script_{self.number}.py saved in {outputDir}")
+        self.AssembleExecutor(outputDir)
+
+    def AssembleExecutor(self, dir: str):
+        code = f'''from distutils.core import setup
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
+ext_modules = [
+    Extension("script_{self.number}",  ["script_{self.number}.py"]),
+]
+setup(
+    name = 'PyShield',
+    version='{VERSION}',
+    author='{AUTHOR}',
+    cmdclass = {{'build_ext': build_ext}},
+    ext_modules = ext_modules
+)
+'''
+
+        with open(f"{dir}\\assembler.py", "w", encoding="utf-8") as file:
+            file.write(code)
+
+        curPath = getcwd()
+        chdir(dir)
+        result = run(["python", "assembler.py", "build_ext", "--inplace"], stdout=Log.logFile if Log.logFile else DEVNULL, stderr=PIPE, text=True)
+        if result.stderr:
+            Log.Fail(result.stderr.strip(), True)
+
+        chdir(curPath)
+        rmtree(f"{dir}\\build",ignore_errors=True)
+        try:
+            remove(f"{dir}\\assembler.py")
+            remove(f"{dir}\\script_{self.number}.py")
+            remove(f"{dir}\\script_{self.number}.c")
+        except:
+            pass
+
+        for dirpath, dirnames, filenames in walk(dir):
+            for filename in filenames:
+                if filename.endswith(".pyd"):
+                    rename(dirpath+"\\"+filename, f'{dirpath}\\script_{self.number}.pyd')
+
+        Log.Info(f"Executor script_{self.number}.pyd assembled in {dir}")
 
 
 class LegacyObfuscation:

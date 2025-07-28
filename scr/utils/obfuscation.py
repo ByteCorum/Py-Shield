@@ -100,6 +100,9 @@ exec(PyShield(__file__,{content})._)'''
         return content
 
     def ProtectFile(self, filepath, filename):
+        if self.noProtect:
+            return
+
         with open(f"{filepath}\\{filename}", "rb") as file:
             fileHash = sha256(file.read()).hexdigest()
             if [filename, fileHash] not in self.files:

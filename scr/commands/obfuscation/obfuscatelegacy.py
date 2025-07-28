@@ -70,6 +70,9 @@ class ObfuscationLegacy:
         for file in self.this.options["--files"]:
             with open(file, "r", encoding="utf-8") as pyFile:
                 context = pyFile.read()
+            if not context:
+                Log.Warning(f"File {file} is empty")
+                continue
 
             filepath, filename = path.split(file)
             if filepath:
@@ -90,6 +93,10 @@ class ObfuscationLegacy:
                     if filename.endswith(".py"):
                         with open(dirpath+sep+filename, "r", encoding="utf-8") as file:
                             context = file.read()
+                        if not context:
+                            Log.Warning(f"Empty file {filename} in dir {dirpath}")
+                            continue
+
                         dirpath = path.relpath(dirpath, self.workingDir)
 
                         context = RemoveComments(context)

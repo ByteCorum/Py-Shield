@@ -3,7 +3,9 @@ from string import ascii_letters, digits, punctuation
 from utils.crypto import FernetCipher, AesCipher, ChaCha20Cipher, Salsa20Cipher, compress, b64encode
 from ast import parse, walk, Constant
 from hashlib import sha256
+from os import makedirs
 from config import NAME, VERSION
+from utils.logger import Log
 
 class MainObfuscation:
     def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int, noProtect: bool) -> None:
@@ -82,12 +84,11 @@ class MainObfuscation:
                 string = node.value
 
                 if len(string) > 1 and (any(char in ascii_letters for char in string) or any(char in digits for char in string)):
-                    hashstr = compress(string.encode('utf-8'))
-                    hashstr = hashstr[::-1]
-                    hashstr = sha256(hashstr).hexdigest()
+                    hashstr = sha256(string.encode('utf-8')).hexdigest()
+                    compressedString = compress(string.encode('utf-8'))
 
-                    if [hashstr,string] not in self.hashedVariables:
-                        self.hashedVariables.append([hashstr,string])
+                    if [hashstr,compressedString] not in self.hashedVariables:
+                        self.hashedVariables.append([hashstr,compressedString])
                     content = content.replace(string, hashstr,1)
 
         return content
@@ -95,22 +96,144 @@ class MainObfuscation:
     def Wrap(self, content: bytes) -> str:
         content = f'''#Obfuscated by {NAME} {VERSION}
 from PyShield.script_{self.number} import PyShield
-exec(PyShield(__file__,{content})._)'''
+exec(PyShield({content}, __file__)._)'''
 
         return content
 
-    def ProtectFile(self, filepath, filename):
+    def ProtectFile(self, outputDir, filepath):
         if self.noProtect:
             return
 
-        with open(f"{filepath}\\{filename}", "rb") as file:
+        while filepath.startswith(('\\', '/')):
+            filepath = filepath[1:]
+
+        with open(f"{outputDir}\\{filepath}", "rb") as file:
             fileHash = sha256(file.read()).hexdigest()
-            if [filename, fileHash] not in self.files:
-                self.files.append([filename, fileHash])
+
+            if [filepath, fileHash] not in self.files:
+                self.files.append([filepath, fileHash])
 
     def CreateExecutor(self, outputDir):
-        context = '''
+        secret = sha256(''.join(choice(ascii_letters+digits+punctuation) for _ in range(randint(16,32))).encode("utf-8")).hexdigest()
+        context = f'''
+{'''from hashlib import sha256
+from os import path, getcwd''' if not self.noProtect else ""}
+{"from Crypto.Cipher import ChaCha20" if self.chacha20 else ""}
+{"from Crypto.Cipher import Salsa20" if self.salsa20 else ""}
+{"from cryptography.hazmat.primitives.ciphers.aead import AESGCM" if self.aes else ""}
+{"from cryptography.fernet import Fernet" if self.fernet else ""}
+
+from base64 import b64decode, b64encode
+from zlib import decompress
+from sys import exit
+
+class PyShield:
+    def __init__(self, code, file):
+        try:
+            self.__code{secret} = code
+            self.__file{secret} = file
+            code = None
+            file = None
+
+            {f"self.__CheckHash{secret}()" if not self.noProtect else ""}
+            self.__Decrypt{secret}()
+        except Exception as runTimeError:
+            print("Runtime error occurred, error: " + str(runTimeError))
+            exit(-1)
+
+{f'''    def __CheckHash{secret}(self):
+        try:
+            self.__file{secret} = path.relpath(self.__file{secret}, getcwd())
+
+            with open(self.__file{secret}, 'rb') as file:
+                fileHash = sha256(file.read()).hexdigest()
+
+            for file in {self.files}:
+                if path.samefile(self.__file{secret}, file[0]) and fileHash == file[1]:
+                    self.__file{secret} = None
+                    return
+
+            raise Exception("Invalid file hash")
+        except Exception as runTimeError:
+            print("Runtime error occurred, error: " + str(runTimeError))
+            exit(-1)''' if not self.noProtect else ""}
+
+    def __Decrypt{secret}(self):
+        try:
+            {f"self.__Base64{secret}()" if self.base64 else ""}
+            self.__code{secret} = self.__code{secret}[::-1]
+            {f"self.__Recursive{secret}()" if self.recursive else ""}
+            {f"self.__Salsa{secret}()" if self.salsa20 else ""}
+            {f"self.__ChaCha{secret}()" if self.chacha20 else ""}
+            {f"self.__Aes{secret}()" if self.aes else ""}
+            {f"self.__Fernet{secret}()" if self.fernet else ""}
+            {f"self.__Base64{secret}()" if self.base64 else ""}
+
+            self.__code{secret} = self.__code{secret}[::-1]
+            self.__code{secret} = decompress(self.__code{secret})
+            self.__code{secret} = self.__code{secret}.decode('utf-8')
+
+            {f"self.__ReturnVariables{secret}()" if self.hashdata else ""}
+            self.__code{secret} = b64encode(self.__code{secret}.encode('utf-8'))
+
+        except Exception as runTimeError:
+            print("Runtime error occurred, error: " + str(runTimeError))
+            exit(-1)
+
+    @property
+    def _(self):
+        return compile(b64decode(self.__code{secret}).decode('utf-8'), '<string>', 'exec')
+
+{f'''    def __Recursive{secret}(self):
+        for i in range({self.recursive}):
+            self.__code{secret} = decompress(self.__code{secret})
+            self.__code{secret} = self.__code{secret}[::-1]
+            self.__code{secret} = b64decode(self.__code{secret})''' if self.recursive else ""}
+
+{f'''    def __Salsa{secret}(self):
+        self.__code{secret} = decompress(self.__code{secret})
+        self.__code{secret} = b64decode(self.__code{secret})
+        nonce = self.__code{secret}[:8]
+        self.__code{secret} = self.__code{secret}[8:]
+        self.__code{secret} = Salsa20.new(key={self.salsa20Key}, nonce=nonce).decrypt(self.__code{secret})'''
+        if self.salsa20 else ""}
+
+{f'''    def __ChaCha{secret}(self):
+        self.__code{secret} = decompress(self.__code{secret})
+        self.__code{secret} = b64decode(self.__code{secret})
+        nonce = self.__code{secret}[:8]
+        self.__code{secret} = self.__code{secret}[8:]
+        self.__code{secret} = ChaCha20.new(key={self.chacha20Key}, nonce=nonce).decrypt(self.__code{secret})'''
+        if self.chacha20 else ""}
+
+{f'''    def __Aes{secret}(self):
+        self.__code{secret} = decompress(self.__code{secret})
+        aes = AESGCM({self.aesKey})
+        self.__code{secret} = b64decode(self.__code{secret})
+        nonce = self.__code{secret}[:12]
+        self.__code{secret} = self.__code{secret}[12:]
+        self.__code{secret} = aes.decrypt(nonce, self.__code{secret}, associated_data=None)''' if self.aes else ""}
+
+{f'''    def __Fernet{secret}(self):
+        self.__code{secret} = decompress(self.__code{secret})
+        fernet = Fernet({self.fernetKey})
+        self.__code{secret} = fernet.decrypt(self.__code{secret})''' if self.fernet else ""}
+
+{f'''    def __Base64{secret}(self):
+        self.__code{secret} = decompress(self.__code{secret})
+        self.__code{secret} = b64decode(self.__code{secret})''' if self.base64 else ""}
+
+{f'''    def __ReturnVariables{secret}(self):
+        for raw in {self.hashedVariables}:
+            string = decompress(raw[1]).decode("utf-8")
+            self.__code{secret} = self.__code{secret}.replace(raw[0], string)''' if self.hashdata else ""}
 '''
+        outputDir =f"{outputDir}\\PyShield"
+        makedirs(outputDir)
+        with open(f"{outputDir}\\script_{self.number}.py", "w", encoding="utf-8") as file:
+            file.write(context)
+
+        Log.Info(f"Executor script_{self.number}.py saved in {outputDir}")
 
 
 class LegacyObfuscation:

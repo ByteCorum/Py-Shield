@@ -12,6 +12,7 @@ class Obfuscation:
         self.imports = []
         self.CheckOptions()
         self.ObfuscateFiles()
+        self.obfuscation.CreateExecutor(self.this.options["--output"])
 
     def CheckOptions(self):
         Log.Info("Obfuscation.")
@@ -71,7 +72,7 @@ class Obfuscation:
         if methods:
             Log.Info(f"Obfuscation methods: {methods}")
 
-        options = f"{"follow-imports, " if self.this.options["--follow-imports"] else ""}"[:-2]
+        options = f"{"follow-imports, " if self.this.options["--follow-imports"] else ""}{"no-protect, " if self.this.options["--no-protect"] else ""}"[:-2]
         if options:
             Log.Info(f"Additional options: {options}")
         Log.Info(f"output dir: {self.this.options["--output"]}\n")
@@ -83,7 +84,8 @@ class Obfuscation:
                                            self.this.options["--chacha"],
                                            self.this.options["--salsa"],
                                            self.this.options["--base64"],
-                                           self.this.options["--recursive"])
+                                           self.this.options["--recursive"],
+                                           self.this.options["--no-protect"])
 
         for file in self.this.options["--files"]:
             with open(file, "r", encoding="utf-8") as pyFile:
@@ -100,6 +102,7 @@ class Obfuscation:
             context = self.obfuscation.Wrap(context)
 
             self.SaveFile(filename, filepath, context)
+            self.obfuscation.ProtectFile(self.this.options["--output"]+sep+filepath, filename)
 
         for dir in self.this.options["--dirs"]:
             for dirpath, dirnames, filenames in walk(dir):
@@ -117,6 +120,7 @@ class Obfuscation:
                         context = self.obfuscation.Wrap(context)
 
                         self.SaveFile(filename , dirpath, context)
+                        self.obfuscation.ProtectFile(self.this.options["--output"]+sep+dirpath, filename)
 
         with open(self.entryPoint, "r", encoding="utf-8") as pyFile:
             context = pyFile.read()
@@ -132,6 +136,7 @@ class Obfuscation:
         context = self.obfuscation.Wrap(context)
 
         self.SaveFile(filename, filepath, context, entrypoint = True)
+        self.obfuscation.ProtectFile(self.this.options["--output"]+sep+filepath, filename)
 
     def SaveFile(self, filename, filepath, content, entrypoint = False):
         if entrypoint:

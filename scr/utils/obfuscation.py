@@ -6,13 +6,14 @@ from hashlib import sha256
 from config import NAME, VERSION
 
 class MainObfuscation:
-    def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int) -> None:
+    def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int, noProtect: bool) -> None:
         self.hashdata = hashdata
         self.fernet = fernet
         self.aes = aes
         self.chacha20 = chacha20
         self.salsa20 = salsa20
         self.base64 = base64
+        self.noProtect = noProtect
         self.recursive = recursive
         if self.recursive < 0:
             raise Exception("Invalid recursive value.")
@@ -24,6 +25,8 @@ class MainObfuscation:
 
         if self.hashdata:
             self.hashedVariables = []
+        if not self.noProtect:
+            self.files = []
         if self.fernet:
             self.fernetKey = FernetCipher.GenKey()
         if self.aes:
@@ -95,6 +98,16 @@ from PyShield.script_{self.number} import PyShield
 exec(PyShield(__file__,{content})._)'''
 
         return content
+
+    def ProtectFile(self, filepath, filename):
+        with open(f"{filepath}\\{filename}", "rb") as file:
+            fileHash = sha256(file.read()).hexdigest()
+            if [filename, fileHash] not in self.files:
+                self.files.append([filename, fileHash])
+
+    def CreateExecutor(self, outputDir):
+        context = '''
+'''
 
 
 class LegacyObfuscation:

@@ -45,6 +45,7 @@ class Obfuscate(Command):
         "--salsa": False,
         "--base64": False,
         "--recursive": 0,
+        "--no-protect": False,
         "--dirs": [],
         "--files": [],
         "--output": "",
@@ -78,6 +79,7 @@ Options:
   --salsa           -> obfuscation and encryption using salsa20.
   --base64          -> obfuscation and encryption using base64.
   --recursive <num> -> not strong but good if u need to hide ur prog from AVs.
+  --no-protect      -> disable file modification protection.
   --dirs <path>     -> obfuscate all files in dir.
   --files <path>    -> files for obfuscation.
   --output <path>   -> output dir.

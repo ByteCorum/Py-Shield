@@ -232,13 +232,19 @@ class PyShield:
 '''
         outputDir =f"{outputDir}\\PyShield"
         makedirs(outputDir)
+
+        #? is it right
+        obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
+        context = obfuscator.Encrypt(context)
+        context = obfuscator.Wrap(context)
+
         with open(f"{outputDir}\\script_{self.number}.py", "w", encoding="utf-8") as file:
             file.write(context)
 
         Log.Info(f"Executor script_{self.number}.py saved in {outputDir}")
         self.AssembleExecutor(outputDir)
 
-    def AssembleExecutor(self, dir: str):
+    def AssembleExecutor(self, dir: str): #TODO: improve building script
         code = f'''from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext

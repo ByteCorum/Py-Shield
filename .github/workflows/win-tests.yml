@@ -26,6 +26,7 @@ jobs:
     - name: Build Executable
       working-directory: scr
       run: |
+        dir
         build-win.cmd
 
     - name: Archive Executable

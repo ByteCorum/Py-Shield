@@ -14,7 +14,3 @@ python -m nuitka ^
     --file-description="Program/Library for Python created to protect your code from decompilation and detection by antiviruses" ^
     --copyright="https://github.com/ByteCorum/Py-Shield/blob/main/LICENSE" ^
     main.py
-
-echo.
-echo Build completed successfully!
-pause

@@ -4,6 +4,7 @@ python -m nuitka ^
     --quiet ^
     --follow-imports ^
     --remove-output ^
+    --assume-yes-for-downloads ^
     --onefile ^
     --output-filename=py-shield ^
     --windows-icon-from-ico=../assets/icon.ico ^

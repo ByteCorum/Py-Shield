@@ -5,6 +5,7 @@ python -m nuitka \
     --follow-imports \
     --remove-output \
     --onefile \
+    --assume-yes-for-downloads \
     --output-filename=py-shield \
     --company-name="ByteCorum" \
     --product-name="Py-Shield" \

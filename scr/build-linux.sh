@@ -5,6 +5,7 @@ python -m nuitka \
     --follow-imports \
     --remove-output \
     --onefile \
+    --assume-yes-for-downloads \
     --output-filename=py-shield \
     --linux-icon=../assets/icon.png \
     --company-name="ByteCorum" \

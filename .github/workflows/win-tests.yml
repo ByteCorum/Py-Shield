@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: py-shield-win
-        path: py-shield.exe
+        path: scr/py-shield.exe
 
   win-obfuscation:
     needs: win-build

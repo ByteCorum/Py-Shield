@@ -62,7 +62,7 @@ Example:
   py-shield obfuscate --hashdata --aes --follow-imports main.py
 
 Notes:
-  text|text         -> to add more than one arg to option.
+  text,text         -> to add more than one arg to option.
   main.py           -> the entry point of your program.
 
 Options:
@@ -111,7 +111,7 @@ Example:
 
 Notes:
   *                 -> required option.
-  text|text         -> to add more than one arg to option.
+  text,text         -> to add more than one arg to option.
 
 Options:
   --help            -> show help for commands.

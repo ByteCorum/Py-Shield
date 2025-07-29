@@ -5,8 +5,8 @@ cd "onefile-legacy"
 rmdir /s /q "obfuscated"
 start cmd /c "obfuscate.bat"
 
-echo onefile-global obfuscation test
-cd "../onefile-global"
+echo onefile obfuscation test
+cd "../onefile"
 rmdir /s /q "obfuscated"
 start cmd /c "obfuscate.bat"
 
@@ -15,8 +15,8 @@ cd "../multifile-legacy"
 rmdir /s /q "obfuscated"
 start cmd /c "obfuscate.bat"
 
-echo multifile-global obfuscation test
-cd "../multifile-global"
+echo multifile obfuscation test
+cd "../multifile"
 rmdir /s /q "obfuscated"
 start cmd /c "obfuscate.bat"
 

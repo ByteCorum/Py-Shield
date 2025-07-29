@@ -217,7 +217,7 @@ Example:
 
 Commands:
   obfuscate         -> obfuscate code using advanced techniques.
-  obfuscatelegacy  -> obfuscate code using legacy techniques.
+  obfuscatelegacy   -> obfuscate code using legacy techniques.
   dependencies      -> command to work with dependencies.
   info              -> show general information about the program.
   help              -> show general help.

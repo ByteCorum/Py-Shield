@@ -244,32 +244,41 @@ class PyShield:
         Log.Info(f"Executor script_{self.number}.py saved in {outputDir}")
         self.AssembleExecutor(outputDir)
 
-    def AssembleExecutor(self, dir: str): #TODO: improve building script
-        code = f'''from distutils.core import setup
-from distutils.extension import Extension
-from Cython.Distutils import build_ext
+    def AssembleExecutor(self, dir: str):
+        code = f'''from setuptools import setup, Extension
+from Cython.Build import cythonize
+
 ext_modules = [
-    Extension("script_{self.number}",  ["script_{self.number}.py"]),
+    Extension("script_{self.number}", ["script_{self.number}.py"]),
 ]
+
 setup(
-    name = 'PyShield',
+    name='PyShield',
     version='{VERSION}',
     author='{AUTHOR}',
-    cmdclass = {{'build_ext': build_ext}},
-    ext_modules = ext_modules
+    ext_modules=cythonize(
+        ext_modules,
+        compiler_directives={{
+            'language_level': "3",
+            'binding': False,
+            'embedsignature': False,
+        }}
+    )
 )
-'''
+    '''
 
         with open(f"{dir}\\assembler.py", "w", encoding="utf-8") as file:
             file.write(code)
 
-        curPath = getcwd()
+        cur = getcwd()
         chdir(dir)
-        result = run(["python", "assembler.py", "build_ext", "--inplace"], stdout=Log.logFile if Log.logFile else DEVNULL, stderr=PIPE, text=True)
+        result = run(["python", "assembler.py", "build_ext", "--inplace"],
+                    stdout=Log.logFile if Log.logFile else DEVNULL,
+                    stderr=PIPE, text=True)
         if result.stderr:
             Log.Fail(result.stderr.strip(), True)
 
-        chdir(curPath)
+        chdir(cur)
         rmtree(f"{dir}\\build",ignore_errors=True)
         try:
             remove(f"{dir}\\assembler.py")
@@ -278,13 +287,12 @@ setup(
         except:
             pass
 
-        for dirpath, dirnames, filenames in walk(dir):
+        for dirpath, _, filenames in walk(dir):
             for filename in filenames:
                 if filename.endswith(".pyd"):
                     rename(dirpath+"\\"+filename, f'{dirpath}\\script_{self.number}.pyd')
 
         Log.Info(f"Executor script_{self.number}.pyd assembled in {dir}")
-
 
 class LegacyObfuscation:
     def __init__(self, mode, loops, separator: str):

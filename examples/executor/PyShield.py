@@ -1,3 +1,4 @@
+
 from hashlib import sha256
 from os import path, getcwd
 from Crypto.Cipher import ChaCha20
@@ -9,30 +10,35 @@ from base64 import b64decode, b64encode
 from zlib import decompress
 from sys import exit
 
+_ = exec
+
 class PyShield:
     def __init__(self, code, file):
         try:
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = code
-            self.__fileb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = file
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = code
+            self.__filee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = file
             code = None
             file = None
 
-            self.__CheckHashb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__Decryptb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
+            self.__CheckHashe812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__Decrypte812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
         except Exception as runTimeError:
             print("Runtime error occurred, error: " + str(runTimeError))
             exit(-1)
 
-    def __CheckHashb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        try:
-            self.__fileb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = path.relpath(self.__fileb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4, getcwd())
+    def __dir__(self) -> list[str]:
+        return []
 
-            with open(self.__fileb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4, 'rb') as file:
+    def __CheckHashe812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        try:
+            self.__filee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = path.relpath(self.__filee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196, getcwd())
+
+            with open(self.__filee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196, 'rb') as file:
                 fileHash = sha256(file.read()).hexdigest()
 
-            for file in [['test.py', 'da66eb3a9ee240e3657c2503c738ad645cf2418edd06b0a52cd1bf4a10668747']]:
-                if path.samefile(self.__fileb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4, file[0]) and fileHash == file[1]:
-                    self.__fileb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = None
+            for file in [['test.py', 'dbfe6141f98e4332a375ad88ee1cd27a493d7889f1099420f6c3f3a140c38531']]:
+                if path.samefile(self.__filee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196, file[0]) and fileHash == file[1]:
+                    self.__filee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = None
                     return
 
             raise Exception("Invalid file hash")
@@ -40,23 +46,23 @@ class PyShield:
             print("Runtime error occurred, error: " + str(runTimeError))
             exit(-1)
 
-    def __Decryptb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
+    def __Decrypte812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
         try:
-            self.__Base64b408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[::-1]
-            self.__Recursiveb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__Salsab408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__ChaChab408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__Aesb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__Fernetb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__Base64b408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
+            self.__Base64e812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[::-1]
+            self.__Recursivee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__Salsae812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__ChaChae812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__Aese812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__Fernete812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__Base64e812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
 
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[::-1]
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4.decode('utf-8')
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[::-1]
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196.decode('utf-8')
 
-            self.__ReturnVariablesb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4()
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = b64encode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4.encode('utf-8'))
+            self.__ReturnVariablese812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196()
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = b64encode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196.encode('utf-8'))
 
         except Exception as runTimeError:
             print("Runtime error occurred, error: " + str(runTimeError))
@@ -64,46 +70,46 @@ class PyShield:
 
     @property
     def _(self):
-        return compile(b64decode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4).decode('utf-8'), '<string>', 'exec')
+        return compile(b64decode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196).decode('utf-8'), '<string>', 'exec')
 
-    def __Recursiveb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
+    def __Recursivee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
         for i in range(4):
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[::-1]
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = b64decode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[::-1]
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = b64decode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
 
-    def __Salsab408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = b64decode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        nonce = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[:8]
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[8:]
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = Salsa20.new(key=b'\xde\xccY\xb0\xd5\x93\xf5\xc9\xf9!h\x9eM\xc9\xf2)9\xe5\xe2\xb5d3\xd7`\xf5\xd4K>,F\xe9\x90', nonce=nonce).decrypt(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
+    def __Salsae812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = b64decode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        nonce = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[:8]
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[8:]
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = Salsa20.new(key=b'\x89\xf9\xfe\xa7\xa3\x9eH\xc4}\t\x17\xe2\xcc\xf4\x04\xc0D\xb8^\xa2\x83\x98t\x02\x1a\xc7X\xc7^x\x8cD', nonce=nonce).decrypt(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
 
-    def __ChaChab408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = b64decode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        nonce = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[:8]
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[8:]
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = ChaCha20.new(key=b'S>\x83\xac#Y\x87\xc6\xfc\xd6\x95m\xc3\xb4x\x91x\x9d\xd3z\x06#w\xe7\xe0s\xebd7\xac\xd1@', nonce=nonce).decrypt(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
+    def __ChaChae812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = b64decode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        nonce = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[:8]
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[8:]
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = ChaCha20.new(key=b'\xcb\x80\xbc\xbc\xe6/\xec/cW\xfb\xb4\xdc\xea\x10\x89T\xf4\x1b\xe8n\xf3Yo<(u\x8b\x0b\x0f\xb9\x01', nonce=nonce).decrypt(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
 
-    def __Aesb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        aes = AESGCM(b"\xaa\xa2\xb0R\xfb\xb3,'\x9e\xb2q\xe9_[\xfd\xe7Z^ie\x00\x9e\xabW\x11\x18\x87R\xa4Zzy")
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = b64decode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        nonce = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[:12]
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4[12:]
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = aes.decrypt(nonce, self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4, associated_data=None)
+    def __Aese812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        aes = AESGCM(b'I\xd2g\x16\xf2Q\xc8\x18{G\xfc\x92\x9bJ\xa4\xf6\xaa\x86\x93\x9e\x057\xed\xfcW\xb0\xc1h2g>o')
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = b64decode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        nonce = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[:12]
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196[12:]
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = aes.decrypt(nonce, self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196, associated_data=None)
 
-    def __Fernetb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        fernet = Fernet(b'GsRXAkQd-CbPKV8Qht2_kJ37CbtEdSXMpXsWqNEIYk4=')
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = fernet.decrypt(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
+    def __Fernete812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        fernet = Fernet(b'n0CpWIEXgW1w1ndHL5DTd9lqNEHJghbQTUqeOFNmKeE=')
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = fernet.decrypt(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
 
-    def __Base64b408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = decompress(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
-        self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = b64decode(self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4)
+    def __Base64e812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = decompress(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
+        self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = b64decode(self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196)
 
-    def __ReturnVariablesb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4(self):
-        for raw in [['2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824', b'x\x9c\xcbH\xcd\xc9\xc9\x07\x00\x06,\x02\x15']]:
+    def __ReturnVariablese812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196(self):
+        for raw in [['758fdfe317470e2ceb8e04c64de9d95470bf28a64f23af3439f3c7d181300df1', b'x\x9c\x0b\xa8\xd4\r\xce\xc8L\xcdI\x01\x00\x0f\xe5\x03P']]:
             string = decompress(raw[1]).decode("utf-8")
-            self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4 = self.__codeb408a470d503d60636e8f875a2f3776ae51a9bf9cd0822a9faa1a20846b248d4.replace(raw[0], string)
+            self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196.replace(raw[0], string)

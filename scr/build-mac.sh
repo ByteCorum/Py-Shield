@@ -16,4 +16,4 @@ python -m nuitka \
     main.py
 
 echo "Build completed. Press any key to continue..."
-read -n 1
+read -n 0

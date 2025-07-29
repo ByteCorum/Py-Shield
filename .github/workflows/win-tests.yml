@@ -26,8 +26,7 @@ jobs:
     - name: Build Executable
       working-directory: scr
       run: |
-        dir
-        build-win.cmd
+        .\build-win.cmd
 
     - name: Archive Executable
       uses: actions/upload-artifact@v4

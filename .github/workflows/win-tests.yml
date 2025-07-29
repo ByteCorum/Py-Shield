@@ -24,8 +24,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Build Executable
+      working-directory: scr
       run: |
-        cd "scr/"
         build-win.cmd
 
     - name: Archive Executable

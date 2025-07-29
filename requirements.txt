@@ -3,3 +3,4 @@ pycryptodome
 cython
 nuitka
 colorama
+setuptools

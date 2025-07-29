@@ -4,7 +4,7 @@ from config import Command
 
 
 def DependenciesHandler(this: Command):
-    dependencies = ["cryptography", "pycryptodome", "cython", "nuitka", "colorama"]
+    dependencies = ["cryptography", "pycryptodome", "cython", "nuitka", "colorama", "setuptools"]
 
     if this.options["--show"]:
         string = ""

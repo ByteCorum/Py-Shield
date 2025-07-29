@@ -109,7 +109,7 @@ _(PyShield({content}, __file__)._)'''
         while filepath.startswith(('\\', '/')):
             filepath = filepath[1:]
 
-        with open(f"{outputDir}\\{filepath}", "rb") as file:
+        with open(f"{outputDir}/{filepath}", "rb") as file:
             fileHash = sha256(file.read()).hexdigest()
 
             if [filepath, fileHash] not in self.files:

@@ -1,7 +1,6 @@
 @echo off
 
 python -m nuitka ^
-    --quiet ^
     --follow-imports ^
     --remove-output ^
     --assume-yes-for-downloads ^

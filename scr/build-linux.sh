@@ -1,7 +1,6 @@
 #!/bin/bash
 
 python -m nuitka \
-    --quiet \
     --follow-imports \
     --remove-output \
     --onefile \

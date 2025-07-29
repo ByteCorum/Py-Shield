@@ -235,14 +235,14 @@ class PyShield:
             string = decompress(raw[1]).decode("utf-8")
             self.__code{secret} = self.__code{secret}.replace(raw[0], string)''' if self.hashdata else ""}
 '''
-        outputDir =f"{outputDir}\\PyShield"
+        outputDir =f"{outputDir}/PyShield"
         makedirs(outputDir)
 
         obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
         context = obfuscator.Encrypt(context)
         context = obfuscator.Wrap(context)
 
-        with open(f"{outputDir}\\script_{self.number}.py", "w", encoding="utf-8") as file:
+        with open(f"{outputDir}/script_{self.number}.py", "w", encoding="utf-8") as file:
             file.write(context)
 
         Log.Info(f"Executor script_{self.number}.py saved in {outputDir}")
@@ -271,7 +271,7 @@ setup(
 )
 '''
 
-        with open(f"{dir}\\assembler.py", "w", encoding="utf-8") as file:
+        with open(f"{dir}/assembler.py", "w", encoding="utf-8") as file:
             file.write(code)
 
         cur = getcwd()
@@ -283,18 +283,18 @@ setup(
             Log.Fail(result.stderr.strip(), True)
 
         chdir(cur)
-        rmtree(f"{dir}\\build",ignore_errors=True)
+        rmtree(f"{dir}/build",ignore_errors=True)
         try:
-            remove(f"{dir}\\assembler.py")
-            remove(f"{dir}\\script_{self.number}.py")
-            remove(f"{dir}\\script_{self.number}.c")
+            remove(f"{dir}/assembler.py")
+            remove(f"{dir}/script_{self.number}.py")
+            remove(f"{dir}/script_{self.number}.c")
         except:
             pass
 
         for dirpath, _, filenames in walk(dir):
             for filename in filenames:
                 if filename.endswith(".pyd"):
-                    rename(dirpath+"\\"+filename, f'{dirpath}\\script_{self.number}.pyd')
+                    rename(dirpath+"/"+filename, f'{dirpath}/script_{self.number}.pyd')
 
         Log.Info(f"Executor script_{self.number}.pyd assembled in {dir}")
 

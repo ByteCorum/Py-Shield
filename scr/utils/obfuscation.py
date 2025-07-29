@@ -97,8 +97,8 @@ class MainObfuscation:
 
     def Wrap(self, content: bytes) -> str:
         content = f'''#Obfuscated by {NAME} {VERSION}
-from PyShield.script_{self.number} import PyShield
-exec(PyShield({content}, __file__)._)'''
+from PyShield.script_{self.number} import PyShield, _
+_(PyShield({content}, __file__)._)'''
 
         return content
 
@@ -129,6 +129,8 @@ from base64 import b64decode, b64encode
 from zlib import decompress
 from sys import exit
 
+_ = exec
+
 class PyShield:
     def __init__(self, code, file):
         try:
@@ -142,6 +144,9 @@ class PyShield:
         except Exception as runTimeError:
             print("Runtime error occurred, error: " + str(runTimeError))
             exit(-1)
+
+    def __dir__(self) -> list[str]:
+        return []
 
 {f'''    def __CheckHash{secret}(self):
         try:
@@ -233,7 +238,6 @@ class PyShield:
         outputDir =f"{outputDir}\\PyShield"
         makedirs(outputDir)
 
-        #? is it right
         obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
         context = obfuscator.Encrypt(context)
         context = obfuscator.Wrap(context)
@@ -265,7 +269,7 @@ setup(
         }}
     )
 )
-    '''
+'''
 
         with open(f"{dir}\\assembler.py", "w", encoding="utf-8") as file:
             file.write(code)

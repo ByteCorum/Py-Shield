@@ -149,5 +149,7 @@ cython_debug/
 .idea/
 
 # Other
-test/
 old/
+/scr/.vscode
+/scr/obfuscated
+scr/test.py

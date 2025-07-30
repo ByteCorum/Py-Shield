@@ -1,2 +1,2 @@
-py-shield-legacy --loops 3 --mode 4 --output obfuscated --file main.py;lib.py
+py-shield obfuscatelegacy --no-input --mode 3 --loops 6 --files main.py,lib.py
 pause null

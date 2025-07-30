@@ -1,4 +1,4 @@
-from project import PyShield
+from pyshield import PyShield
 
 if __name__ == "__main__":
     PyShield()

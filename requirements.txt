@@ -2,3 +2,5 @@ cryptography
 pycryptodome
 cython
 nuitka
+colorama
+setuptools

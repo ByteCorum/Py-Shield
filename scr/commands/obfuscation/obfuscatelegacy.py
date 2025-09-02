@@ -5,6 +5,48 @@ from config import Command
 from utils.obfuscation import LegacyObfuscation
 from utils.langMgr import RemoveComments
 
+class Obfuscatelegacy(Command):
+    exclusiveOptions = []
+    requiredOptions = ["--loops", "--mode", ["--files", "--dirs"]]
+    options = {
+        "--quiet": False,
+        "--log": "",
+        "--no-color ": False,
+        "--no-input": False,
+
+        "--loops": 0,
+        "--mode": 0,
+        "--dirs": [],
+        "--files": [],
+        "--output": ""
+    }
+
+    def Handler(self):
+        ObfuscationLegacy(self)
+
+    help = f'''
+Usage:
+  py-shield obfuscatelegacy [options]
+Example:
+  py-shield obfuscatelegacy --loops 3 --mode 2 --file code.py
+
+Notes:
+  *                 -> required option.
+  text,text         -> to add more than one arg to option.
+
+Options:
+  --help            -> show help for commands.
+  --quiet           -> give less output.
+  --log <path>      -> write all logs to a file.
+  --no-color        -> suppress colored output.
+  --no-input        -> disable prompting for input.
+
+  --loops <num>*    -> number of obfuscation loops.
+  --mode <num>*     -> obfuscation mode(1-4) as bigger number as better obfuscation but the output file is larger.
+  --dirs <path>*    -> obfuscate all files in dir(required files or/and dir).
+  --files <path>*   -> files for obfuscation(required files or/and dir).
+  --output <path>   -> output dir.'''
+
 class ObfuscationLegacy:
     def __init__(self, this: Command):
         self.this = this

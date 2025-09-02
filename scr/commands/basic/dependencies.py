@@ -2,24 +2,61 @@ from os import system
 from utils.logger import Log
 from config import Command
 
+class Dependencies(Command):
+    exclusiveOptions = [["--show", "--install", "--uninstall", "--update"]]
+    requiredOptions = [["--show", "--install", "--uninstall", "--update"]]
 
-def DependenciesHandler(this: Command):
-    dependencies = ["cryptography", "pycryptodome", "cython", "nuitka", "colorama", "setuptools"]
+    options = {
+        "--quiet": False,
+        "--log": "",
+        "--no-color ": False,
+        "--no-input": False,
 
-    if this.options["--show"]:
-        string = ""
-        for dep in dependencies:
-            string+=f"\n  {dep}"
-        Log.Custom(f"Project's dependencies:{string}")
+        "--show": False,
+        "--install": False,
+        "--uninstall": False,
+        "--update": False,
+    }
 
-    if this.options["--install"]:
-        for dep in dependencies:
-            system(f"pip install {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+    def Handler(self):
+        dependencies = ["cryptography", "pycryptodome", "cython", "nuitka", "colorama", "setuptools"]
 
-    if this.options["--uninstall"]:
-        for dep in dependencies:
-            system(f"pip uninstall {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+        if self.options["--show"]:
+            string = ""
+            for dep in dependencies:
+                string+=f"\n  {dep}"
+            Log.Custom(f"Project's dependencies:{string}")
 
-    if this.options["--update"]:
-        for dep in dependencies:
-            system(f"pip install --upgrade {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+        if self.options["--install"]:
+            for dep in dependencies:
+                system(f"pip install {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+
+        if self.options["--uninstall"]:
+            for dep in dependencies:
+                system(f"pip uninstall {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+
+        if self.options["--update"]:
+            for dep in dependencies:
+                system(f"pip install --upgrade {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+
+    help = f'''
+Usage:
+  py-shield dependencies [options]
+Example:
+  py-shield dependencies --quiet --no-input y --install
+
+Note:
+  `                 -> only one option from a group can be used.
+  *                 -> required option.
+
+Options:
+  --help            -> show help for commands.
+  --quiet           -> give less output.
+  --log <path>      -> write all logs to a file.
+  --no-color        -> suppress colored output.
+  --no-input        -> disable prompting for input.
+
+  --show*`          -> show all dependencies of the program.
+  --install*`       -> install all dependencies of the program.
+  --uninstall*`     -> uninstall all dependencies of the program.
+  --update*`        -> update all dependencies of the program'''

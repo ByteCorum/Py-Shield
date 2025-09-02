@@ -1,16 +1,24 @@
 from sys import argv, exit
+from os import walk
 from inspect import isclass, isabstract
 from utils.optionsParser import OptionsParser
 from utils.logger import Log
 from config import Command, NAME
-import commands.commands as cmds
+from commands.basic.help import Help
 
 
 class PyShield:
+    class CommandReference:
+        def __init__(self, path, name):
+            self.path = path
+            self.name = name
+
+        path: str
+        name: str
+
     def __init__(self):
-        self.command = None
-        self.commandName = ""
-        self.noOptions = False
+        self.commands = []
+
         try:
             self.ParseArgs()
             self.SetGlobalVars()
@@ -18,27 +26,45 @@ class PyShield:
         except Exception as error:
             Log.Fail(f"Fatal error occurred: {error}", True)
 
+    def GetCommands(self, path: str = "commands/"):
+        for dirpath, dirnames, filenames in walk(path):
+            for filename in filenames:
+                if filename.endswith(".py"):
+                    self.commands.append(self.CommandReference(f"{dirpath}/{filename}", ""))
+            for dirname in dirnames:
+                self.GetCommands(f"{dirpath}/{dirname}")
+
     def ParseArgs(self):
-        commands = []
-        for cmdName in dir(cmds):
-            cmd = getattr(cmds, cmdName)
-            if isclass(cmd) and not isabstract(cmd) and issubclass(cmd, Command) and cmd.__name__ != 'Command':
-                commands.append(cmdName.lower())
+        self.GetCommands()
+
+        print(self.commands)
+
+        for reference in self.commands:
+            for cmdName in dir(reference.path):
+                cmd = getattr(reference.path, cmdName)
+                if isclass(cmd) and not isabstract(cmd) and issubclass(cmd, Command) and cmd.__name__ != 'Command':
+                    reference.name = cmdName.lower()
+
+        print(self.commands)
 
         try:
             if len(argv) < 2:
                 raise Exception("missing command name.")
 
-            if argv[1] not in commands:
+            if argv[1] not in self.commandsList:
                 raise Exception(f"invalid command name: \"{argv[1]}\".")
 
         except Exception as error:
-            cmds.Help.handler(cmds.Help)
+            Help.Handler(Help)
             Log.Fail("Command parsing failed: "+str(error), True)
 
         self.commandName = argv[1]
         try:
-            self.command: Command = getattr(cmds, self.commandName.title())
+            for reference in self.commands:
+                if reference.name == self.commandName:
+                    self.command: Command = getattr(reference.path, self.commandName.title())
+                    break
+
             if not self.command.options:
                 self.noOptions = True
                 return

@@ -5,6 +5,63 @@ from config import Command
 from utils.langMgr import RemoveComments, GetImports
 from utils.obfuscation import MainObfuscation
 
+class Obfuscate(Command):
+    exclusiveOptions = []
+    requiredOptions = ["entrypoint", ["--hashdata", "--fernet", "--aes", "--chacha", "--salsa" "--base64", "--recursive"]]
+    options = {
+        "--quiet": False,
+        "--log": "",
+        "--no-color ": False,
+        "--no-input": False,
+
+        "--hashdata": False,
+        "--fernet": False,
+        "--aes": False,
+        "--chacha": False,
+        "--salsa": False,
+        "--base64": False,
+        "--recursive": 0,
+        "--no-protect": False,
+        "--dirs": [],
+        "--files": [],
+        "--output": "",
+        "--follow-imports" : False,
+        "entrypoint": ""
+    }
+
+    def Handler(self):
+        Obfuscation(self)
+
+    help = f'''
+Usage:
+  py-shield obfuscate [options] main.py
+Example:
+  py-shield obfuscate --hashdata --aes --follow-imports main.py
+
+Notes:
+  text,text         -> to add more than one arg to option.
+  main.py           -> the entry point of your program.
+
+Options:
+  --help            -> show help for commands.
+  --quiet           -> give less output.
+  --log <path>      -> write all logs to a file.
+  --no-color        -> suppress colored output.
+  --no-input        -> disable prompting for input.
+
+  --hashdata        -> convert all strings and var names into hash.
+  --fernet          -> obfuscation and encryption using fernet.
+  --aes             -> obfuscation and encryption using aes256.
+  --chacha          -> obfuscation and encryption using chacha20.
+  --salsa           -> obfuscation and encryption using salsa20.
+  --base64          -> obfuscation and encryption using base64.
+  --recursive <num> -> not strong but good if u need to hide ur prog from AVs.
+  --no-protect      -> disable file modification protection.
+  --dirs <path>     -> obfuscate all files in dir.
+  --files <path>    -> files for obfuscation.
+  --output <path>   -> output dir.
+  --follow-imports  -> add all imports to the protected script.'''
+
 class Obfuscation:
     def __init__(self, this: Command):
         self.this = this

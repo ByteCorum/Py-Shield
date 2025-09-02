@@ -1,6 +1,6 @@
 from utils.logger import Log
 from config import Command
-from commands.commands import Help
+from commands.basic.help import Help
 
 class OptionsParser:
     def __init__(self, argv, command: Command):
@@ -11,7 +11,7 @@ class OptionsParser:
 
     def Parse(self):
         if "--help" in self.argv:
-            Help.handler(self.command)
+            Help.Handler(self.command)
             if self.argc > 1:
                 Log.Warning("--help found, other options ignored.")
             self.ended = True

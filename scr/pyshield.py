@@ -51,8 +51,6 @@ class PyShield:
             Log.Fail(f"Options parsing failed: {error}", True)
 
     def GetCommand(self, name):
-        print(f"{path.dirname(path.abspath(__file__))}")
-        input()
         command = self.SearchCommand(name, f"{path.dirname(path.abspath(__file__))}/commands/")
         if not command:
             raise Exception(f"invalid command name: \"{name}\".")

@@ -1,11 +1,12 @@
 from sys import argv, exit
 from os import walk
 from inspect import isclass, isabstract
-import importlib.util
+from importlib.util import spec_from_file_location, module_from_spec
+
 from utils.optionsParser import OptionsParser
 from utils.logger import Log
 from config import Command, NAME
-from commands.basic.help import Help
+import commands
 
 
 class PyShield:
@@ -29,7 +30,7 @@ class PyShield:
             self.command = self.GetCommand(self.commandName)
 
         except Exception as error:
-            Help.Handler(Help)
+            commands.basic.help.Help.Handler(commands.basic.help.Help)
             Log.Fail("Command parsing failed: "+str(error), True)
 
         try:
@@ -61,10 +62,10 @@ class PyShield:
             for filename in filenames:
                 if filename.endswith(".py") and filename != "__init__.py":
                     filePath = f"{dirpath}/{filename}"
-                    spec = importlib.util.spec_from_file_location("temp_module", filePath)
+                    spec = spec_from_file_location("temp_module", filePath)
 
                     if spec and spec.loader:
-                        module = importlib.util.module_from_spec(spec)
+                        module = module_from_spec(spec)
                         try:
                             spec.loader.exec_module(module)
                             for cmdName in dir(module):

@@ -7,6 +7,12 @@ python -m nuitka \
     --assume-yes-for-downloads \
     --output-filename=py-shield \
     --include-package=commands \
+    --follow-import-to=commands \
+    --include-data-files=commands/obfuscation/obfuscate.py=commands/obfuscation/obfuscate.py \
+    --include-data-files=commands/obfuscation/obfuscatelegacy.py=commands/obfuscation/obfuscatelegacy.py \
+    --include-data-files=commands/basic/help.py=commands/basic/help.py \
+    --include-data-files=commands/basic/info.py=commands/basic/info.py \
+    --include-data-files=commands/basic/dependencies.py=commands/basic/dependencies.py \
     --company-name="ByteCorum" \
     --product-name="Py-Shield" \
     --file-version=3.0.0.0 \

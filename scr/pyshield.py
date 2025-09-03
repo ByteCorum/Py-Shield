@@ -6,7 +6,7 @@ from importlib.util import spec_from_file_location, module_from_spec
 from utils.optionsParser import OptionsParser
 from utils.logger import Log
 from config import Command, NAME
-import commands
+from commands.basic.help import Help
 
 
 class PyShield:
@@ -31,7 +31,7 @@ class PyShield:
             self.command = self.GetCommand(self.commandName)
 
         except Exception as error:
-            commands.basic.help.Help.Handler(commands.basic.help.Help)
+            Help.Handler(Help)
             Log.Fail("Command parsing failed: "+str(error), True)
 
         try:
@@ -51,6 +51,8 @@ class PyShield:
             Log.Fail(f"Options parsing failed: {error}", True)
 
     def GetCommand(self, name):
+        print(f"{path.dirname(path.abspath(__file__))}")
+        input()
         command = self.SearchCommand(name, f"{path.dirname(path.abspath(__file__))}/commands/")
         if not command:
             raise Exception(f"invalid command name: \"{name}\".")

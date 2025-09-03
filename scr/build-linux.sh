@@ -7,6 +7,7 @@ python -m nuitka \
     --assume-yes-for-downloads \
     --output-filename=py-shield \
     --linux-icon=../assets/icon.png \
+    --include-package=commands \
     --company-name="ByteCorum" \
     --product-name="Py-Shield" \
     --file-version=3.0.0.0 \

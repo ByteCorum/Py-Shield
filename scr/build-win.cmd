@@ -7,6 +7,7 @@ python -m nuitka ^
     --onefile ^
     --output-filename=py-shield ^
     --windows-icon-from-ico=../assets/icon.ico ^
+    --include-package=commands ^
     --company-name="ByteCorum" ^
     --product-name="Py-Shield" ^
     --file-version=3.0.0.0 ^

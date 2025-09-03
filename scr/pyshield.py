@@ -1,6 +1,7 @@
 from sys import argv, exit
 from os import walk
 from inspect import isclass, isabstract
+import importlib.util
 from utils.optionsParser import OptionsParser
 from utils.logger import Log
 from config import Command, NAME
@@ -8,17 +9,10 @@ from commands.basic.help import Help
 
 
 class PyShield:
-    class CommandReference:
-        def __init__(self, path, name):
-            self.path = path
-            self.name = name
-
-        path: str
-        name: str
+    command: Command
+    commandName: str
 
     def __init__(self):
-        self.commands = []
-
         try:
             self.ParseArgs()
             self.SetGlobalVars()
@@ -26,45 +20,19 @@ class PyShield:
         except Exception as error:
             Log.Fail(f"Fatal error occurred: {error}", True)
 
-    def GetCommands(self, path: str = "commands/"):
-        for dirpath, dirnames, filenames in walk(path):
-            for filename in filenames:
-                if filename.endswith(".py"):
-                    self.commands.append(self.CommandReference(f"{dirpath}/{filename}", ""))
-            for dirname in dirnames:
-                self.GetCommands(f"{dirpath}/{dirname}")
-
     def ParseArgs(self):
-        self.GetCommands()
-
-        print(self.commands)
-
-        for reference in self.commands:
-            for cmdName in dir(reference.path):
-                cmd = getattr(reference.path, cmdName)
-                if isclass(cmd) and not isabstract(cmd) and issubclass(cmd, Command) and cmd.__name__ != 'Command':
-                    reference.name = cmdName.lower()
-
-        print(self.commands)
-
         try:
             if len(argv) < 2:
                 raise Exception("missing command name.")
 
-            if argv[1] not in self.commandsList:
-                raise Exception(f"invalid command name: \"{argv[1]}\".")
+            self.commandName = argv[1].title()
+            self.command = self.GetCommand(self.commandName)
 
         except Exception as error:
             Help.Handler(Help)
             Log.Fail("Command parsing failed: "+str(error), True)
 
-        self.commandName = argv[1]
         try:
-            for reference in self.commands:
-                if reference.name == self.commandName:
-                    self.command: Command = getattr(reference.path, self.commandName.title())
-                    break
-
             if not self.command.options:
                 self.noOptions = True
                 return
@@ -75,10 +43,44 @@ class PyShield:
                 exit(0)
 
             parser.Validate()
-            self.command = parser.command
+            self.command = parser.command#get filled command object
 
         except Exception as error:
             Log.Fail(f"Options parsing failed: {error}", True)
+
+    def GetCommand(self, name):
+        command = self.SearchCommand(name)
+        if not command:
+            raise Exception(f"invalid command name: \"{name}\".")
+
+        return command
+
+
+    def SearchCommand(self, name, path: str = "commands/"):
+        for dirpath, dirnames, filenames in walk(path):
+            for filename in filenames:
+                if filename.endswith(".py") and filename != "__init__.py":
+                    filePath = f"{dirpath}/{filename}"
+                    spec = importlib.util.spec_from_file_location("temp_module", filePath)
+
+                    if spec and spec.loader:
+                        module = importlib.util.module_from_spec(spec)
+                        try:
+                            spec.loader.exec_module(module)
+                            for cmdName in dir(module):
+                                command = getattr(module, cmdName)
+                                if (isclass(command) and
+                                    not isabstract(command) and
+                                    issubclass(command, Command) and
+                                    command.__name__ != 'Command' and
+                                    command.__name__ == name):
+                                    return command
+
+                        except Exception as error:
+                            # Skip files that can't be imported
+                            continue
+        return None
+
 
     def SetGlobalVars(self):
         if self.noOptions:
@@ -100,6 +102,6 @@ class PyShield:
         Log.Info(f"{NAME}\n", True)
         try:
             self.command.handler(self.command)
-            Log.Success(f"{self.commandName.title()} successfully completed.")
+            Log.Success(f"{self.commandName} successfully completed.")
         except Exception as error:
-            Log.Fail(f"{self.commandName.title()} failed: {error}", True)
+            Log.Fail(f"{self.commandName} failed: {error}", True)

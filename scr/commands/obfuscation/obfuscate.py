@@ -224,6 +224,23 @@ class Obfuscation:
         if self.this.options["--follow-imports"]:
             modules = GetImports(content)
 
+            if not self.this.options["--no-protect"]:
+                modules.append("hashlib")
+                modules.append("os")
+
+            if self.this.options["--chacha"] or self.this.options["--salsa"]:
+                modules.append("Crypto.Cipher")
+
+            if self.this.options["--aes"]:
+                modules.append("cryptography.hazmat.primitives.ciphers.aead")
+
+            if self.this.options["--fernet"]:
+                modules.append("cryptography.fernet")
+
+            modules.append("sys")
+            modules.append("base64")
+            modules.append("zlib")
+
             for module in modules:
                 if not module in self.imports:
                     self.imports.append(module)

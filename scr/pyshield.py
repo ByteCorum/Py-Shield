@@ -1,5 +1,5 @@
 from sys import argv, exit
-from os import walk
+from os import walk, path
 from inspect import isclass, isabstract
 from importlib.util import spec_from_file_location, module_from_spec
 
@@ -12,6 +12,7 @@ import commands
 class PyShield:
     command: Command
     commandName: str
+    noOptions = False
 
     def __init__(self):
         try:
@@ -50,14 +51,14 @@ class PyShield:
             Log.Fail(f"Options parsing failed: {error}", True)
 
     def GetCommand(self, name):
-        command = self.SearchCommand(name)
+        command = self.SearchCommand(name, f"{path.dirname(path.abspath(__file__))}/commands/")
         if not command:
             raise Exception(f"invalid command name: \"{name}\".")
 
         return command
 
 
-    def SearchCommand(self, name, path: str = "commands/"):
+    def SearchCommand(self, name: str, path: str):
         for dirpath, dirnames, filenames in walk(path):
             for filename in filenames:
                 if filename.endswith(".py") and filename != "__init__.py":
@@ -102,7 +103,7 @@ class PyShield:
     def RunCommand(self):
         Log.Info(f"{NAME}\n", True)
         try:
-            self.command.handler(self.command)
+            self.command.Handler(self.command)
             Log.Success(f"{self.commandName} successfully completed.")
         except Exception as error:
             Log.Fail(f"{self.commandName} failed: {error}", True)

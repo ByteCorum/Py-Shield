@@ -1,0 +1,10 @@
+- Add option not to encrypt executor
+- Add option to retry if cytonization fails
+- Refactor self giving to cmds
+- Add precompilation of cmds dir
+- Test imports manager on challenging cases
+- Add workflows to check obfuscation on mac and linux
+- Add workflows to check onefile/multifile legacy/global obfuscation
+- Add data from github template repo
+- Rename the project
+- Publish as python lib

@@ -6,16 +6,16 @@ from importlib.util import spec_from_file_location, module_from_spec
 from utils.optionsParser import OptionsParser
 from utils.logger import Log
 from config import Command, NAME
-from commands.basic.help import Help
 
 
 class PyShield:
-    command: Command
-    commandName: str
-    noOptions = False
+    command: Command = None
+    commandName: str = None
+    helpCmd: Command = None
 
     def __init__(self):
         try:
+            self.helpCmd = self.GetCommand("Help")
             self.ParseArgs()
             self.SetGlobalVars()
             self.RunCommand()
@@ -31,15 +31,11 @@ class PyShield:
             self.command = self.GetCommand(self.commandName)
 
         except Exception as error:
-            Help.Handler(Help)
+            self.helpCmd.Handler(self.helpCmd)
             Log.Fail("Command parsing failed: "+str(error), True)
 
         try:
-            if not self.command.options:
-                self.noOptions = True
-                return
-
-            parser = OptionsParser(argv[2:], self.command)
+            parser = OptionsParser(self.helpCmd, argv[2:], self.command)
             parser.Parse()
             if parser.ended:
                 exit(0)
@@ -74,9 +70,12 @@ class PyShield:
                                 if (isclass(command) and
                                     not isabstract(command) and
                                     issubclass(command, Command) and
-                                    command.__name__ != 'Command' and
-                                    command.__name__ == name):
-                                    return command
+                                    command.__name__ != 'Command'):
+
+                                    # if (self.helpCmd and command.__name__ == "Help"):
+                                    #     self.helpCmd = command
+                                    if (command.__name__ == name):
+                                        return command
 
                         except Exception as error:
                             # Skip files that can't be imported
@@ -85,9 +84,6 @@ class PyShield:
 
 
     def SetGlobalVars(self):
-        if self.noOptions:
-            return
-
         if "--log" in self.command.options:
             Log.logFile = self.command.options["--log"]
 

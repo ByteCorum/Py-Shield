@@ -2,9 +2,9 @@ from utils.logger import Log
 from config import Command
 
 class Help(Command):
-    exclusiveOptions = None
-    requiredOptions = None
-    options = None
+    exclusiveOptions = []
+    requiredOptions = []
+    options = {}
 
     def Handler(command: Command = None):
         Log.Custom(command.help)

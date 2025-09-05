@@ -1,5 +1,5 @@
 from random import choice, randint
-from string import ascii_letters, digits, punctuation
+from string import ascii_letters, digits
 from utils.crypto import FernetCipher, AesCipher, ChaCha20Cipher, Salsa20Cipher, compress, b64encode
 import ast
 from hashlib import sha256
@@ -119,7 +119,7 @@ _(PyShield({content}, __file__)._)'''
                 self.files.append([filepath, fileHash])
 
     def CreateExecutor(self, outputDir):
-        secret = sha256(''.join(choice(ascii_letters+digits+punctuation) for _ in range(randint(16,32))).encode("utf-8")).hexdigest()
+        secret = sha256(''.join(choice(ascii_letters+digits) for _ in range(randint(16,32))).encode("utf-8")).hexdigest()
         context = f'''
 {'''from hashlib import sha256
 from os import path, getcwd''' if not self.noProtect else ""}
@@ -397,4 +397,4 @@ class LegacyObfuscation:
 
     @staticmethod
     def GenSeperator(length):
-        return ''.join(choice(ascii_letters+digits+punctuation) for _ in range(length))
+        return ''.join(choice(ascii_letters+digits) for _ in range(length))

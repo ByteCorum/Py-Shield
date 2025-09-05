@@ -7,7 +7,7 @@ on:
     branches: [ stable, WIP ]
 
 jobs:
-  win-build:
+  build:
     runs-on: windows-latest
 
     steps:
@@ -35,7 +35,7 @@ jobs:
         path: scr/py-shield.exe
 
   obfuscation-multifile:
-    needs: ["win-build"]
+    needs: ["build"]
     runs-on: windows-latest
 
     steps:
@@ -84,7 +84,7 @@ jobs:
         }
 
   obfuscation-onefile:
-    needs: ["win-build"]
+    needs: ["build"]
     runs-on: windows-latest
 
     steps:
@@ -133,7 +133,7 @@ jobs:
         }
 
   obfuscationlegacy-multifile:
-    needs: ["win-build"]
+    needs: ["build"]
     runs-on: windows-latest
 
     steps:
@@ -182,7 +182,7 @@ jobs:
         }
 
   obfuscationlegacy-onefile:
-    needs: ["win-build"]
+    needs: ["build"]
     runs-on: windows-latest
 
     steps:

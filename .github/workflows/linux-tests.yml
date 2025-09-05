@@ -29,3 +29,203 @@ jobs:
       with:
         name: py-shield-linux
         path: scr/py-shield
+
+  obfuscation-multifile-linux:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Download Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: py-shield-linux
+        path: "examples"
+
+    - name: Preparation For Tests
+      working-directory: examples
+      run: |
+        mv py-shield multifile/
+        chmod +x multifile/py-shield
+        rm -rf multifile/obfuscated
+
+    - name: Obfuscation
+      working-directory: examples/multifile
+      run: |
+        ./py-shield obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --no-input --files lib.py main.py
+
+    - name: Testing
+      working-directory: examples/multifile/obfuscated
+      run: |
+        OUTPUT=$(python main.py)
+        echo "Output: "
+        echo "$OUTPUT"
+
+        echo "Result: "
+        if [ "$OUTPUT" = "hello world" ]; then
+          echo "Success: main.py output contains 'hello world'"
+        else
+          echo "Failure: main.py output does not contain 'hello world'"
+          exit 1
+        fi
+
+  obfuscation-onefile-linux:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Download Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: py-shield-linux
+        path: "examples"
+
+    - name: Preparation For Tests
+      working-directory: examples
+      run: |
+        mv py-shield onefile/
+        chmod +x onefile/py-shield
+        rm -rf onefile/obfuscated
+
+    - name: Obfuscation
+      working-directory: examples/onefile
+      run: |
+        ./py-shield obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --no-input main.py
+
+    - name: Testing
+      working-directory: examples/onefile/obfuscated
+      run: |
+        OUTPUT=$(python main.py)
+        echo "Output: "
+        echo "$OUTPUT"
+
+        echo "Result: "
+        if [ "$OUTPUT" = "hello world" ]; then
+          echo "Success: main.py output contains 'hello world'"
+        else
+          echo "Failure: main.py output does not contain 'hello world'"
+          exit 1
+        fi
+
+  obfuscationlegacy-multifile-linux:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Download Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: py-shield-linux
+        path: "examples"
+
+    - name: Preparation For Tests
+      working-directory: examples
+      run: |
+        mv py-shield multifile-legacy/
+        chmod +x multifile-legacy/py-shield
+        rm -rf multifile-legacy/obfuscated
+
+    - name: Obfuscation
+      working-directory: examples/multifile-legacy
+      run: |
+        ./py-shield obfuscatelegacy --no-input --mode 3 --loops 6 --files lib.py,main.py
+
+    - name: Testing
+      working-directory: examples/multifile-legacy/obfuscated
+      run: |
+        OUTPUT=$(python main.py)
+        echo "Output: "
+        echo "$OUTPUT"
+
+        echo "Result: "
+        if [ "$OUTPUT" = "hello world" ]; then
+          echo "Success: main.py output contains 'hello world'"
+        else
+          echo "Failure: main.py output does not contain 'hello world'"
+          exit 1
+        fi
+
+  obfuscationlegacy-onefile-linux:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Download Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: py-shield-linux
+        path: "examples"
+
+    - name: Preparation For Tests
+      working-directory: examples
+      run: |
+        mv py-shield onefile-legacy/
+        chmod +x onefile-legacy/py-shield
+        rm -rf onefile-legacy/obfuscated
+
+    - name: Obfuscation
+      working-directory: examples/onefile-legacy
+      run: |
+        ./py-shield obfuscatelegacy --no-input --mode 3 --loops 6 --files main.py
+
+    - name: Testing
+      working-directory: examples/onefile-legacy/obfuscated
+      run: |
+        OUTPUT=$(python main.py)
+        echo "Output: "
+        echo "$OUTPUT"
+
+        echo "Result: "
+        if [ "$OUTPUT" = "hello world" ]; then
+          echo "Success: main.py output contains 'hello world'"
+        else
+          echo "Failure: main.py output does not contain 'hello world'"
+          exit 1
+        fi

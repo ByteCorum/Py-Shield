@@ -7,8 +7,8 @@
 
 ### Medium Priority
 
--   [ ] Add workflows to check obfuscation on mac and linux
--   [ ] Add workflows to check onefile/multifile legacy/global obfuscation
+-   [x] Add workflows to check obfuscation on mac and linux
+-   [x] Add workflows to check onefile/multifile legacy/global obfuscation
 
 ### Low Priority
 

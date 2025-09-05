@@ -280,6 +280,8 @@ setup(
 
         cur = getcwd()
         chdir(dir)
+
+        Log.Info(f"Assembling executor...")
         result = run(["python", "assembler.py", "build_ext", "--inplace"],
                     stdout=Log.logFile if Log.logFile else DEVNULL,
                     stderr=PIPE, text=True)

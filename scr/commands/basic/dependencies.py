@@ -18,27 +18,6 @@ class Dependencies(Command):
         "--update": False,
     }
 
-    def Handler(self):
-        dependencies = ["cryptography", "pycryptodome", "cython", "nuitka", "colorama", "setuptools"]
-
-        if self.options["--show"]:
-            string = ""
-            for dep in dependencies:
-                string+=f"\n  {dep}"
-            Log.Custom(f"Project's dependencies:{string}")
-
-        if self.options["--install"]:
-            for dep in dependencies:
-                system(f"pip install {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
-
-        if self.options["--uninstall"]:
-            for dep in dependencies:
-                system(f"pip uninstall {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
-
-        if self.options["--update"]:
-            for dep in dependencies:
-                system(f"pip install --upgrade {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
-
     help = f'''
 Usage:
   py-shield dependencies [options]
@@ -60,3 +39,27 @@ Options:
   --install*`       -> install all dependencies of the program.
   --uninstall*`     -> uninstall all dependencies of the program.
   --update*`        -> update all dependencies of the program'''
+
+    def __init__(self):
+        dependencies = ["cryptography", "pycryptodome", "cython", "nuitka", "colorama", "setuptools"]
+
+        if self.options["--show"]:
+            string = ""
+            for dep in dependencies:
+                string+=f"\n  {dep}"
+            Log.Custom(f"Project's dependencies:{string}")
+
+        if self.options["--install"]:
+            for dep in dependencies:
+                system(f"pip install {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+                Log.Success("Dependencies installed")
+
+        if self.options["--uninstall"]:
+            for dep in dependencies:
+                system(f"pip uninstall {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+                Log.Success("Dependencies uninstalled")
+
+        if self.options["--update"]:
+            for dep in dependencies:
+                system(f"pip install --upgrade {f" --log {Log.logFile}" if Log.logFile else ""}{ "--quiet" if Log.quiet else ""}{ "--no-input" if Log.noInput else ""} {dep}")
+                Log.Success("Dependencies updated")

@@ -30,9 +30,6 @@ class Obfuscate(Command):
         "entrypoint": ""
     }
 
-    def Handler(self):
-        PerformObfuscation(self)
-
     help = f'''
 Usage:
   py-shield obfuscate [options] main.py
@@ -64,36 +61,38 @@ Options:
   --output <path>   -> output dir.
   --follow-imports  -> add all imports to the protected script.'''
 
-class PerformObfuscation:
-    def __init__(self, this: Command):
-        self.this = this
-        self.workingDir = getcwd()
-        self.imports = []
+    def __init__(self):
+        self.InitVars()
         self.CheckOptions()
         self.ObfuscateFiles()
-        self.obfuscation.CreateExecutor(self.this.options["--output"])
+        self.obfuscation.CreateExecutor(self.options["--output"])
+        Log.Success("Obfuscation compleated")
+
+    def InitVars(self):
+        self.workingDir = getcwd()
+        self.imports = []
 
     def CheckOptions(self):
-        Log.Info("Obfuscation.")
-        if self.this.options["--recursive"] < 0:
+        Log.Info("Obfuscation")
+        if self.options["--recursive"] < 0:
             raise Exception("Invalid --recursive value.")
 
-        if not self.this.options["--output"]:
-            self.this.options["--output"] = "obfuscated"
+        if not self.options["--output"]:
+            self.options["--output"] = "obfuscated"
 
-        if path.exists(self.this.options["--output"]):
-            Log.Warning(f"Output directory already exists: \"{self.this.options['--output']}\".")
+        if path.exists(self.options["--output"]):
+            Log.Warning(f"Output directory already exists: \"{self.options['--output']}\".")
             responce = ""
             while responce != "y" or responce != "n" or responce != "ignore":
                 responce = Log.Question("Override directory? (y/n)").lower()
 
                 match responce:
                     case "ignore":
-                        rmtree(self.this.options["--output"])
+                        rmtree(self.options["--output"])
                         Log.Info("Directory overridden.")
                         break
                     case "y":
-                        rmtree(self.this.options["--output"])
+                        rmtree(self.options["--output"])
                         Log.Success("Directory overridden.")
                         break
                     case "n":
@@ -103,51 +102,51 @@ class PerformObfuscation:
                         Log.Fail("Invalid response. Please enter 'y' or 'n'.")
             print()
 
-        self.entryPoint = self.this.options["entrypoint"]
+        self.entryPoint = self.options["entrypoint"]
         if not path.exists(self.entryPoint) or not path.isfile(self.entryPoint) or not self.entryPoint.endswith(".py"):
             raise Exception(f"Invalid entrypoint path: \"{self.entryPoint}\".")
         if path.isabs(self.entryPoint):
             raise Exception(f"Abs path is unsupported: \"{self.entryPoint}\"")
 
-        for file in self.this.options["--files"]:
+        for file in self.options["--files"]:
             if not path.exists(file) or not path.isfile(file) or not file.endswith(".py"):
                 raise Exception(f"Invalid file path: \"{file}\".")
             if path.isabs(file):
                 raise Exception(f"Abs path is unsupported: \"{file}\"")
 
-        for dir in self.this.options["--dirs"]:
+        for dir in self.options["--dirs"]:
             if not path.exists(dir) or not path.isdir(dir):
                 raise Exception(f"Invalid directory path: \"{dir}\".")
             if path.isabs(dir):
                 raise Exception(f"Abs path is unsupported: \"{dir}\"")
 
         Log.Info(f"Entrypoint file: {self.entryPoint}")
-        if self.this.options["--files"]:
-            Log.Info(f"Included files: {self.this.options["--files"]}")
-        if self.this.options["--dirs"]:
-            Log.Info(f"Included dirs: {self.this.options["--dirs"]}")
+        if self.options["--files"]:
+            Log.Info(f"Included files: {self.options["--files"]}")
+        if self.options["--dirs"]:
+            Log.Info(f"Included dirs: {self.options["--dirs"]}")
 
-        methods = f"{"hashdata, " if self.this.options["--hashdata"] else ""}{"fernet, " if self.this.options["--fernet"] else ""}{"aes, " if self.this.options["--aes"] else ""}{"chacha20, " if self.this.options["--chacha"] else ""}{"salsa20, " if self.this.options["--salsa"] else ""}{"base64, " if self.this.options["--base64"] else ""}{f"recursive<{self.this.options["--recursive"]}>, " if self.this.options["--recursive"]>0 else ""}"[:-2]
+        methods = f"{"hashdata, " if self.options["--hashdata"] else ""}{"fernet, " if self.options["--fernet"] else ""}{"aes, " if self.options["--aes"] else ""}{"chacha20, " if self.options["--chacha"] else ""}{"salsa20, " if self.options["--salsa"] else ""}{"base64, " if self.options["--base64"] else ""}{f"recursive<{self.options["--recursive"]}>, " if self.options["--recursive"]>0 else ""}"[:-2]
         if methods:
             Log.Info(f"Obfuscation methods: {methods}")
 
-        options = f"{"follow-imports, " if self.this.options["--follow-imports"] else ""}{"no-protect, " if self.this.options["--no-protect"] else ""}"[:-2]
+        options = f"{"follow-imports, " if self.options["--follow-imports"] else ""}{"no-protect, " if self.options["--no-protect"] else ""}"[:-2]
         if options:
             Log.Info(f"Additional options: {options}")
-        Log.Info(f"output dir: {self.this.options["--output"]}\n")
+        Log.Info(f"output dir: {self.options["--output"]}\n")
 
     def ObfuscateFiles(self):
-        self.obfuscation = MainObfuscation(self.this.options["--hashdata"],
-                                           self.this.options["--fernet"],
-                                           self.this.options["--aes"],
-                                           self.this.options["--chacha"],
-                                           self.this.options["--salsa"],
-                                           self.this.options["--base64"],
-                                           self.this.options["--recursive"],
-                                           self.this.options["--no-protect"],
-                                           self.this.options["--enc-exec"])
+        self.obfuscation = MainObfuscation(self.options["--hashdata"],
+                                           self.options["--fernet"],
+                                           self.options["--aes"],
+                                           self.options["--chacha"],
+                                           self.options["--salsa"],
+                                           self.options["--base64"],
+                                           self.options["--recursive"],
+                                           self.options["--no-protect"],
+                                           self.options["--enc-exec"])
 
-        for file in self.this.options["--files"]:
+        for file in self.options["--files"]:
             with open(file, "r", encoding="utf-8") as pyFile:
                 context = pyFile.read()
             if not context:
@@ -165,9 +164,9 @@ class PerformObfuscation:
             context = self.obfuscation.Wrap(context)
 
             self.SaveFile(filename, filepath, context)
-            self.obfuscation.ProtectFile(self.this.options["--output"], filepath+sep+filename)
+            self.obfuscation.ProtectFile(self.options["--output"], filepath+sep+filename)
 
-        for dir in self.this.options["--dirs"]:
+        for dir in self.options["--dirs"]:
             for dirpath, dirnames, filenames in walk(dir):
                 for filename in filenames:
 
@@ -187,7 +186,7 @@ class PerformObfuscation:
                         context = self.obfuscation.Wrap(context)
 
                         self.SaveFile(filename , dirpath, context)
-                        self.obfuscation.ProtectFile(self.this.options["--output"], dirpath+sep+filename)
+                        self.obfuscation.ProtectFile(self.options["--output"], dirpath+sep+filename)
 
         with open(self.entryPoint, "r", encoding="utf-8") as pyFile:
             context = pyFile.read()
@@ -205,7 +204,7 @@ class PerformObfuscation:
         context = self.obfuscation.Wrap(context)
 
         self.SaveFile(filename, filepath, context, entrypoint = True)
-        self.obfuscation.ProtectFile(self.this.options["--output"], filepath+sep+filename)
+        self.obfuscation.ProtectFile(self.options["--output"], filepath+sep+filename)
 
     def SaveFile(self, filename, filepath, content, entrypoint = False):
         if entrypoint:
@@ -213,7 +212,7 @@ class PerformObfuscation:
             for module in self.imports:
                 imports+=f"import {module}\n"
 
-        filepath = self.this.options["--output"]+sep+filepath
+        filepath = self.options["--output"]+sep+filepath
         makedirs(filepath, exist_ok=True)
 
         with open(filepath+sep+filename, "w", encoding="utf-8") as file:
@@ -224,20 +223,20 @@ class PerformObfuscation:
         Log.Info(f"{filename} saved in {filepath[:-1]}")
 
     def FollowImports(self, content):
-        if self.this.options["--follow-imports"]:
+        if self.options["--follow-imports"]:
             modules = GetImports(content)
 
-            if not self.this.options["--no-protect"]:
+            if not self.options["--no-protect"]:
                 modules.append("hashlib")
                 modules.append("os")
 
-            if self.this.options["--chacha"] or self.this.options["--salsa"]:
+            if self.options["--chacha"] or self.options["--salsa"]:
                 modules.append("Crypto.Cipher")
 
-            if self.this.options["--aes"]:
+            if self.options["--aes"]:
                 modules.append("cryptography.hazmat.primitives.ciphers.aead")
 
-            if self.this.options["--fernet"]:
+            if self.options["--fernet"]:
                 modules.append("cryptography.fernet")
 
             modules.append("sys")

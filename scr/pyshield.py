@@ -10,7 +10,6 @@ from config import Command, NAME
 
 class PyShield:
     command: Command = None
-    commandName: str = None
     helpCmd: Command = None
 
     def __init__(self):
@@ -27,21 +26,19 @@ class PyShield:
             if len(argv) < 2:
                 raise Exception("missing command name.")
 
-            self.commandName = argv[1].title()
-            self.command = self.GetCommand(self.commandName)
+            self.command = self.GetCommand(argv[1].title())
 
         except Exception as error:
-            self.helpCmd.Handler(self.helpCmd)
+            self.helpCmd(self.helpCmd)
             Log.Fail("Command parsing failed: "+str(error), True)
 
         try:
-            parser = OptionsParser(self.helpCmd, argv[2:], self.command)
+            parser = OptionsParser(argv[2:], self.command)
             parser.Parse()
-            if parser.ended:
+            if parser.helpCalled:
+                self.helpCmd(self.command)
                 exit(0)
-
             parser.Validate()
-            self.command = parser.command#get filled command object
 
         except Exception as error:
             Log.Fail(f"Options parsing failed: {error}", True)
@@ -52,7 +49,6 @@ class PyShield:
             raise Exception(f"invalid command name: \"{name}\".")
 
         return command
-
 
     def SearchCommand(self, name: str, path: str):
         for dirpath, dirnames, filenames in walk(path):
@@ -72,8 +68,6 @@ class PyShield:
                                     issubclass(command, Command) and
                                     command.__name__ != 'Command'):
 
-                                    # if (self.helpCmd and command.__name__ == "Help"):
-                                    #     self.helpCmd = command
                                     if (command.__name__ == name):
                                         return command
 
@@ -99,7 +93,6 @@ class PyShield:
     def RunCommand(self):
         Log.Info(f"{NAME}\n", True)
         try:
-            self.command.Handler(self.command)
-            Log.Success(f"{self.commandName} successfully completed.")
+            self.command()
         except Exception as error:
-            Log.Fail(f"{self.commandName} failed: {error}", True)
+            Log.Fail(f"Command failed: {error}", True)

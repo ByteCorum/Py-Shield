@@ -15,19 +15,6 @@ class Info(Command):
         "--description": False,
     }
 
-    def Handler(self):
-        if self.options["--all"]:
-            Log.Custom(f"{NAME} version {VERSION}\nby {AUTHOR}\n{DESCRIPTION}\nRepo: {Fore.BLUE if Log.colored else ""}{URL}{Fore.RESET}")
-
-        elif self.options["--version"]:
-            Log.Custom(f"{NAME} version {VERSION}")
-
-        elif self.options["--url"]:
-            Log.Custom(f"Repo: {Fore.BLUE if Log.colored else ""}{URL}{Fore.RESET}")
-
-        elif self.options["--description"]:
-            Log.Custom(f"{DESCRIPTION}")
-
     help = f'''
 Usage:
   py-shield info [options]
@@ -47,3 +34,16 @@ Options:
   --version*`       -> show version of the program.
   --url*`           -> show URL of program's github repo.
   --description*`   -> show description of the program.'''
+
+    def __init__(self):
+        if self.options["--all"]:
+            Log.Custom(f"{NAME} version {VERSION}\nby {AUTHOR}\n{DESCRIPTION}\nRepo: {Fore.BLUE if Log.colored else ""}{URL}{Fore.RESET}")
+
+        elif self.options["--version"]:
+            Log.Custom(f"{NAME} version {VERSION}")
+
+        elif self.options["--url"]:
+            Log.Custom(f"Repo: {Fore.BLUE if Log.colored else ""}{URL}{Fore.RESET}")
+
+        elif self.options["--description"]:
+            Log.Custom(f"{DESCRIPTION}")

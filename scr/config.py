@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 NAME = "Py-Shield"
 AUTHOR = "ByteCorum"
@@ -12,11 +12,9 @@ class Command(ABC):
     options: dict
     help: str
 
-    @abstractmethod
-    def Handler(self):
-        pass
-
 # class Name_of_the_command(Command): #note: only first letter should be capital
+#     def __init__(self): #command handler that will be called when the command is executed
+#         pass
 #
 #     #May be left not initialized if your command has no options#
 #     exclusiveOptions = [["--install","--uninstall"], ["--up","--down"]] #groups of options that can't be used together
@@ -37,6 +35,3 @@ class Command(ABC):
 #     #Should be always initialized#
 #     help = f'''I\'ll help u''' #help message for the command
 #
-#     @abstractmethod
-#     def Handler(self):#command handler that will be called when the command is executed
-#       pass

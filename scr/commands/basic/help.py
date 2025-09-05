@@ -6,9 +6,6 @@ class Help(Command):
     requiredOptions = []
     options = {}
 
-    def Handler(command: Command = None):
-        Log.Custom(command.help)
-
     help = f'''
 Usage:
   py-shield <command> [options]
@@ -28,3 +25,8 @@ General Options:
   --log <path>      -> write all logs to a file.
   --no-color        -> suppress colored output.
   --no-input        -> disable prompting for input.'''
+
+    def __init__(self, command: Command = None):
+        if command == None:
+            command = self
+        Log.Custom(command.help)

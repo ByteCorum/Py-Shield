@@ -66,7 +66,7 @@ jobs:
     - name: Obfuscation
       working-directory: examples\multifile
       run: |
-        .\py-shield.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --no-input --files lib.py main.py
+        .\py-shield.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
 
     - name: Testing
       working-directory: examples\multifile\obfuscated
@@ -115,7 +115,7 @@ jobs:
     - name: Obfuscation
       working-directory: examples\onefile
       run: |
-        .\py-shield.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --no-input main.py
+        .\py-shield.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
 
     - name: Testing
       working-directory: examples\onefile\obfuscated
@@ -213,7 +213,7 @@ jobs:
     - name: Obfuscation
       working-directory: examples\onefile-legacy
       run: |
-        .\py-shield obfuscatelegacy --no-input --mode 3 --loops 6 --files main.py
+        .\py-shield obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
 
     - name: Testing
       working-directory: examples\onefile-legacy\obfuscated

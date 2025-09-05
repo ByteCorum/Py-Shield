@@ -207,8 +207,8 @@ Options:
         self.obfuscation.ProtectFile(self.options["--output"], filepath+sep+filename)
 
     def SaveFile(self, filename, filepath, content, entrypoint = False):
+        imports = ""
         if entrypoint:
-            imports = ""
             for module in self.imports:
                 imports+=f"import {module}\n"
 

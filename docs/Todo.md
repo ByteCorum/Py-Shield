@@ -13,7 +13,8 @@
 ### Low Priority
 
 -   [x] Refactor self giving to cmds
--   [ ] Add precompilation of cmds dir
 -   [ ] Publish as python lib
 
 ### Suspended
+
+-   [ ] Add precompilation of cmds dir

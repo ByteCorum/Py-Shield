@@ -43,14 +43,14 @@ class PyShield:
         except Exception as error:
             Log.Fail(f"Options parsing failed: {error}", True)
 
-    def GetCommand(self, name):
-        command = self.SearchCommand(name, f"{path.dirname(path.abspath(__file__))}/commands/")
+    def GetCommand(self, name) -> Command:
+        command: Command = self.SearchCommand(name, f"{path.dirname(path.abspath(__file__))}/commands/")
         if not command:
             raise Exception(f"invalid command name: \"{name}\".")
 
         return command
 
-    def SearchCommand(self, name: str, path: str):
+    def SearchCommand(self, name: str, path: str) -> Command:
         for dirpath, dirnames, filenames in walk(path):
             for filename in filenames:
                 if filename.endswith(".py") and filename != "__init__.py":
@@ -62,7 +62,7 @@ class PyShield:
                         try:
                             spec.loader.exec_module(module)
                             for cmdName in dir(module):
-                                command = getattr(module, cmdName)
+                                command: Command = getattr(module, cmdName)
                                 if (isclass(command) and
                                     not isabstract(command) and
                                     issubclass(command, Command) and

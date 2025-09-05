@@ -22,7 +22,7 @@ class Obfuscatelegacy(Command):
     }
 
     def Handler(self):
-        ObfuscationLegacy(self)
+        PerformLegacyObfuscation(self)
 
     help = f'''
 Usage:
@@ -47,7 +47,7 @@ Options:
   --files <path>*   -> files for obfuscation(required files or/and dir).
   --output <path>   -> output dir.'''
 
-class ObfuscationLegacy:
+class PerformLegacyObfuscation:
     def __init__(self, this: Command):
         self.this = this
         self.workingDir = getcwd()

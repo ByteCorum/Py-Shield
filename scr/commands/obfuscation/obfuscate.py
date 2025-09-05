@@ -30,7 +30,7 @@ class Obfuscate(Command):
     }
 
     def Handler(self):
-        Obfuscation(self)
+        PerformObfuscation(self)
 
     help = f'''
 Usage:
@@ -62,7 +62,7 @@ Options:
   --output <path>   -> output dir.
   --follow-imports  -> add all imports to the protected script.'''
 
-class Obfuscation:
+class PerformObfuscation:
     def __init__(self, this: Command):
         self.this = this
         self.workingDir = getcwd()

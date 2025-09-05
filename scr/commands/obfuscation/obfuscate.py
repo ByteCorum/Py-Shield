@@ -211,7 +211,7 @@ class PerformObfuscation:
         if entrypoint:
             imports = ""
             for module in self.imports:
-                imp+=f"import {module}\n"
+                imports+=f"import {module}\n"
 
         filepath = self.this.options["--output"]+sep+filepath
         makedirs(filepath, exist_ok=True)

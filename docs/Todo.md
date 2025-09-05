@@ -2,7 +2,7 @@
 
 ### Height Priority
 
--   [ ] Test imports manager on challenging cases
+-   [x] Test imports manager on challenging cases
 -   [ ] Rename the project
 
 ### Medium Priority

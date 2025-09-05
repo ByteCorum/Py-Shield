@@ -121,7 +121,7 @@ Options:
 
             context = RemoveComments(context)
 
-            obfuscator = LegacyObfuscation(self.options["--mode"], self.options["--loops"], LegacyObfuscation.GenSeperator(12))
+            obfuscator = LegacyObfuscation(self.options["--mode"], self.options["--loops"], LegacyObfuscation.GenSeperator())
             context = obfuscator.Encrypt(context)
             context = obfuscator.Wrap(context)
 
@@ -142,7 +142,7 @@ Options:
 
                         context = RemoveComments(context)
 
-                        obfuscator = LegacyObfuscation(self.options["--mode"], self.options["--loops"], LegacyObfuscation.GenSeperator(12))
+                        obfuscator = LegacyObfuscation(self.options["--mode"], self.options["--loops"], LegacyObfuscation.GenSeperator())
                         context = obfuscator.Encrypt(context)
                         context = obfuscator.Wrap(context)
 

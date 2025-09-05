@@ -12,7 +12,7 @@
 
 ### Low Priority
 
--   [ ] Refactor self giving to cmds
+-   [x] Refactor self giving to cmds
 -   [ ] Add precompilation of cmds dir
 -   [ ] Publish as python lib
 

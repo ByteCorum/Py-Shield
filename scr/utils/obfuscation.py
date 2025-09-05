@@ -242,7 +242,7 @@ class PyShield:
         makedirs(outputDir)
 
         if self.encExec:
-            obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
+            obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator())
             context = obfuscator.Encrypt(context)
             context = obfuscator.Wrap(context)
 
@@ -396,5 +396,7 @@ class LegacyObfuscation:
         return f"exec((_)({enccontent}))"
 
     @staticmethod
-    def GenSeperator(length):
+    def GenSeperator(length = 32):
+        if length < 12:
+            raise Exception("Too short separator")
         return ''.join(choice(ascii_letters+digits) for _ in range(length))

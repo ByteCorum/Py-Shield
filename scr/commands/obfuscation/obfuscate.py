@@ -22,6 +22,7 @@ class Obfuscate(Command):
         "--base64": False,
         "--recursive": 0,
         "--no-protect": False,
+        "--enc-exec" : False,
         "--dirs": [],
         "--files": [],
         "--output": "",
@@ -57,6 +58,7 @@ Options:
   --base64          -> obfuscation and encryption using base64.
   --recursive <num> -> not strong but good if u need to hide ur prog from AVs.
   --no-protect      -> disable file modification protection.
+  --enc-exec        -> obfuscate executor via legacy encryption method.
   --dirs <path>     -> obfuscate all files in dir.
   --files <path>    -> files for obfuscation.
   --output <path>   -> output dir.
@@ -142,7 +144,8 @@ class PerformObfuscation:
                                            self.this.options["--salsa"],
                                            self.this.options["--base64"],
                                            self.this.options["--recursive"],
-                                           self.this.options["--no-protect"])
+                                           self.this.options["--no-protect"],
+                                           self.this.options["--enc-exec"])
 
         for file in self.this.options["--files"]:
             with open(file, "r", encoding="utf-8") as pyFile:

@@ -10,7 +10,9 @@ from config import NAME, VERSION, AUTHOR
 from utils.logger import Log
 
 class MainObfuscation:
-    def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int, noProtect: bool) -> None:
+    def __init__(self, hashdata: bool, fernet: bool, aes: bool,
+                chacha20: bool, salsa20: bool, base64: bool,
+                recursive: int, noProtect: bool, encExec: bool) -> None:
         self.hashdata = hashdata
         self.fernet = fernet
         self.aes = aes
@@ -18,6 +20,7 @@ class MainObfuscation:
         self.salsa20 = salsa20
         self.base64 = base64
         self.noProtect = noProtect
+        self.encExec = encExec
         self.recursive = recursive
         if self.recursive < 0:
             raise Exception("Invalid recursive value.")
@@ -238,9 +241,10 @@ class PyShield:
         outputDir =f"{outputDir}/PyShield"
         makedirs(outputDir)
 
-        obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
-        context = obfuscator.Encrypt(context)
-        context = obfuscator.Wrap(context)
+        if self.encExec:
+            obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
+            context = obfuscator.Encrypt(context)
+            context = obfuscator.Wrap(context)
 
         with open(f"{outputDir}/script_{self.number}.py", "w", encoding="utf-8") as file:
             file.write(context)

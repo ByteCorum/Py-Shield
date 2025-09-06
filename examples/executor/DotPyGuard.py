@@ -1,4 +1,3 @@
-
 from hashlib import sha256
 from os import path, getcwd
 from Crypto.Cipher import ChaCha20
@@ -12,7 +11,7 @@ from sys import exit
 
 _ = exec
 
-class PyShield:
+class DotPyGuard:
     def __init__(self, code, file):
         try:
             self.__codee812520fd9c71232668515d6bd91bd4c386f014e41cc3bdd9262101759019196 = code

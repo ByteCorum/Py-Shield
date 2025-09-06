@@ -8,7 +8,7 @@ from utils.logger import Log
 from config import Command, NAME
 
 
-class PyShield:
+class DotPyGuard:
     command: Command = None
     helpCmd: Command = None
 

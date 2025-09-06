@@ -100,8 +100,8 @@ class MainObfuscation:
 
     def Wrap(self, content: bytes) -> str:
         content = f'''#Obfuscated by {NAME} {VERSION}
-from PyShield.script_{self.number} import PyShield, _
-_(PyShield({content}, __file__)._)'''
+from DotPyGuard.script_{self.number} import DotPyGuard, _
+_(DotPyGuard({content}, __file__)._)'''
 
         return content
 
@@ -134,7 +134,7 @@ from sys import exit
 
 _ = exec
 
-class PyShield:
+class DotPyGuard:
     def __init__(self, code, file):
         try:
             self.__code{secret} = code
@@ -238,7 +238,7 @@ class PyShield:
             string = decompress(raw[1]).decode("utf-8")
             self.__code{secret} = self.__code{secret}.replace(raw[0], string)''' if self.hashdata else ""}
 '''
-        outputDir =f"{outputDir}/PyShield"
+        outputDir =f"{outputDir}/DotPyGuard"
         makedirs(outputDir)
 
         if self.encExec:
@@ -261,7 +261,7 @@ ext_modules = [
 ]
 
 setup(
-    name='PyShield',
+    name='.PyGuard',
     version='{VERSION}',
     author='{AUTHOR}',
     ext_modules=cythonize(
@@ -334,13 +334,13 @@ class LegacyObfuscation:
     def Wrap(self, content) -> str:
         match self.mode:
             case 1:
-                return "_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode((__import__('zlib').decompress(__))[::-1])[::-1]);"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode((__import__('zlib').decompress(__))[::-1])[::-1]);"+content
             case 2:
-                return f"_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1]).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1]).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
             case 3:
-                return f"_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
             case 4:
-                return f"_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode(__import__('zlib').decompress((__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])))[::-1]));"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode(__import__('zlib').decompress((__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])))[::-1]));"+content
             case _:
                 raise Exception("Invalid mode value.")
 

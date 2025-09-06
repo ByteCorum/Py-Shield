@@ -17,9 +17,9 @@ class Info(Command):
 
     help = f'''
 Usage:
-  py-shield info [options]
+  .pyguard info [options]
 Example:
-  py-shield info --all
+  .pyguard info --all
 
 Note:
   `                 -> only one option from a group can be used.

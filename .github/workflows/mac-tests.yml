@@ -27,8 +27,8 @@ jobs:
     - name: Archive Executable
       uses: actions/upload-artifact@v4
       with:
-        name: py-shield-mac
-        path: scr/py-shield
+        name: .pyguard-mac
+        path: scr/.pyguard
 
   obfuscation-multifile-macos:
     needs: ["build"]
@@ -50,20 +50,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: py-shield-mac
+        name: .pyguard-mac
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv py-shield multifile/
-        chmod +x multifile/py-shield
+        mv .pyguard multifile/
+        chmod +x multifile/.pyguard
         rm -rf multifile/obfuscated
 
     - name: Obfuscation
       working-directory: examples/multifile
       run: |
-        ./py-shield obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
+        ./.pyguard obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
 
     - name: Testing
       working-directory: examples/multifile/obfuscated
@@ -100,20 +100,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: py-shield-mac
+        name: .pyguard-mac
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv py-shield onefile/
-        chmod +x onefile/py-shield
+        mv .pyguard onefile/
+        chmod +x onefile/.pyguard
         rm -rf onefile/obfuscated
 
     - name: Obfuscation
       working-directory: examples/onefile
       run: |
-        ./py-shield obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
+        ./.pyguard obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
 
     - name: Testing
       working-directory: examples/onefile/obfuscated
@@ -150,20 +150,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: py-shield-mac
+        name: .pyguard-mac
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv py-shield multifile-legacy/
-        chmod +x multifile-legacy/py-shield
+        mv .pyguard multifile-legacy/
+        chmod +x multifile-legacy/.pyguard
         rm -rf multifile-legacy/obfuscated
 
     - name: Obfuscation
       working-directory: examples/multifile-legacy
       run: |
-        ./py-shield obfuscatelegacy --no-input --mode 4 --loops 6 --files lib.py,main.py
+        ./.pyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files lib.py,main.py
 
     - name: Testing
       working-directory: examples/multifile-legacy/obfuscated
@@ -200,20 +200,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: py-shield-mac
+        name: .pyguard-mac
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv py-shield onefile-legacy/
-        chmod +x onefile-legacy/py-shield
+        mv .pyguard onefile-legacy/
+        chmod +x onefile-legacy/.pyguard
         rm -rf onefile-legacy/obfuscated
 
     - name: Obfuscation
       working-directory: examples/onefile-legacy
       run: |
-        ./py-shield obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
+        ./.pyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
 
     - name: Testing
       working-directory: examples/onefile-legacy/obfuscated

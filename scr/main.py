@@ -1,4 +1,4 @@
-from pyshield import PyShield
+from dotpyguard import DotPyGuard
 
 if __name__ == "__main__":
-    PyShield()
+    DotPyGuard()

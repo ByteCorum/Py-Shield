@@ -1,5 +1,5 @@
 from random import choice, randint
-from string import ascii_letters, digits, punctuation
+from string import ascii_letters, digits
 from utils.crypto import FernetCipher, AesCipher, ChaCha20Cipher, Salsa20Cipher, compress, b64encode
 import ast
 from hashlib import sha256
@@ -10,7 +10,9 @@ from config import NAME, VERSION, AUTHOR
 from utils.logger import Log
 
 class MainObfuscation:
-    def __init__(self, hashdata: bool, fernet: bool, aes: bool, chacha20: bool, salsa20: bool, base64: bool, recursive: int, noProtect: bool) -> None:
+    def __init__(self, hashdata: bool, fernet: bool, aes: bool,
+                chacha20: bool, salsa20: bool, base64: bool,
+                recursive: int, noProtect: bool, encExec: bool) -> None:
         self.hashdata = hashdata
         self.fernet = fernet
         self.aes = aes
@@ -18,6 +20,7 @@ class MainObfuscation:
         self.salsa20 = salsa20
         self.base64 = base64
         self.noProtect = noProtect
+        self.encExec = encExec
         self.recursive = recursive
         if self.recursive < 0:
             raise Exception("Invalid recursive value.")
@@ -97,8 +100,8 @@ class MainObfuscation:
 
     def Wrap(self, content: bytes) -> str:
         content = f'''#Obfuscated by {NAME} {VERSION}
-from PyShield.script_{self.number} import PyShield, _
-_(PyShield({content}, __file__)._)'''
+from DotPyGuard.script_{self.number} import DotPyGuard, _
+_(DotPyGuard({content}, __file__)._)'''
 
         return content
 
@@ -116,7 +119,7 @@ _(PyShield({content}, __file__)._)'''
                 self.files.append([filepath, fileHash])
 
     def CreateExecutor(self, outputDir):
-        secret = sha256(''.join(choice(ascii_letters+digits+punctuation) for _ in range(randint(16,32))).encode("utf-8")).hexdigest()
+        secret = sha256(''.join(choice(ascii_letters+digits) for _ in range(randint(16,32))).encode("utf-8")).hexdigest()
         context = f'''
 {'''from hashlib import sha256
 from os import path, getcwd''' if not self.noProtect else ""}
@@ -131,7 +134,7 @@ from sys import exit
 
 _ = exec
 
-class PyShield:
+class DotPyGuard:
     def __init__(self, code, file):
         try:
             self.__code{secret} = code
@@ -235,12 +238,13 @@ class PyShield:
             string = decompress(raw[1]).decode("utf-8")
             self.__code{secret} = self.__code{secret}.replace(raw[0], string)''' if self.hashdata else ""}
 '''
-        outputDir =f"{outputDir}/PyShield"
+        outputDir =f"{outputDir}/DotPyGuard"
         makedirs(outputDir)
 
-        obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator(12))
-        context = obfuscator.Encrypt(context)
-        context = obfuscator.Wrap(context)
+        if self.encExec:
+            obfuscator = LegacyObfuscation(3, 6, LegacyObfuscation.GenSeperator())
+            context = obfuscator.Encrypt(context)
+            context = obfuscator.Wrap(context)
 
         with open(f"{outputDir}/script_{self.number}.py", "w", encoding="utf-8") as file:
             file.write(context)
@@ -257,7 +261,7 @@ ext_modules = [
 ]
 
 setup(
-    name='PyShield',
+    name='.PyGuard',
     version='{VERSION}',
     author='{AUTHOR}',
     ext_modules=cythonize(
@@ -276,6 +280,8 @@ setup(
 
         cur = getcwd()
         chdir(dir)
+
+        Log.Info(f"Assembling executor...")
         result = run(["python", "assembler.py", "build_ext", "--inplace"],
                     stdout=Log.logFile if Log.logFile else DEVNULL,
                     stderr=PIPE, text=True)
@@ -328,13 +334,13 @@ class LegacyObfuscation:
     def Wrap(self, content) -> str:
         match self.mode:
             case 1:
-                return "_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode((__import__('zlib').decompress(__))[::-1])[::-1]);"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode((__import__('zlib').decompress(__))[::-1])[::-1]);"+content
             case 2:
-                return f"_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1]).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1]).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
             case 3:
-                return f"_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])[::-1]);"+content
             case 4:
-                return f"_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode(__import__('zlib').decompress((__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])))[::-1]));"+content
+                return f"#Obfuscated by {NAME} {VERSION}\n_=lambda __:__import__('zlib').decompress(__import__('base64').b64decode(__import__('zlib').decompress((__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'{self.separator}'))[0])))[::-1]));"+content
             case _:
                 raise Exception("Invalid mode value.")
 
@@ -392,5 +398,7 @@ class LegacyObfuscation:
         return f"exec((_)({enccontent}))"
 
     @staticmethod
-    def GenSeperator(length):
-        return ''.join(choice(ascii_letters+digits+punctuation) for _ in range(length))
+    def GenSeperator(length = 32):
+        if length < 12:
+            raise Exception("Too short separator")
+        return ''.join(choice(ascii_letters+digits) for _ in range(length))

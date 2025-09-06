@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="assets/banner.png">
-<img src="https://img.shields.io/badge/PyShield-v3.0.0.0-blue?style=for-the-badge&logo=&logoColor=whit">
+<img src="https://img.shields.io/badge/.PyGuard-v3.0.0.0-blue?style=for-the-badge&logo=&logoColor=whit">
 <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue">
 <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
 <img src="https://img.shields.io/badge/tests-6/6-76B900?style=for-the-badge&logo=&logoColor=whit">
@@ -15,7 +15,7 @@
 
 ---
 
-### 🛡Py-Shield🛡
+### 🛡.PyGuard🛡
 
 Tool/Library for Python used to obfuscate and protect your code in static and runtime from decompilation, reverse debug, etc. Also, can prevent detection by antiviruses.
 
@@ -23,10 +23,10 @@ Tool/Library for Python used to obfuscate and protect your code in static and ru
 
 ### 💻Supported Platforms💻
 
-- Python 3 up to latest
-- Windows
-- All Linux distributions
-- Mac OS
+-   Python 3 up to latest
+-   Windows
+-   All Linux distributions
+-   Mac OS
 
 ---
 
@@ -34,62 +34,62 @@ Tool/Library for Python used to obfuscate and protect your code in static and ru
 
 > **Static & Runtime Protection**
 >
-> - Total advanced static and runtime protection from decompilation, reverse debug, etc.
+> -   Total advanced static and runtime protection from decompilation, reverse debug, etc.
 
 > **Hash Variables**
 >
-> - Hash all variables and constants values in fragment of code.
-> - Protects variables and constants content.
+> -   Hash all variables and constants values in fragment of code.
+> -   Protects variables and constants content.
 
 > **Recursive obfuscation**
 >
-> - Recurseve encrypt fragment of code using base64 and zlib n times.
-> - Best way to decrease/prevent antiviruses detection.
+> -   Recurseve encrypt fragment of code using base64 and zlib n times.
+> -   Best way to decrease/prevent antiviruses detection.
 
 > **Best encryption algorithms**
 >
-> - Fernet, AES-GCM, ChaCha20, Salsa20
-> - Symmetric cipher which offer strong confidentiality, and provide authentication and integrity to protect against tampering.
+> -   Fernet, AES-GCM, ChaCha20, Salsa20
+> -   Symmetric cipher which offer strong confidentiality, and provide authentication and integrity to protect against tampering.
 
 > **File Integrity Protection**
 >
-> - Protect files against modification.
-> - Advanced file hash/content integrity check and comparison.
+> -   Protect files against modification.
+> -   Advanced file hash/content integrity check and comparison.
 
 ---
 
 ### 🏁Quick start🏁
 
 1. Clone repo
-   ```
-   git clone https://github.com/ByteCorum/Py-Shield.git
-   ```
+    ```
+    git clone https://github.com/ByteCorum/.PyGuard.git
+    ```
 2. Install requirements
-   ```
-   pip install -r requirements.txt
-   ```
+    ```
+    pip install -r requirements.txt
+    ```
 3. Usage info
-   ```
-   py-shield --help
-   ```
+    ```
+    dotpyguard --help
+    ```
 4. Example
-   ```
-   py-shield obfuscate --hashdata --aes --chacha --follow-imports main.py
-   ```
+    ```
+    dotpyguard obfuscate --hashdata --aes --chacha --follow-imports main.py
+    ```
 5. Output
-   ```
-   #Obfuscated by Py-Shield 3.0.0.0
-   from PyShield.script_55958136 import PyShield, _
-   _(PyShield(b'x\x9c\x05\xc1\xc7\xa2k@\x00\x00\xd0\x0f\xb2P\xa3,\xdeB\...')
-   ```
+    ```
+    #Obfuscated by .PyGuard 3.1.0.0
+    from DotPyGuard.script_55958136 import DotPyGuard, _
+    _(DotPyGuard(b'x\x9c\x05\xc1\xc7\xa2k@\x00\x00\xd0\x0f\xb2P\xa3,\xdeB\...')
+    ```
 6. Example legacy
-   ```
-   py-shield obfuscatelegacy --loops 3 --mode 2 --file code.py
-   ```
+    ```
+    dotpyguard obfuscatelegacy --loops 3 --mode 2 --file code.py
+    ```
 7. Output legacy
-   ```
-   _=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'eY3NTTr:S|dD'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'eY3NTTr:S|dD'))[0])[::-1]);exec((_x)(b'x\x9c\x15\x97U\xce\x86\...')
-   ```
+    ```
+    _=lambda __:__import__('zlib').decompress(__import__('cryptography.fernet').fernet.Fernet(__import__('base64').b64decode(((__import__('zlib').decompress(__))[::-1].split(b'eY3NTTr:S|dD'))[1])).decrypt(((__import__('zlib').decompress(__))[::-1].split(b'eY3NTTr:S|dD'))[0])[::-1]);exec((_x)(b'x\x9c\x15\x97U\xce\x86\...')
+    ```
 
 ---
 

@@ -27,14 +27,18 @@ jobs:
       working-directory: scr
       run: |
         .\build-win.cmd
-        dir "scr/"
-        dir
 
     - name: Archive Executable
       uses: actions/upload-artifact@v4
       with:
         name: .pyguard-win
         path: scr/.pyguard.exe
+
+    - name: Archive Executable 2
+      uses: actions/upload-artifact@v4
+      with:
+        name: .pyguard-win2
+        path: .pyguard.exe
 
   obfuscation-multifile:
     needs: ["build"]

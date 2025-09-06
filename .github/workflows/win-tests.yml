@@ -32,13 +32,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: .pyguard-win
-        path: scr/.pyguard.exe
-
-    - name: Archive Executable 2
-      uses: actions/upload-artifact@v4
-      with:
-        name: .pyguard-win2
-        path: .pyguard.exe
+        path: D:\a\.PyGuard\.PyGuard\scr\.pyguard.exe
 
   obfuscation-multifile:
     needs: ["build"]

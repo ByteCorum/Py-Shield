@@ -5,7 +5,7 @@ python -m nuitka \
     --remove-output \
     --onefile \
     --assume-yes-for-downloads \
-    --output-filename=.pyguard \
+    --output-filename=dotpyguard \
     --linux-icon=../assets/icon.png \
     --include-package=commands \
     --follow-import-to=commands \

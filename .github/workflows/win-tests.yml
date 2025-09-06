@@ -31,8 +31,8 @@ jobs:
     - name: Archive Executable
       uses: actions/upload-artifact@v4
       with:
-        name: .pyguard-win
-        path: D:\a\.PyGuard\.PyGuard\scr\.pyguard.exe
+        name: dotpyguard-win
+        path: scr\dotpyguard.exe
 
   obfuscation-multifile:
     needs: ["build"]
@@ -54,19 +54,19 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-win
+        name: dotpyguard-win
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        move ".pyguard.exe" "multifile"
+        move "dotpyguard.exe" "multifile"
         Remove-Item -Path "multifile\obfuscated" -Recurse -Force
 
     - name: Obfuscation
       working-directory: examples\multifile
       run: |
-        .\.pyguard.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
+        .\dotpyguard.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
 
     - name: Testing
       working-directory: examples\multifile\obfuscated
@@ -103,19 +103,19 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-win
+        name: dotpyguard-win
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        move ".pyguard.exe" "onefile"
+        move "dotpyguard.exe" "onefile"
         Remove-Item -Path "onefile\obfuscated" -Recurse -Force
 
     - name: Obfuscation
       working-directory: examples\onefile
       run: |
-        .\.pyguard.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
+        .\dotpyguard.exe obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
 
     - name: Testing
       working-directory: examples\onefile\obfuscated
@@ -152,19 +152,19 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-win
+        name: dotpyguard-win
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        move ".pyguard.exe" "multifile-legacy"
+        move "dotpyguard.exe" "multifile-legacy"
         Remove-Item -Path "multifile-legacy\obfuscated" -Recurse -Force
 
     - name: Obfuscation
       working-directory: examples\multifile-legacy
       run: |
-        .\.pyguard obfuscatelegacy --no-input --mode 3 --loops 6 --files lib.py,main.py
+        .\dotpyguard obfuscatelegacy --no-input --mode 3 --loops 6 --files lib.py,main.py
 
     - name: Testing
       working-directory: examples\multifile-legacy\obfuscated
@@ -201,19 +201,19 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-win
+        name: dotpyguard-win
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        move ".pyguard.exe" "onefile-legacy"
+        move "dotpyguard.exe" "onefile-legacy"
         Remove-Item -Path "onefile-legacy\obfuscated" -Recurse -Force
 
     - name: Obfuscation
       working-directory: examples\onefile-legacy
       run: |
-        .\.pyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
+        .\dotpyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
 
     - name: Testing
       working-directory: examples\onefile-legacy\obfuscated

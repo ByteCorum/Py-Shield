@@ -5,7 +5,7 @@ python -m nuitka \
     --remove-output \
     --onefile \
     --assume-yes-for-downloads \
-    --output-filename=.pyguard \
+    --output-filename=dotpyguard \
     --include-package=commands \
     --follow-import-to=commands \
     --include-data-files=commands/obfuscation/obfuscate.py=commands/obfuscation/obfuscate.py \

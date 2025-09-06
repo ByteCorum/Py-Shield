@@ -32,9 +32,9 @@ class Obfuscate(Command):
 
     help = f'''
 Usage:
-  .pyguard obfuscate [options] main.py
+  dotpyguard obfuscate [options] main.py
 Example:
-  .pyguard obfuscate --hashdata --aes --follow-imports main.py
+  dotpyguard obfuscate --hashdata --aes --follow-imports main.py
 
 Notes:
   text,text         -> to add more than one arg to option.

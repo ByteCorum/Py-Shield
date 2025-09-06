@@ -8,9 +8,9 @@ class Help(Command):
 
     help = f'''
 Usage:
-  .pyguard <command> [options]
+  dotpyguard <command> [options]
 Example:
-  .pyguard obfuscate --help
+  dotpyguard obfuscate --help
 
 Commands:
   obfuscate         -> obfuscate code using advanced techniques.

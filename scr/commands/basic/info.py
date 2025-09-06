@@ -17,9 +17,9 @@ class Info(Command):
 
     help = f'''
 Usage:
-  .pyguard info [options]
+  dotpyguard info [options]
 Example:
-  .pyguard info --all
+  dotpyguard info --all
 
 Note:
   `                 -> only one option from a group can be used.

@@ -20,9 +20,9 @@ class Dependencies(Command):
 
     help = f'''
 Usage:
-  .pyguard dependencies [options]
+  dotpyguard dependencies [options]
 Example:
-  .pyguard dependencies --quiet --no-input y --install
+  dotpyguard dependencies --quiet --no-input y --install
 
 Note:
   `                 -> only one option from a group can be used.

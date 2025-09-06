@@ -70,11 +70,11 @@ Tool/Library for Python used to obfuscate and protect your code in static and ru
     ```
 3. Usage info
     ```
-    .pyguard --help
+    dotpyguard --help
     ```
 4. Example
     ```
-    .pyguard obfuscate --hashdata --aes --chacha --follow-imports main.py
+    dotpyguard obfuscate --hashdata --aes --chacha --follow-imports main.py
     ```
 5. Output
     ```
@@ -84,7 +84,7 @@ Tool/Library for Python used to obfuscate and protect your code in static and ru
     ```
 6. Example legacy
     ```
-    .pyguard obfuscatelegacy --loops 3 --mode 2 --file code.py
+    dotpyguard obfuscatelegacy --loops 3 --mode 2 --file code.py
     ```
 7. Output legacy
     ```

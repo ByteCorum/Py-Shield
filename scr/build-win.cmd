@@ -5,7 +5,7 @@ python -m nuitka ^
     --remove-output ^
     --assume-yes-for-downloads ^
     --onefile ^
-    --output-filename=.pyguard ^
+    --output-filename=dotpyguard ^
     --windows-icon-from-ico=../assets/icon.ico ^
     --include-package=commands ^
     --follow-import-to=commands ^

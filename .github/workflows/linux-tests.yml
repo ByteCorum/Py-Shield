@@ -27,8 +27,8 @@ jobs:
     - name: Archive Executable
       uses: actions/upload-artifact@v4
       with:
-        name: .pyguard-linux
-        path: scr/.pyguard
+        name: dotpyguard-linux
+        path: scr/dotpyguard
 
   obfuscation-multifile-linux:
     needs: ["build"]
@@ -50,20 +50,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-linux
+        name: dotpyguard-linux
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv .pyguard multifile/
-        chmod +x multifile/.pyguard
+        mv dotpyguard multifile/
+        chmod +x multifile/dotpyguard
         rm -rf multifile/obfuscated
 
     - name: Obfuscation
       working-directory: examples/multifile
       run: |
-        ./.pyguard obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
+        ./dotpyguard obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input --files lib.py main.py
 
     - name: Testing
       working-directory: examples/multifile/obfuscated
@@ -100,20 +100,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-linux
+        name: dotpyguard-linux
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv .pyguard onefile/
-        chmod +x onefile/.pyguard
+        mv dotpyguard onefile/
+        chmod +x onefile/dotpyguard
         rm -rf onefile/obfuscated
 
     - name: Obfuscation
       working-directory: examples/onefile
       run: |
-        ./.pyguard obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
+        ./dotpyguard obfuscate --aes --hashdata --fernet --chacha --salsa --base64 --recursive 4 --follow-imports --no-input main.py
 
     - name: Testing
       working-directory: examples/onefile/obfuscated
@@ -150,20 +150,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-linux
+        name: dotpyguard-linux
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv .pyguard multifile-legacy/
-        chmod +x multifile-legacy/.pyguard
+        mv dotpyguard multifile-legacy/
+        chmod +x multifile-legacy/dotpyguard
         rm -rf multifile-legacy/obfuscated
 
     - name: Obfuscation
       working-directory: examples/multifile-legacy
       run: |
-        ./.pyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files lib.py,main.py
+        ./dotpyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files lib.py,main.py
 
     - name: Testing
       working-directory: examples/multifile-legacy/obfuscated
@@ -200,20 +200,20 @@ jobs:
     - name: Download Executable
       uses: actions/download-artifact@v4
       with:
-        name: .pyguard-linux
+        name: dotpyguard-linux
         path: "examples"
 
     - name: Preparation For Tests
       working-directory: examples
       run: |
-        mv .pyguard onefile-legacy/
-        chmod +x onefile-legacy/.pyguard
+        mv dotpyguard onefile-legacy/
+        chmod +x onefile-legacy/dotpyguard
         rm -rf onefile-legacy/obfuscated
 
     - name: Obfuscation
       working-directory: examples/onefile-legacy
       run: |
-        ./.pyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
+        ./dotpyguard obfuscatelegacy --no-input --mode 4 --loops 6 --files main.py
 
     - name: Testing
       working-directory: examples/onefile-legacy/obfuscated
